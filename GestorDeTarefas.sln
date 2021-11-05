@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestorDeTarefas", "GestorDeTarefas\GestorDeTarefas.csproj", "{B599AA45-8C65-41B8-ABC8-D5C5DE916386}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestorDeTarefas", "GestorDeTarefas\GestorDeTarefas.csproj", "{B599AA45-8C65-41B8-ABC8-D5C5DE916386}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
