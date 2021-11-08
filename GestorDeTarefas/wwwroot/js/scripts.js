@@ -54,6 +54,8 @@ window.addEventListener('DOMContentLoaded', event => {
             }
         }
     })
+
+
 })
 
 function fadeOut(el) {

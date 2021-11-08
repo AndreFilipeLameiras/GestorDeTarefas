@@ -11,27 +11,27 @@
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
     <!-- Simple line icons-->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css" rel="stylesheet" />
-    <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
-    
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/css/site.css" rel="stylesheet" />
+
 
 </head>
 <body id="page-top">
     <!-- Navigation-->
-    <a class="menu-toggle rounded" href="#"><i class="fas fa-bars"></i></a>
-    <nav id="sidebar-wrapper">
-        <ul class="sidebar-nav">
-            <li class="sidebar-brand"><a href="#page-top">Start Bootstrap</a></li>
-            <li class="sidebar-nav-item"><a class="nav-link active" asp-action="Index">Gestor de Projetos</a></li>
-            <li class="sidebar-nav-item"><a class="nav-link active" asp-action="About">About</a></li>
-            <li class="sidebar-nav-item"><a href="#services">Services</a></li>
-            <li class="sidebar-nav-item"><a href="#portfolio">Portfolio</a></li>
-            <li class="sidebar-nav-item"><a href="#contact">Contact</a></li>
-        </ul>
+    <a class="menu-toggle rounded active"></a>
+    <nav id="sidebar-wrapper" class="">
+        <div class="container">
+            <ul class="sidebar-nav">
+                <li class="sidebar-nav-item"><a class="nav-link active" asp-action="Index">Gestor de Projetos</a></li>
+                <li class="sidebar-nav-item"><a class="nav-link active" asp-action="About">About</a></li>
+                <li class="sidebar-nav-item"><a class="nav-link active" asp-action="Blog">Blog</a></li>
+                <li class="sidebar-nav-item"><a class="nav-link active" asp-action="Contacts">Contacts</a></li>
+            </ul>
+        </div>
     </nav>
     <!-- Header-->
 
@@ -92,7 +92,7 @@
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
+    <script src="~/js/scripts.js"></script>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
