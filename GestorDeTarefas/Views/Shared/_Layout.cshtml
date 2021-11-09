@@ -39,10 +39,11 @@
     
 
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-black border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-black border-bottom box-shadow mb-1">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Gestor de Projetos</a>
-            </div>
+                <h1>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Gestor de Projetos</a>
+                </h1>
         </nav>
     </header>
 
@@ -57,36 +58,97 @@
         <div class="container">
             <div class="row">
                 <!-- Footer Location-->
-                <div class="col-lg-4 mb-5 mb-lg-0">
-                    <h4 class="text-uppercase mb-4">Location</h4>
+                <div class="col-lg-3 mb-9 mb-lg-7">
+                    <h5 class="text-uppercase mb-6">Localizaçao</h5>
                     <p class="lead mb-0">
-                        2215 John Daniel Drive
+                        Egissumos - Comércio e Distribuição de Produtos Alimentares, Lda
                         <br />
-                        Clark, MO 65243
+                        M531, Guarda
                     </p>
                 </div>
-                <!-- Footer Social Icons-->
-                <div class="col-lg-4 mb-5 mb-lg-0">
-                    <h4 class="text-uppercase mb-4">Around the Web</h4>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-facebook-f"></i></a>
+                
+
+                <div class="col-lg-3 mb-9 mb-lg-7">
+                    <h5 class="text-uppercase mb-4">Sobre a nossa companhia</h5>
+                    <p class="lead mb-0">
+                        <div class="container">
+                            <p>
+                                <a class="text-white" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                            </p>
+
+                            <p>
+                                <a class="text-white" asp-area="" asp-controller="Home" asp-action="Blog">Blog</a>
+                            </p>
+
+                            <p>
+                                <a class="text-white" asp-area="" asp-controller="Home" asp-action="Recursos">Recursos</a>
+                            </p>
+
+                            <p>
+                                <a class="text-white" asp-area="" asp-controller="Home" asp-action="StatusDoSistema">Status do Sistema</a>
+                            </p>
+                        </div>
+
+                    </p>
+                </div>
+
+                <div class="col-lg-3 mb-9 mb-lg-7">
+                    <h5 class="text-uppercase mb-4">Support</h5>
+                    <p class="lead mb-0">
+                        <div class="container">
+                            <p>
+                                <a class="text-white" asp-area="" asp-controller="Home" asp-action="Contact-Support">Contacto do Suporte</a>
+                            </p>
+
+                            <p>
+                                <a class="text-white" asp-area="" asp-controller="Home" asp-action="Helper-Center">Centro de Ajuda</a>
+                            </p>
+
+                            <p>
+                                <a class="text-white" asp-area="" asp-controller="Home" asp-action="Videos">Videos</a>
+                            </p>
+                        </div>
+                    </p>
+                </div>
+
+                <div class="col-lg-3 mb-9 mb-lg-7">
+                    <h5 class="text-uppercase mb-4">Termos e Politicas</h5>
+                    <p class="lead mb-0">
+                        <div class="container">
+                            <p>
+                                <a class="text-white" asp-area="" asp-controller="Home" asp-action="TermosDeServico">Termos de Serviço</a>
+                            </p>
+
+                            <p>
+                                <a class="text-white" asp-area="" asp-controller="Home" asp-action="PoliticaDePrivacidade">Politica de Privacidade</a>
+                            </p>
+
+                            <p>
+                                <a class="text-white" asp-area="" asp-controller="Home" asp-action="InformacaoSegura">Informaçao Segura</a>
+                            </p>
+                        </div>
+                    </p>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="copyrightText">
+            <div class="line">
+                
+                    
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://www.facebook.com/"><i class="fab fa-fw fa-facebook-f"></i></a>
                     <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-twitter"></i></a>
                     <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-linkedin-in"></i></a>
                     <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-dribbble"></i></a>
-                </div>
-                <!-- Footer About Text-->
-                <div class="col-lg-4">
-                    <h4 class="text-uppercase mb-4">About Freelancer</h4>
-                    <p class="lead mb-0">
-                        Freelance is a free to use, MIT licensed Bootstrap theme created by
-                        <a href="http://startbootstrap.com/%22%3EStart Bootstrap</a>
-                        .
-                    </p>
-                </div>
-            </div>
+                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-youtube"></i></a>
+                
 
-            &copy; 2021 - Gestor de Tarefas - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
         </div>
-    </footer>
+</footer>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
     <!-- Bootstrap core JS-->

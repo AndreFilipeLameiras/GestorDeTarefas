@@ -646,6 +646,11 @@ progress {
   .container-sm, .container {
     max-width: 540px;
   }
+
+  .copyrightText
+  {
+    padding: 250px 400px;
+  }
 }
 @media (min-width: 768px) {
   .container-md, .container-sm, .container {
@@ -4122,7 +4127,7 @@ textarea.form-control-lg {
   overflow-y: auto;
 }
 
-@media (min-width: 576px) {
+@media (min-width: 1576px) {
   .navbar-expand-sm {
     flex-wrap: nowrap;
     justify-content: flex-start;
