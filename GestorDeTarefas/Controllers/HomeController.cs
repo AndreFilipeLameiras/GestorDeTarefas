@@ -37,6 +37,12 @@ namespace GestorDeTarefas.Controllers
         {
             return View();
         }
+
+        public IActionResult Contact_Support()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
