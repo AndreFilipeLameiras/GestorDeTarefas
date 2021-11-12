@@ -36,6 +36,10 @@ namespace GestorDeTarefas
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
 
+            services.AddDbContext<GestorDeTarefasContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("GestorDeTarefasContext")));
+
+
 
         }
 
