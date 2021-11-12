@@ -27,8 +27,12 @@ namespace GestorDeTarefas.Controllers
         {
             return View();
         }
-
         public IActionResult Contacts()
+        {
+            return View();
+        }
+
+        public IActionResult InformacaoSegura()
         {
             return View();
         }
@@ -37,13 +41,20 @@ namespace GestorDeTarefas.Controllers
         {
             return View();
         }
-
-        public IActionResult Contact_Support()
+        public IActionResult Centro_Ajuda()
+        {
+            return View();
+        }
+        public IActionResult Projetos()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult TermosCondicoes()
+        {
+            return View();
+        }
+        public IActionResult PoliticaPrivacidade()
         {
             return View();
         }
