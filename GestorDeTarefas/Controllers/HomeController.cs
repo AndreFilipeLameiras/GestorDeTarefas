@@ -41,7 +41,15 @@ namespace GestorDeTarefas.Controllers
         {
             return View();
         }
-        
+        public IActionResult Centro_Ajuda()
+        {
+            return View();
+        }
+        public IActionResult Projetos()
+        {
+            return View();
+        }
+
         public IActionResult TermosCondicoes()
         {
             return View();
