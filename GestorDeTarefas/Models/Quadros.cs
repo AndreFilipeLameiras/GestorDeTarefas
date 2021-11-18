@@ -13,5 +13,8 @@ namespace GestorDeTarefas.Models
         [Required]
         [StringLength(256)]
         public string Name { get; set; }
+
+        public int ColaboradorId { get; set; }
+        public Colaborador Colaborador { get; set; }
     }
 }
