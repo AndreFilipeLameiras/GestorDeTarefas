@@ -12,6 +12,9 @@ namespace GestorDeTarefas.Models
         [Required]
         [StringLength(256)]
         public string Name { get; set; }
+        
+        public string Email { get; set; }
+
 
         public ICollection<Quadros> Quadros { get; set; }
     }
