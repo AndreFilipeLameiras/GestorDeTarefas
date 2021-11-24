@@ -20,11 +20,13 @@ namespace GestorDeTarefas.Models
 
         [Display(Name = "Data Inicio")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        [Required(ErrorMessage = "Por favor, insira a data de inicio da tarefa")]
         public DateTime DataInicio { get; set; }
 
 
         [Display(Name = "Data Fim")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        [Required(ErrorMessage = "Por favor, insira a data do fim da tarefa")]
         public DateTime DataFim { get; set; }
 
         [ForeignKey("FK_ColaboradorId")]
