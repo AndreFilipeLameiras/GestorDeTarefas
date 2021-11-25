@@ -19,6 +19,26 @@ namespace GestorDeTarefas.Data.QuadrosMigration
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("GestorDeTarefas.Models.Colaborador", b =>
+                {
+                    b.Property<int>("ColaboradorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("ColaboradorId");
+
+                    b.ToTable("Colaborador");
+                });
+
             modelBuilder.Entity("GestorDeTarefas.Models.Quadros", b =>
                 {
                     b.Property<int>("QuadrosId")
@@ -39,6 +59,61 @@ namespace GestorDeTarefas.Data.QuadrosMigration
                     b.HasIndex("ColaboradorId");
 
                     b.ToTable("Quadros");
+                });
+
+            modelBuilder.Entity("GestorDeTarefas.Models.Tarefas", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ColaboradorId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DataFim")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ColaboradorId");
+
+                    b.ToTable("Tarefas");
+                });
+
+            modelBuilder.Entity("GestorDeTarefas.Models.Quadros", b =>
+                {
+                    b.HasOne("GestorDeTarefas.Models.Colaborador", "Colaborador")
+                        .WithMany("Quadros")
+                        .HasForeignKey("ColaboradorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Colaborador");
+                });
+
+            modelBuilder.Entity("GestorDeTarefas.Models.Tarefas", b =>
+                {
+                    b.HasOne("GestorDeTarefas.Models.Colaborador", "Colaborador")
+                        .WithMany()
+                        .HasForeignKey("ColaboradorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Colaborador");
+                });
+
+            modelBuilder.Entity("GestorDeTarefas.Models.Colaborador", b =>
+                {
+                    b.Navigation("Quadros");
                 });
 #pragma warning restore 612, 618
         }
