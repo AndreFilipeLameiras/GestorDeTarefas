@@ -21,12 +21,14 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Tarefas
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(string nome,int page = 1)
         {
+            var tarefaSearch = _context.Tarefas
+               .Where(b => nome == null || b.Nome.Contains(nome));
             var pagingInfo = new PagingInfo
             {
                 CurrentPage = page,
-                TotalItems = _context.Tarefas.Count()
+                TotalItems =tarefaSearch.Count()
             };
 
             if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
@@ -39,7 +41,7 @@ namespace GestorDeTarefas.Controllers
                 pagingInfo.CurrentPage = 1;
             }
 
-            var tarefa = await _context.Tarefas
+            var tarefa = await tarefaSearch
                             .Include(b => b.Colaborador)
                             .OrderBy(b => b.Nome)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
