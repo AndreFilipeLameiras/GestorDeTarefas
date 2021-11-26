@@ -151,7 +151,11 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                // return RedirectToAction(nameof(Index));
+
+                ViewBag.Name = "Tarefa adited";
+                ViewBag.Message = "Tarefa sucessfully altered.";
+                return View("Success");
             }
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", tarefas.ColaboradorId);
             return View(tarefas);
