@@ -52,7 +52,8 @@ namespace GestorDeTarefas.Controllers
                 new TarefaListViewModel
                 {
                     Tarefass = tarefa,
-                    PagingInfo = pagingInfo
+                    PagingInfo = pagingInfo,
+                    NomeSearched = nome
                 }
             );
         }
