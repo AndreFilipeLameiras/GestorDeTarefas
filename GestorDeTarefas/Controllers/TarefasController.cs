@@ -188,7 +188,10 @@ namespace GestorDeTarefas.Controllers
             var tarefas = await _context.Tarefas.FindAsync(id);
             _context.Tarefas.Remove(tarefas);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // return RedirectToAction(nameof(Index));
+            ViewBag.Name = "Tarefa deleted";
+            ViewBag.Message = "Tarefa sucessfully deleted.";
+            return View("Success");
         }
 
         private bool TarefasExists(int id)
