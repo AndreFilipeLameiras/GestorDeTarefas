@@ -21,12 +21,14 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Tarefas
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(string nome,int page = 1)
         {
+            var tarefaSearch = _context.Tarefas
+               .Where(b => nome == null || b.Nome.Contains(nome));
             var pagingInfo = new PagingInfo
             {
                 CurrentPage = page,
-                TotalItems = _context.Tarefas.Count()
+                TotalItems =tarefaSearch.Count()
             };
 
             if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
@@ -39,7 +41,7 @@ namespace GestorDeTarefas.Controllers
                 pagingInfo.CurrentPage = 1;
             }
 
-            var tarefa = await _context.Tarefas
+            var tarefa = await tarefaSearch
                             .Include(b => b.Colaborador)
                             .OrderBy(b => b.Nome)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
@@ -50,7 +52,8 @@ namespace GestorDeTarefas.Controllers
                 new TarefaListViewModel
                 {
                     Tarefass = tarefa,
-                    PagingInfo = pagingInfo
+                    PagingInfo = pagingInfo,
+                    NomeSearched = nome
                 }
             );
         }
@@ -151,7 +154,11 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                // return RedirectToAction(nameof(Index));
+
+                ViewBag.Name = "Tarefa adited";
+                ViewBag.Message = "Tarefa sucessfully altered.";
+                return View("Success");
             }
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", tarefas.ColaboradorId);
             return View(tarefas);
@@ -184,7 +191,10 @@ namespace GestorDeTarefas.Controllers
             var tarefas = await _context.Tarefas.FindAsync(id);
             _context.Tarefas.Remove(tarefas);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // return RedirectToAction(nameof(Index));
+            ViewBag.Name = "Tarefa deleted";
+            ViewBag.Message = "Tarefa sucessfully deleted.";
+            return View("Success");
         }
 
         private bool TarefasExists(int id)
