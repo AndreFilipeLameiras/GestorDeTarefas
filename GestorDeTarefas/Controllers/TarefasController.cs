@@ -65,7 +65,7 @@ namespace GestorDeTarefas.Controllers
 
             var tarefas = await _context.Tarefas
                 .Include(t => t.Colaborador)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (tarefas == null)
             {
                 return NotFound();
@@ -92,10 +92,16 @@ namespace GestorDeTarefas.Controllers
             {
                 _context.Add(tarefas);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+             //   return RedirectToAction(nameof(Index));
+
+                ViewBag.Name = "Tarefa added";
+                ViewBag.Message = "Tarefa sucessfully added.";
+                return View("Success");
             }
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", tarefas.ColaboradorId);
             return View(tarefas);
+
+            
         }
 
         // GET: Tarefas/Edit/5
