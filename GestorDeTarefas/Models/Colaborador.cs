@@ -11,11 +11,14 @@ namespace GestorDeTarefas.Models
         public int ColaboradorId { get; set; }
         [Required]
         [StringLength(256)]
-        public string Name { get; set; }       
-        
+        public string Name { get; set; }
 
+        public string Email { get; set; }
 
-        public ICollection<Quadros> Quadros { get; set; }
+        public string Contacto { get; set; }
+
+        public string Cargo { get; set; }
+
         public ICollection<Tarefas> Tarefas { get; set; }
     }
 }

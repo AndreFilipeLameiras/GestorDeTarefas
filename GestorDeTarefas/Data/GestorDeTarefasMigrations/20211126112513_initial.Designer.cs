@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace GestorDeTarefas.Data.QuadrosMigration
+namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
 {
     [DbContext(typeof(GestorDeTarefasContext))]
-    [Migration("20211124152750_six")]
-    partial class six
+    [Migration("20211126112513_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,6 +28,12 @@ namespace GestorDeTarefas.Data.QuadrosMigration
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Cargo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Contacto")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -39,28 +45,6 @@ namespace GestorDeTarefas.Data.QuadrosMigration
                     b.HasKey("ColaboradorId");
 
                     b.ToTable("Colaborador");
-                });
-
-            modelBuilder.Entity("GestorDeTarefas.Models.Quadros", b =>
-                {
-                    b.Property<int>("QuadrosId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ColaboradorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("QuadrosId");
-
-                    b.HasIndex("ColaboradorId");
-
-                    b.ToTable("Quadros");
                 });
 
             modelBuilder.Entity("GestorDeTarefas.Models.Tarefas", b =>
@@ -91,21 +75,10 @@ namespace GestorDeTarefas.Data.QuadrosMigration
                     b.ToTable("Tarefas");
                 });
 
-            modelBuilder.Entity("GestorDeTarefas.Models.Quadros", b =>
-                {
-                    b.HasOne("GestorDeTarefas.Models.Colaborador", "Colaborador")
-                        .WithMany("Quadros")
-                        .HasForeignKey("ColaboradorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Colaborador");
-                });
-
             modelBuilder.Entity("GestorDeTarefas.Models.Tarefas", b =>
                 {
                     b.HasOne("GestorDeTarefas.Models.Colaborador", "Colaborador")
-                        .WithMany()
+                        .WithMany("Tarefas")
                         .HasForeignKey("ColaboradorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -115,7 +88,7 @@ namespace GestorDeTarefas.Data.QuadrosMigration
 
             modelBuilder.Entity("GestorDeTarefas.Models.Colaborador", b =>
                 {
-                    b.Navigation("Quadros");
+                    b.Navigation("Tarefas");
                 });
 #pragma warning restore 612, 618
         }
