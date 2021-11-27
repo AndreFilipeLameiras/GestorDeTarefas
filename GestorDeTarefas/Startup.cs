@@ -101,6 +101,7 @@ namespace GestorDeTarefas
                 endpoints.MapRazorPages();
             });
 
+            SeedData.CreateRoles(roleManager);
             SeedData.CreateDefaultAdmin(userManager);
 
             if (env.IsDevelopment())
