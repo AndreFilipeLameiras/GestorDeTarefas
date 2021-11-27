@@ -70,8 +70,10 @@ namespace GestorDeTarefas
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            GestorDeTarefasContext gestorDeTarefasContext,
+            UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager){
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -99,7 +101,13 @@ namespace GestorDeTarefas
                 endpoints.MapRazorPages();
             });
 
+            SeedData.CreateDefaultAdmin(userManager);
 
+            if (env.IsDevelopment())
+            {
+                SeedData.PopulateUsers(userManager);
+                SeedData.Populate(gestorDeTarefasContext);
+            }
         }
     }
 }

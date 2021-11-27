@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
 using GestorDeTarefas.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -78,6 +79,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Tarefas/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
