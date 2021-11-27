@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿//#define TEST_PAGINATION_TAREFAS
+
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,26 +43,32 @@ namespace GestorDeTarefas.Data
 
 		internal static void CreateDefaultAdmin(UserManager<IdentityUser> userManager)
 		{
-			EnsureUserIsCreatedAsync(userManager, ADMIN_EMAIL, ADMIN_PASS).Wait();
+			EnsureUserIsCreatedAsync(userManager, ADMIN_EMAIL, ADMIN_PASS, ROLE_ADMINISTRATOR).Wait();
 		}
 
-		private static async Task EnsureUserIsCreatedAsync(UserManager<IdentityUser> userManager, string email, string password)
+		private static async Task EnsureUserIsCreatedAsync(UserManager<IdentityUser> userManager, string email, string password, string role)
 		{
 			var user = await userManager.FindByNameAsync(email);
-			if (user != null) return;
 
-			user = new IdentityUser
+			if (user == null)
 			{
-				UserName = email,
-				Email = email
-			};
 
-			await userManager.CreateAsync(user, password);
+				user = new IdentityUser
+				{
+					UserName = email,
+					Email = email
+				};
+
+				await userManager.CreateAsync(user, password);
+			}
+			if (await userManager.IsInRoleAsync(user, role)) return;
+			await userManager.AddToRoleAsync(user, role);
 		}
 
-		internal static void PopulateUsers(UserManager<IdentityUser> userManager)
+			internal static void PopulateUsers(UserManager<IdentityUser> userManager)
 		{
-
+			EnsureUserIsCreatedAsync(userManager, "john@ipg.pt", "Secret123$", ROLE_CUSTOMER).Wait();
+			EnsureUserIsCreatedAsync(userManager, "mary@ipg.pt", "Secret123$", ROLE_PRODUCT_MANAGER).Wait();
 		}
 
 		internal static void CreateRoles(RoleManager<IdentityRole> roleManager)
