@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
 using GestorDeTarefas.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -78,6 +79,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Tarefas/Create
+        [Authorize (Roles = "product_manager")]
         public IActionResult Create()
         {
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
@@ -195,6 +197,19 @@ namespace GestorDeTarefas.Controllers
             ViewBag.Name = "Tarefa deleted";
             ViewBag.Message = "Tarefa sucessfully deleted.";
             return View("Success");
+        }
+
+        [Authorize(Roles = "customer")]
+        public string Buy(int id)
+        {
+            var username = User.Identity.Name;
+
+            //var customer = _context.Customer.SingleOrDefault(c => c.Email == username);
+            //if (customer == null) return NotFound();
+
+            // ...
+
+            return "The option for customers to buy books will be added soon !!!";
         }
 
         private bool TarefasExists(int id)

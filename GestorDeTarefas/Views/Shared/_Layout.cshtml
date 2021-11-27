@@ -29,7 +29,7 @@
                 <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home"asp-action="Index">Gestor de Projetos</a></li>
                 <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="About">About</a></li>
                 <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Blog">Blog</a></li>
-                <li class="sidebar-nav-item"><a class="nav-link active"asp-controller="Home" asp-action="Projetos">Projetos</a></li>
+                <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Projetos">Projetos</a></li>
                 <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Tarefas" asp-action="Index">Tarefas</a></li>
                 <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Colaboradores" asp-action="Index">Colaboradores</a></li>
             </ul>
@@ -42,7 +42,13 @@
                 <h1>
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Gestor de Projetos</a>
                 </h1>
-        </nav>
+                <div>
+                  <partial name="_LoginPartial" />
+                </div>
+                   
+             </div>
+
+</nav>
     </header>
 
     <div class="container">
