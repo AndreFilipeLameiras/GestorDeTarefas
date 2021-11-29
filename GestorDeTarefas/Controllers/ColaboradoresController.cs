@@ -19,13 +19,13 @@ namespace GestorDeTarefas.Controllers
             _context = context;
         }
 
-        // GET: Colaboradores
+        // GET: Colaboradors
         public async Task<IActionResult> Index()
         {
             return View(await _context.Colaborador.ToListAsync());
         }
 
-        // GET: Colaboradores/Details/5
+        // GET: Colaboradors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,18 +43,18 @@ namespace GestorDeTarefas.Controllers
             return View(colaborador);
         }
 
-        // GET: Colaboradores/Create
+        // GET: Colaboradors/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Colaboradores/Create
+        // POST: Colaboradors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ColaboradorId,Name")] Colaborador colaborador)
+        public async Task<IActionResult> Create([Bind("ColaboradorId,Name,Email,Contacto,Cargo")] Colaborador colaborador)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace GestorDeTarefas.Controllers
             return View(colaborador);
         }
 
-        // GET: Colaboradores/Edit/5
+        // GET: Colaboradors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,12 +81,12 @@ namespace GestorDeTarefas.Controllers
             return View(colaborador);
         }
 
-        // POST: Colaboradores/Edit/5
+        // POST: Colaboradors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ColaboradorId,Name")] Colaborador colaborador)
+        public async Task<IActionResult> Edit(int id, [Bind("ColaboradorId,Name,Email,Contacto,Cargo")] Colaborador colaborador)
         {
             if (id != colaborador.ColaboradorId)
             {
@@ -116,7 +116,7 @@ namespace GestorDeTarefas.Controllers
             return View(colaborador);
         }
 
-        // GET: Colaboradores/Delete/5
+        // GET: Colaboradors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +134,7 @@ namespace GestorDeTarefas.Controllers
             return View(colaborador);
         }
 
-        // POST: Colaboradores/Delete/5
+        // POST: Colaboradors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -151,3 +151,4 @@ namespace GestorDeTarefas.Controllers
         }
     }
 }
+
