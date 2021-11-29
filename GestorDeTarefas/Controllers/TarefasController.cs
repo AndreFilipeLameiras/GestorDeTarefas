@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
 using GestorDeTarefas.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -21,12 +22,14 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Tarefas
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(string nome,int page = 1)
         {
+            var tarefaSearch = _context.Tarefas
+               .Where(b => nome == null || b.Nome.Contains(nome));
             var pagingInfo = new PagingInfo
             {
                 CurrentPage = page,
-                TotalItems = _context.Tarefas.Count()
+                TotalItems =tarefaSearch.Count()
             };
 
             if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
@@ -39,7 +42,7 @@ namespace GestorDeTarefas.Controllers
                 pagingInfo.CurrentPage = 1;
             }
 
-            var tarefa = await _context.Tarefas
+            var tarefa = await tarefaSearch
                             .Include(b => b.Colaborador)
                             .OrderBy(b => b.Nome)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
@@ -50,7 +53,8 @@ namespace GestorDeTarefas.Controllers
                 new TarefaListViewModel
                 {
                     Tarefass = tarefa,
-                    PagingInfo = pagingInfo
+                    PagingInfo = pagingInfo,
+                    NomeSearched = nome
                 }
             );
         }
@@ -65,7 +69,7 @@ namespace GestorDeTarefas.Controllers
 
             var tarefas = await _context.Tarefas
                 .Include(t => t.Colaborador)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (tarefas == null)
             {
                 return NotFound();
@@ -75,6 +79,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Tarefas/Create
+        [Authorize (Roles = "product_manager")]
         public IActionResult Create()
         {
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
@@ -92,10 +97,16 @@ namespace GestorDeTarefas.Controllers
             {
                 _context.Add(tarefas);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+             //   return RedirectToAction(nameof(Index));
+
+                ViewBag.Name = "Tarefa added";
+                ViewBag.Message = "Tarefa sucessfully added.";
+                return View("Success");
             }
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", tarefas.ColaboradorId);
             return View(tarefas);
+
+            
         }
 
         // GET: Tarefas/Edit/5
@@ -145,7 +156,11 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                // return RedirectToAction(nameof(Index));
+
+                ViewBag.Name = "Tarefa adited";
+                ViewBag.Message = "Tarefa sucessfully altered.";
+                return View("Success");
             }
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", tarefas.ColaboradorId);
             return View(tarefas);
@@ -178,7 +193,23 @@ namespace GestorDeTarefas.Controllers
             var tarefas = await _context.Tarefas.FindAsync(id);
             _context.Tarefas.Remove(tarefas);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // return RedirectToAction(nameof(Index));
+            ViewBag.Name = "Tarefa deleted";
+            ViewBag.Message = "Tarefa sucessfully deleted.";
+            return View("Success");
+        }
+
+        [Authorize(Roles = "customer")]
+        public string Buy(int id)
+        {
+            var username = User.Identity.Name;
+
+            //var customer = _context.Customer.SingleOrDefault(c => c.Email == username);
+            //if (customer == null) return NotFound();
+
+            // ...
+
+            return "The option for customers to buy books will be added soon !!!";
         }
 
         private bool TarefasExists(int id)

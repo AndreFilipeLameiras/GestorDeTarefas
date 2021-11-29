@@ -10,6 +10,7 @@ namespace GestorDeTarefas.ViewModels
     {
         public IEnumerable<Tarefas> Tarefass { get; set; }
         public PagingInfo PagingInfo { get; set; }
+        public string NomeSearched { get; set; }
 
     }
 }

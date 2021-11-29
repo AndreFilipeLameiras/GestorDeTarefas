@@ -32,8 +32,34 @@ namespace GestorDeTarefas
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>(
+                options =>
+                {
+
+                    // Sign in
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.SignIn.RequireConfirmedPhoneNumber = false;
+                    options.SignIn.RequireConfirmedEmail = false;
+
+                    // Password
+                    options.Password.RequireUppercase = true;
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequireDigit = true;
+                    options.Password.RequireNonAlphanumeric = true;
+                    options.Password.RequiredUniqueChars = 4;
+                    options.Password.RequiredLength = 8;
+
+                    // User
+                    options.User.RequireUniqueEmail = true;
+
+                    // Lockout
+                    options.Lockout.AllowedForNewUsers = true;
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                    options.Lockout.MaxFailedAccessAttempts = 5;
+
+                }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultUI();
+
+             
             services.AddControllersWithViews();
 
             services.AddDbContext<GestorDeTarefasContext>(options =>
@@ -44,8 +70,10 @@ namespace GestorDeTarefas
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            GestorDeTarefasContext gestorDeTarefasContext,
+            UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager){
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -72,6 +100,15 @@ namespace GestorDeTarefas
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            SeedData.CreateRoles(roleManager);
+            SeedData.CreateDefaultAdmin(userManager);
+
+            if (env.IsDevelopment())
+            {
+                SeedData.PopulateUsers(userManager);
+                SeedData.Populate(gestorDeTarefasContext);
+            }
         }
     }
 }
