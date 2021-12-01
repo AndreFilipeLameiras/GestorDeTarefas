@@ -21,16 +21,17 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Colaboradors
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
             var pagingInfo = new PagingInfo
             {
-                CurrentPage = 1,
+                CurrentPage = page,
                 TotalItems = _context.Colaborador.Count()
             };
 
             var colaboradors = await _context.Colaborador
                             //.Include(b => b.Author)
+                            .OrderBy(b => b.Name)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
                             .Take(pagingInfo.PageSize)
                             .ToListAsync();
