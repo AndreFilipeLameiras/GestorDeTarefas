@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
+using GestorDeTarefas.ViewModels;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -20,9 +21,28 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Colaboradors
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View(await _context.Colaborador.ToListAsync());
+            var pagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                TotalItems = _context.Colaborador.Count()
+            };
+
+            var colaboradors = await _context.Colaborador
+                            //.Include(b => b.Author)
+                            .OrderBy(b => b.Name)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+
+            return View(
+                new ColaboradorListViewModel
+                {
+                    Colaboradors = colaboradors,
+                    PagingInfo = pagingInfo
+                }
+            );
         }
 
         // GET: Colaboradors/Details/5
@@ -60,7 +80,10 @@ namespace GestorDeTarefas.Controllers
             {
                 _context.Add(colaborador);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Colaborador added";
+                ViewBag.Message = "Colaborador sucessfully added.";
+                return View("Success");
             }
             return View(colaborador);
         }
@@ -111,7 +134,9 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Colaborador edited";
+                ViewBag.Message = "Colaborador sucessfully altered.";
+                return View("Success");
             }
             return View(colaborador);
         }
@@ -125,7 +150,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             var colaborador = await _context.Colaborador
-                .FirstOrDefaultAsync(m => m.ColaboradorId == id);
+                .SingleOrDefaultAsync(m => m.ColaboradorId == id);
             if (colaborador == null)
             {
                 return NotFound();
@@ -142,7 +167,9 @@ namespace GestorDeTarefas.Controllers
             var colaborador = await _context.Colaborador.FindAsync(id);
             _context.Colaborador.Remove(colaborador);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            ViewBag.Title = "Colaboradores deleted";
+            ViewBag.Message = "Colaboradores sucessfully deleted.";
+            return View("Success");
         }
 
         private bool ColaboradorExists(int id)

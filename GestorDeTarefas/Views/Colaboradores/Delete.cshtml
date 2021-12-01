@@ -1,14 +1,13 @@
 ﻿@model GestorDeTarefas.Models.Colaborador
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Delete Colaborador";
 }
 
-<h1>Delete</h1>
+<h1 class="text-danger">Delete Colaborador</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3 class="text-danger">Are you sure you want to delete this?</h3>
 <div>
-    <h4>Colaborador</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -39,7 +38,7 @@
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="ColaboradorId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
