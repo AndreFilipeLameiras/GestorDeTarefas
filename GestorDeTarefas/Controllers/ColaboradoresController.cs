@@ -60,7 +60,10 @@ namespace GestorDeTarefas.Controllers
             {
                 _context.Add(colaborador);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Colaborador added";
+                ViewBag.Message = "Colaborador sucessfully added.";
+                return View("Success");
             }
             return View(colaborador);
         }
@@ -125,7 +128,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             var colaborador = await _context.Colaborador
-                .FirstOrDefaultAsync(m => m.ColaboradorId == id);
+                .SingleOrDefaultAsync(m => m.ColaboradorId == id);
             if (colaborador == null)
             {
                 return NotFound();
