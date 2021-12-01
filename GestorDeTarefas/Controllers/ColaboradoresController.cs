@@ -114,7 +114,9 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Colaborador edited";
+                ViewBag.Message = "Colaborador sucessfully altered.";
+                return View("Success");
             }
             return View(colaborador);
         }
