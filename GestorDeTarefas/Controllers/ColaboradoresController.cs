@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
+using GestorDeTarefas.ViewModels;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -22,7 +23,25 @@ namespace GestorDeTarefas.Controllers
         // GET: Colaboradors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Colaborador.ToListAsync());
+            var pagingInfo = new PagingInfo
+            {
+                CurrentPage = 1,
+                TotalItems = _context.Colaborador.Count()
+            };
+
+            var colaboradors = await _context.Colaborador
+                            //.Include(b => b.Author)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+
+            return View(
+                new ColaboradorListViewModel
+                {
+                    Colaboradors = colaboradors,
+                    PagingInfo = pagingInfo
+                }
+            );
         }
 
         // GET: Colaboradors/Details/5
