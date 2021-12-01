@@ -147,7 +147,9 @@ namespace GestorDeTarefas.Controllers
             var colaborador = await _context.Colaborador.FindAsync(id);
             _context.Colaborador.Remove(colaborador);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            ViewBag.Title = "Colaboradores deleted";
+            ViewBag.Message = "Colaboradores sucessfully deleted.";
+            return View("Success");
         }
 
         private bool ColaboradorExists(int id)
