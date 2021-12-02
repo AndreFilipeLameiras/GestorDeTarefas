@@ -52,7 +52,8 @@ namespace GestorDeTarefas.Controllers
                 new ColaboradorListViewModel
                 {
                     Colaboradors = colaboradors,
-                    PagingInfo = pagingInfo
+                    PagingInfo = pagingInfo,
+                    NomeSearched = nome
                 }
             );
         }
