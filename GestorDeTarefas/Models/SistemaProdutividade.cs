@@ -23,5 +23,12 @@ namespace GestorDeTarefas.Models
 
         [StringLength(256)]
         public string Concluido { get; set; }
+
+        public int ColaboradorId { get; set; }
+
+        public Colaborador Colaborador { get; set; }
+
+        
+        //public ICollection<Colaborador> Colaboradors { get; set; }
     }
 }

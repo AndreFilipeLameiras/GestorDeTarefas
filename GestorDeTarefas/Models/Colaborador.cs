@@ -20,5 +20,6 @@ namespace GestorDeTarefas.Models
         public string Cargo { get; set; }
 
         public ICollection<Tarefas> Tarefas { get; set; }
+
     }
 }
