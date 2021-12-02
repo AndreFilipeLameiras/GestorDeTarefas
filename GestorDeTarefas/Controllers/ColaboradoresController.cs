@@ -21,12 +21,14 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Colaboradors
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(string nome, int page = 1)
         {
+            var colaboradorSearch = _context.Colaborador
+                .Where(b => nome == null || b.Name.Contains(nome));
             var pagingInfo = new PagingInfo
             {
                 CurrentPage = page,
-                TotalItems = _context.Colaborador.Count()
+                TotalItems = colaboradorSearch.Count()
             };
 
             if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
