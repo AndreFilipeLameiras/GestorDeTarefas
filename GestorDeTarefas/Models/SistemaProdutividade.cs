@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace GestorDeTarefas.Models
         [StringLength(256)]
         public string Concluido { get; set; }
 
+        [DisplayName("Colaborador")]
         public int ColaboradorId { get; set; }
 
         public Colaborador Colaborador { get; set; }
