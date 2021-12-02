@@ -29,6 +29,16 @@ namespace GestorDeTarefas.Controllers
                 TotalItems = _context.Colaborador.Count()
             };
 
+            if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
+            {
+                pagingInfo.CurrentPage = pagingInfo.TotalPages;
+            }
+
+            if (pagingInfo.CurrentPage < 1)
+            {
+                pagingInfo.CurrentPage = 1;
+            }
+
             var colaboradors = await _context.Colaborador
                             //.Include(b => b.Author)
                             .OrderBy(b => b.Name)
