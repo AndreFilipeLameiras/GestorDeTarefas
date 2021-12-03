@@ -21,7 +21,7 @@ namespace GestorDeTarefas.Models
 
         public ICollection<Tarefas> Tarefas { get; set; }
 
-        public ICollection<SistemaProdutividade> SistemaProdutividade { get; set; }
+        public ICollection<ColaboradorProdutividade> ColaboradorProdutividad { get; set; }
 
     }
 }

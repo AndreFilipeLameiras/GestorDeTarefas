@@ -18,6 +18,16 @@ namespace GestorDeTarefas.Data
         {
             modelBuilder.Entity<ColaboradorProdutividade>()
                 .HasKey(bc => new { bc.ColaboradorId, bc.SistemaProdutividadeId });
+
+            modelBuilder.Entity<ColaboradorProdutividade>()
+                .HasOne(bc => bc.Colaborador)
+                .WithMany(b => b.ColaboradorProdutividad)
+                .HasForeignKey(bc => bc.ColaboradorId);
+
+            modelBuilder.Entity<ColaboradorProdutividade>()
+                .HasOne(bc => bc.SistemaProdutividade)
+                .WithMany(c => c.ProdutividadeColaborador)
+                .HasForeignKey(bc => bc.SistemaProdutividadeId);
         }
 
 
