@@ -14,6 +14,13 @@ namespace GestorDeTarefas.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ColaboradorProdutividade>()
+                .HasKey(bc => new { bc.ColaboradorId, bc.SistemaProdutividadeId });
+        }
+
+
 
         public DbSet<GestorDeTarefas.Models.Colaborador> Colaborador { get; set; }
 
