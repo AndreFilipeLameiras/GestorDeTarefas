@@ -31,6 +31,6 @@ namespace GestorDeTarefas.Models
         public Colaborador Colaborador { get; set; }
 
         
-        //public ICollection<Colaborador> Colaboradors { get; set; }
+        //public ICollection<Colaborador> Colaboradores { get; set; }
     }
 }

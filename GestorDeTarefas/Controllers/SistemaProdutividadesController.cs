@@ -46,6 +46,7 @@ namespace GestorDeTarefas.Controllers
         // GET: SistemaProdutividades/Create
         public IActionResult Create()
         {
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
             return View();
         }
 
