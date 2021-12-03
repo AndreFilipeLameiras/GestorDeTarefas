@@ -4,16 +4,14 @@ using GestorDeTarefas.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
+namespace GestorDeTarefas.Migrations
 {
     [DbContext(typeof(GestorDeTarefasContext))]
-    [Migration("20211126112513_initial")]
-    partial class initial
+    partial class GestorDeTarefasContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +30,9 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Contacto")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");

@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
+namespace GestorDeTarefas.Migrations
 {
-    public partial class initial : Migration
+    public partial class inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,7 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Contacto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Contacto = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
                     Cargo = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
