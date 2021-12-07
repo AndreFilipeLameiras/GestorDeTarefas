@@ -20,7 +20,10 @@ namespace GestorDeTarefas.Models
         [StringLength(9, MinimumLength = 9, ErrorMessage = "O contacto deve ter 9 caracteres")]
         public string Contacto { get; set; }
 
-        public string Cargo { get; set; }
+        //public string Cargo { get; set; }
+
+        public int CargoId { get; set; }
+        public Cargo Cargo { get; set; }
 
         public ICollection<Tarefas> Tarefas { get; set; }
 
