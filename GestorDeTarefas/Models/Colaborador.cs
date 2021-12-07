@@ -13,8 +13,10 @@ namespace GestorDeTarefas.Models
         [StringLength(256)]
         public string Name { get; set; }
 
+        [EmailAddress(ErrorMessage = "Por favor, insira o email")]
         public string Email { get; set; }
 
+ 
         public string Contacto { get; set; }
 
         public string Cargo { get; set; }
