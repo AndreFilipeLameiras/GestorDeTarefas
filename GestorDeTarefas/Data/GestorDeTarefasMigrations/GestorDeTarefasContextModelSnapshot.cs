@@ -30,7 +30,9 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Contacto")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
