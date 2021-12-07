@@ -13,5 +13,7 @@ namespace GestorDeTarefas.Models
         [Required]
         [StringLength(50)]
         public string Nome_Cargo { get; set; }
+
+        public ICollection<Colaborador> Colaboradors { get; set; }
     }
 }
