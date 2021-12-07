@@ -30,7 +30,9 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Contacto")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -40,14 +42,24 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int?>("SistemaProdutividadeId")
+                    b.HasKey("ColaboradorId");
+
+                    b.ToTable("Colaborador");
+                });
+
+            modelBuilder.Entity("GestorDeTarefas.Models.ColaboradorProdutividade", b =>
+                {
+                    b.Property<int>("ColaboradorId")
                         .HasColumnType("int");
 
-                    b.HasKey("ColaboradorId");
+                    b.Property<int>("SistemaProdutividadeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ColaboradorId", "SistemaProdutividadeId");
 
                     b.HasIndex("SistemaProdutividadeId");
 
-                    b.ToTable("Colaborador");
+                    b.ToTable("ColaboradorProdutividade");
                 });
 
             modelBuilder.Entity("GestorDeTarefas.Models.SistemaProdutividade", b =>
@@ -56,9 +68,6 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ColaboradorId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Concluido")
                         .HasMaxLength(256)
@@ -78,8 +87,6 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("SistemaProdutividadeId");
-
-                    b.HasIndex("ColaboradorId");
 
                     b.ToTable("SistemaProdutividade");
                 });
@@ -112,20 +119,23 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                     b.ToTable("Tarefas");
                 });
 
-            modelBuilder.Entity("GestorDeTarefas.Models.Colaborador", b =>
-                {
-                    b.HasOne("GestorDeTarefas.Models.SistemaProdutividade", null)
-                        .WithMany("Colaboradors")
-                        .HasForeignKey("SistemaProdutividadeId");
-                });
-
-            modelBuilder.Entity("GestorDeTarefas.Models.SistemaProdutividade", b =>
+            modelBuilder.Entity("GestorDeTarefas.Models.ColaboradorProdutividade", b =>
                 {
                     b.HasOne("GestorDeTarefas.Models.Colaborador", "Colaborador")
-                        .WithMany()
-                        .HasForeignKey("ColaboradorId");
+                        .WithMany("ColaboradorProdutividad")
+                        .HasForeignKey("ColaboradorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GestorDeTarefas.Models.SistemaProdutividade", "SistemaProdutividade")
+                        .WithMany("ProdutividadeColaborador")
+                        .HasForeignKey("SistemaProdutividadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Colaborador");
+
+                    b.Navigation("SistemaProdutividade");
                 });
 
             modelBuilder.Entity("GestorDeTarefas.Models.Tarefas", b =>
@@ -141,12 +151,14 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
 
             modelBuilder.Entity("GestorDeTarefas.Models.Colaborador", b =>
                 {
+                    b.Navigation("ColaboradorProdutividad");
+
                     b.Navigation("Tarefas");
                 });
 
             modelBuilder.Entity("GestorDeTarefas.Models.SistemaProdutividade", b =>
                 {
-                    b.Navigation("Colaboradors");
+                    b.Navigation("ProdutividadeColaborador");
                 });
 #pragma warning restore 612, 618
         }
