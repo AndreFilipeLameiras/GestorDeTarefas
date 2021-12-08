@@ -28,6 +28,14 @@ namespace GestorDeTarefas.Data
                 .HasOne(bc => bc.SistemaProdutividade)
                 .WithMany(c => c.ProdutividadeColaborador)
                 .HasForeignKey(bc => bc.SistemaProdutividadeId);
+
+            /////////////ColaboradorProjetoSprintDesign/////////////////////
+            
+            modelBuilder.Entity<Colaborador_SprintDesign>()//adicionar chave primaria composta
+               .HasKey(bc => new { bc.ColaboradorId, bc.ID_P_Design });       
+
+            /////////////ColaboradorProjetoDesign/////////////////////
+
         }
 
 
