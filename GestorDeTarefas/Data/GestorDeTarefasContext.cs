@@ -32,7 +32,17 @@ namespace GestorDeTarefas.Data
             /////////////ColaboradorProjetoSprintDesign/////////////////////
             
             modelBuilder.Entity<Colaborador_SprintDesign>()//adicionar chave primaria composta
-               .HasKey(bc => new { bc.ColaboradorId, bc.ID_P_Design });       
+               .HasKey(bc => new { bc.ColaboradorId, bc.ID_P_Design });
+
+            modelBuilder.Entity<Colaborador_SprintDesign>()//adicionar relação
+              .HasOne(cs => cs.Colaborador)
+              .WithMany(c => c.Colaborador_Sprints)
+              .HasForeignKey(cs => cs.ColaboradorId);
+
+            modelBuilder.Entity<Colaborador_SprintDesign>()//adicionar relação
+                .HasOne(cs => cs.ProjetoSprintDesign)
+                .WithMany(c => c.SprintColaboradores)
+                .HasForeignKey(cs => cs.ID_P_Design);
 
             /////////////ColaboradorProjetoDesign/////////////////////
 
