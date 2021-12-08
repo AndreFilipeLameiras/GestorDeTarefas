@@ -44,6 +44,16 @@ namespace GestorDeTarefas.Data
                 .WithMany(c => c.SprintColaboradores)
                 .HasForeignKey(cs => cs.ID_P_Design);
 
+
+            var foreignKeysWithCascadeDelete = modelBuilder.Model.GetEntityTypes()
+                .SelectMany(t => t.GetForeignKeys())
+                .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
+
+            foreach (var fk in foreignKeysWithCascadeDelete)
+            {
+                fk.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
             /////////////ColaboradorProjetoDesign/////////////////////
 
         }
