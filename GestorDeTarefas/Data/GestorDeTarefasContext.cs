@@ -37,5 +37,7 @@ namespace GestorDeTarefas.Data
         public DbSet<GestorDeTarefas.Models.Tarefas> Tarefas { get; set; }
 
         public DbSet<GestorDeTarefas.Models.SistemaProdutividade> SistemaProdutividade { get; set; }
+
+        public DbSet<GestorDeTarefas.Models.ProjetoSprintDesign> ProjetoSprintDesign { get; set; }
     }
 }

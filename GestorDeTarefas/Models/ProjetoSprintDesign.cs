@@ -8,6 +8,7 @@ namespace GestorDeTarefas.Models
 {
     public class ProjetoSprintDesign
     {
+        [Key]
         public int ID_P_Design { get; set; }
 
         [Display(Name = "Nome do projeto")]
