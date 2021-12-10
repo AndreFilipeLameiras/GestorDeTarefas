@@ -13,14 +13,13 @@ namespace GestorDeTarefas.Models
         [StringLength(256)]
         public string Name { get; set; }
 
+        [Required]
         [EmailAddress(ErrorMessage = "Por favor, insira o email")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Por favor, insira o contacto")]
         [StringLength(9, MinimumLength = 9, ErrorMessage = "O contacto deve ter 9 caracteres")]
         public string Contacto { get; set; }
-
-        //public string Cargo { get; set; }
 
         public int CargoId { get; set; }
         public Cargo Cargo { get; set; }
