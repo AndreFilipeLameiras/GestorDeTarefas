@@ -8,6 +8,7 @@ namespace GestorDeTarefas.Models
 {
     public class ProjetoSprintDesign
     {
+        [Key]
         public int ID_P_Design { get; set; }
 
         [Display(Name = "Nome do projeto")]
@@ -15,7 +16,7 @@ namespace GestorDeTarefas.Models
         [StringLength(60, MinimumLength = 3, ErrorMessage = "O projeto deve ter entre 3 e 60 caracteres")]
         public string NomeProjeto { get; set; }
 
-     //   public ICollection<ColaboradorProjetoSprint> ProjetoSprintColaboradores { get; set; }
+       public ICollection<ColaboradorProjetoSprint> ProjetoSprintColaboradores { get; set; }
 
 
     }

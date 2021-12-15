@@ -33,7 +33,7 @@ namespace GestorDeTarefas.Data
 
 
             ////////////ProjetoSprint Colaborador////////////
-/*
+
             modelBuilder.Entity<ColaboradorProjetoSprint>()
                 .HasKey(pc => new { pc.ID_P_Design, pc.ColaboradorId });
 
@@ -56,7 +56,7 @@ namespace GestorDeTarefas.Data
             {
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
             }
-*/
+
 
             //////////////////Fim ProjetoSprint Colaborador/////////////
         }
@@ -71,6 +71,8 @@ namespace GestorDeTarefas.Data
 
         public DbSet<GestorDeTarefas.Models.Cargo> Cargo { get; set; }
 
-       // public DbSet<GestorDeTarefas.Models.ColaboradorProjetoSprint> ColaboradorProjetoSprint { get; set; }
+        public DbSet<GestorDeTarefas.Models.ColaboradorProjetoSprint> ColaboradorProjetoSprint { get; set; }
+
+        public DbSet<GestorDeTarefas.Models.ProjetoSprintDesign> ProjetoSprintDesign { get; set; }
     }
 }
