@@ -29,7 +29,18 @@ namespace GestorDeTarefas.Data
                 .WithMany(c => c.ProdutividadeColaborador)
                 .HasForeignKey(bc => bc.SistemaProdutividadeId);
 
+            ////////////////Idioma Colaborador//////////////////
+            modelBuilder.Entity<ColaboradorIdioma>()
+                .HasOne(bc => bc.Colaborador)
+                .WithMany(b => b.ColaboradorIdiomas)
+                .HasForeignKey(bc => bc.ColaboradorId);
 
+            modelBuilder.Entity<ColaboradorIdioma>()
+                .HasOne(bc => bc.Idioma)
+                .WithMany(c => c.IdiomaColaboradores)
+                .HasForeignKey(bc => bc.IdiomaId);
+
+            //////////Fim Idioma Colaborador//////////////
 
 
             ////////////ProjetoSprint Colaborador////////////

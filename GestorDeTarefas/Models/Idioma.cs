@@ -11,7 +11,7 @@ namespace GestorDeTarefas.Models
 
         public string NomeIdioma { get; set; }
 
-
+        public ICollection<ColaboradorIdioma> IdiomaColaboradores { get; set; }
 
     }
 }
