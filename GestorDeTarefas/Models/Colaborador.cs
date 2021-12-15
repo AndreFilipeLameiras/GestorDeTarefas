@@ -32,5 +32,7 @@ namespace GestorDeTarefas.Models
 
         public ICollection<ColaboradorProdutividade> ColaboradorProdutividad { get; set; }
 
+        public ICollection<ColaboradorProjetoSprint> ColaboradorProjetoSprints { get; set; }
+
     }
 }
