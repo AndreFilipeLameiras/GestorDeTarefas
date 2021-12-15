@@ -70,5 +70,7 @@ namespace GestorDeTarefas.Data
         public DbSet<GestorDeTarefas.Models.SistemaProdutividade> SistemaProdutividade { get; set; }
 
         public DbSet<GestorDeTarefas.Models.Cargo> Cargo { get; set; }
+
+        public DbSet<GestorDeTarefas.Models.ColaboradorProjetoSprint> ColaboradorProjetoSprint { get; set; }
     }
 }
