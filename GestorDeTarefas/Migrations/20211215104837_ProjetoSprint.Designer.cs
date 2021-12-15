@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
+namespace GestorDeTarefas.Migrations
 {
     [DbContext(typeof(GestorDeTarefasContext))]
-    [Migration("20211207112752_inicial")]
-    partial class inicial
+    [Migration("20211215104837_ProjetoSprint")]
+    partial class ProjetoSprint
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,6 +21,23 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("GestorDeTarefas.Models.Cargo", b =>
+                {
+                    b.Property<int>("CargoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nome_Cargo")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("CargoId");
+
+                    b.ToTable("Cargo");
+                });
+
             modelBuilder.Entity("GestorDeTarefas.Models.Colaborador", b =>
                 {
                     b.Property<int>("ColaboradorId")
@@ -28,8 +45,8 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Cargo")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CargoId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Contacto")
                         .IsRequired()
@@ -37,6 +54,7 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                         .HasColumnType("nvarchar(9)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -45,6 +63,8 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("ColaboradorId");
+
+                    b.HasIndex("CargoId");
 
                     b.ToTable("Colaborador");
                 });
@@ -121,6 +141,17 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                     b.ToTable("Tarefas");
                 });
 
+            modelBuilder.Entity("GestorDeTarefas.Models.Colaborador", b =>
+                {
+                    b.HasOne("GestorDeTarefas.Models.Cargo", "Cargo")
+                        .WithMany("Colaboradors")
+                        .HasForeignKey("CargoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cargo");
+                });
+
             modelBuilder.Entity("GestorDeTarefas.Models.ColaboradorProdutividade", b =>
                 {
                     b.HasOne("GestorDeTarefas.Models.Colaborador", "Colaborador")
@@ -149,6 +180,11 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                         .IsRequired();
 
                     b.Navigation("Colaborador");
+                });
+
+            modelBuilder.Entity("GestorDeTarefas.Models.Cargo", b =>
+                {
+                    b.Navigation("Colaboradors");
                 });
 
             modelBuilder.Entity("GestorDeTarefas.Models.Colaborador", b =>

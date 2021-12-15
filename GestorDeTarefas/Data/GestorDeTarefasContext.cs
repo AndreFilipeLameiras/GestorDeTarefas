@@ -28,6 +28,37 @@ namespace GestorDeTarefas.Data
                 .HasOne(bc => bc.SistemaProdutividade)
                 .WithMany(c => c.ProdutividadeColaborador)
                 .HasForeignKey(bc => bc.SistemaProdutividadeId);
+
+
+
+
+            ////////////ProjetoSprint Colaborador////////////
+
+            modelBuilder.Entity<ColaboradorProjetoSprint>()
+                .HasKey(pc => new { pc.ID_P_Design, pc.ColaboradorId });
+
+
+            modelBuilder.Entity<ColaboradorProjetoSprint>()
+               .HasOne(bc => bc.ProjetoSprintDesign)
+               .WithMany(b => b.ProjetoSprintColaboradores)
+               .HasForeignKey(bc => bc.ID_P_Design);
+
+            modelBuilder.Entity<ColaboradorProjetoSprint>()
+                .HasOne(bc => bc.Colaborador)
+                .WithMany(c => c.ColaboradorProjetoSprints)
+                .HasForeignKey(bc => bc.ColaboradorId);
+
+            var foreignKeysWithCascadeDelete = modelBuilder.Model.GetEntityTypes()
+               .SelectMany(t => t.GetForeignKeys())
+               .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
+
+            foreach (var fk in foreignKeysWithCascadeDelete)
+            {
+                fk.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+
+            //////////////////Fim ProjetoSprint Colaborador/////////////
         }
 
 
@@ -39,5 +70,9 @@ namespace GestorDeTarefas.Data
         public DbSet<GestorDeTarefas.Models.SistemaProdutividade> SistemaProdutividade { get; set; }
 
         public DbSet<GestorDeTarefas.Models.Cargo> Cargo { get; set; }
+
+        public DbSet<GestorDeTarefas.Models.ColaboradorProjetoSprint> ColaboradorProjetoSprint { get; set; }
+
+        public DbSet<GestorDeTarefas.Models.ProjetoSprintDesign> ProjetoSprintDesign { get; set; }
     }
 }
