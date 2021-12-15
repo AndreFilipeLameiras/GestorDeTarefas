@@ -13,8 +13,10 @@ namespace GestorDeTarefas.Models
         [Display(Name = "Nome do projeto")]
         [Required(ErrorMessage = "Por favor, insira o nome do projeto")]
         [StringLength(60, MinimumLength = 3, ErrorMessage = "O projeto deve ter entre 3 e 60 caracteres")]
-        public string NomeProjeto { get; set; } 
-   
+        public string NomeProjeto { get; set; }
+
+        public ICollection<ColaboradorProjetoSprint> ProjetoSprintColaboradores { get; set; }
+
 
     }
 }
