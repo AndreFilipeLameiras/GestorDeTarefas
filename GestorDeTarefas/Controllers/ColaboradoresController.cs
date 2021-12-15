@@ -42,7 +42,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             var colaboradors = await _context.Colaborador
-                            //.Include(b => b.Author)
+                             .Include(b => b.Cargo)
                             .OrderBy(b => b.Name)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
                             .Take(pagingInfo.PageSize)
@@ -67,6 +67,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             var colaborador = await _context.Colaborador
+                .Include(b => b.Cargo)
                 .FirstOrDefaultAsync(m => m.ColaboradorId == id);
             if (colaborador == null)
             {
@@ -95,8 +96,8 @@ namespace GestorDeTarefas.Controllers
                 _context.Add(colaborador);
                 await _context.SaveChangesAsync();
                 //return RedirectToAction(nameof(Index));
-                ViewBag.Title = "Colaborador added";
-                ViewBag.Message = "Colaborador sucessfully added.";
+                ViewBag.Title = "Colaborador adicionado";
+                ViewBag.Message = "Colaborador adicionado com sucesso.";
                 return View("Success");
             }
             return View(colaborador);
@@ -148,8 +149,8 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                ViewBag.Title = "Colaborador edited";
-                ViewBag.Message = "Colaborador sucessfully altered.";
+                ViewBag.Title = "Colaborador editado";
+                ViewBag.Message = "Colaborador alterado com sucesso.";
                 return View("Success");
             }
             return View(colaborador);
@@ -181,8 +182,8 @@ namespace GestorDeTarefas.Controllers
             var colaborador = await _context.Colaborador.FindAsync(id);
             _context.Colaborador.Remove(colaborador);
             await _context.SaveChangesAsync();
-            ViewBag.Title = "Colaboradores deleted";
-            ViewBag.Message = "Colaboradores sucessfully deleted.";
+            ViewBag.Title = "Colaboradores apagado";
+            ViewBag.Message = "Colaborador apagado com sucesso.";
             return View("Success");
         }
 

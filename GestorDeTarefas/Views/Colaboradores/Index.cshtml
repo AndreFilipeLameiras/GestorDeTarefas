@@ -9,7 +9,7 @@
 <p>There are a total of @Model.PagingInfo.TotalItems colaborador</p>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Criar Novo</a>
 </p>
 
 <div class="card">
@@ -33,7 +33,8 @@
             <h5 class="card-title">@colaborador.Name</h5>
             <p class="card-text lead">@colaborador.Email</p>
             <p class="card-text">@colaborador.Contacto</p>
-            <p class="card-text">@colaborador.Cargo</p>
+            @*<p class="card-text">@colaborador.Cargo</p>*@
+            <p class="card-text">@colaborador.Cargo.Nome_Cargo</p>
 
             <a asp-action="Details" asp-route-id="@colaborador.ColaboradorId" class="btn btn-info">Details</a>
             <a asp-action="Edit" asp-route-id="@colaborador.ColaboradorId" class="btn btn-warning">Edit</a>
