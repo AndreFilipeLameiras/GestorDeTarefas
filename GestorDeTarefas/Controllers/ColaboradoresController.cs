@@ -79,6 +79,7 @@ namespace GestorDeTarefas.Controllers
         // GET: Colaboradors/Create
         public IActionResult Create()
         {
+            ViewData["CargoId"] = new SelectList(_context.Cargo, "CargoId", "Nome_Cargo");
             return View();
         }
 
@@ -87,7 +88,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ColaboradorId,Name,Email,Contacto,Cargo")] Colaborador colaborador)
+        public async Task<IActionResult> Create([Bind("ColaboradorId,Name,Email,Contacto,CargoId")] Colaborador colaborador)
         {
             if (ModelState.IsValid)
             {

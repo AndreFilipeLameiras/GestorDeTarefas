@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,6 +23,8 @@ namespace GestorDeTarefas.Models
         [StringLength(9, MinimumLength = 9, ErrorMessage = "O contacto deve ter 9 caracteres")]
         public string Contacto { get; set; }
 
+        //[ForeignKey("FK_CargoId")]
+        //[DisplayName("Cargo")]
         public int CargoId { get; set; }
         public Cargo Cargo { get; set; }
 

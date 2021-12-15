@@ -46,7 +46,9 @@ namespace GestorDeTarefas.Controllers
         // GET: Cargos/Create
         public IActionResult Create()
         {
+            
             return View();
+            
         }
 
         // POST: Cargos/Create
