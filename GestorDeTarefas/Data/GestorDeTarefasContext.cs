@@ -28,7 +28,19 @@ namespace GestorDeTarefas.Data
                 .HasOne(bc => bc.SistemaProdutividade)
                 .WithMany(c => c.ProdutividadeColaborador)
                 .HasForeignKey(bc => bc.SistemaProdutividadeId);
-        }
+
+
+
+
+            ////////////ProjetoSprint Colaborador////////////
+
+            modelBuilder.Entity<ColaboradorProjetoSprint>()
+                .HasKey(pc => new { pc.ID_P_Design, pc.ColaboradorId });
+        
+
+
+        //////////////////Fim ProjetoSprint Colaborador/////////////
+    }
 
 
 
