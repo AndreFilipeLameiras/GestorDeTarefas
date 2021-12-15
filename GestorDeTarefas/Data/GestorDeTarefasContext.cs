@@ -74,5 +74,7 @@ namespace GestorDeTarefas.Data
         public DbSet<GestorDeTarefas.Models.ColaboradorProjetoSprint> ColaboradorProjetoSprint { get; set; }
 
         public DbSet<GestorDeTarefas.Models.ProjetoSprintDesign> ProjetoSprintDesign { get; set; }
+
+        public DbSet<GestorDeTarefas.Models.Idioma> Idioma { get; set; }
     }
 }
