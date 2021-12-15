@@ -10,7 +10,7 @@ namespace GestorDeTarefas.Models
     {
         public int CargoId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Por favor, insira o cargo")]
         [StringLength(50)]
         public string Nome_Cargo { get; set; }
 
