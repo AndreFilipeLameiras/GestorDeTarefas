@@ -36,11 +36,21 @@ namespace GestorDeTarefas.Data
 
             modelBuilder.Entity<ColaboradorProjetoSprint>()
                 .HasKey(pc => new { pc.ID_P_Design, pc.ColaboradorId });
-        
 
 
-        //////////////////Fim ProjetoSprint Colaborador/////////////
-    }
+            modelBuilder.Entity<ColaboradorProjetoSprint>()
+               .HasOne(bc => bc.ProjetoSprintDesign)
+               .WithMany(b => b.ProjetoSprintColaboradores)
+               .HasForeignKey(bc => bc.ID_P_Design);
+
+            modelBuilder.Entity<ColaboradorProjetoSprint>()
+                .HasOne(bc => bc.Colaborador)
+                .WithMany(c => c.ColaboradorProjetoSprints)
+                .HasForeignKey(bc => bc.ColaboradorId);
+
+
+            //////////////////Fim ProjetoSprint Colaborador/////////////
+        }
 
 
 
