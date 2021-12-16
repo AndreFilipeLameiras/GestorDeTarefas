@@ -1,13 +1,12 @@
 ﻿@model GestorDeTarefas.Models.Cargo
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Cargos Details";
 }
 
-<h1>Details</h1>
+<h1>Detalhes dos Cargos</h1>
 
 <div>
-    <h4>Cargo</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -19,6 +18,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.CargoId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.CargoId" class="btn btn-warning">Edit</a> |
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>

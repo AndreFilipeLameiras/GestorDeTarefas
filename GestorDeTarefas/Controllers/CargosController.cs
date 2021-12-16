@@ -34,7 +34,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             var cargo = await _context.Cargo
-                .FirstOrDefaultAsync(m => m.CargoId == id);
+                .SingleOrDefaultAsync(b => b.CargoId == id);
             if (cargo == null)
             {
                 return NotFound();
