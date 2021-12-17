@@ -115,7 +115,9 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Cargo editado";
+                ViewBag.Message = "Cargo alterado com sucesso.";
+                return View("Success");
             }
             return View(cargo);
         }
