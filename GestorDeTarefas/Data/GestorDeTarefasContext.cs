@@ -31,6 +31,9 @@ namespace GestorDeTarefas.Data
 
             ////////////////Idioma Colaborador//////////////////
             modelBuilder.Entity<ColaboradorIdioma>()
+               .HasKey(bc => new { bc.ColaboradorId, bc.IdiomaId });
+
+            modelBuilder.Entity<ColaboradorIdioma>()
                 .HasOne(bc => bc.Colaborador)
                 .WithMany(b => b.ColaboradorIdiomas)
                 .HasForeignKey(bc => bc.ColaboradorId);

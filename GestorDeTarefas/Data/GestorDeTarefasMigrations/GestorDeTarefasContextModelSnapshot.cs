@@ -4,16 +4,14 @@ using GestorDeTarefas.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace GestorDeTarefas.Migrations
+namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
 {
     [DbContext(typeof(GestorDeTarefasContext))]
-    [Migration("20211215105125_ColaboradorProjetoSprint")]
-    partial class ColaboradorProjetoSprint
+    partial class GestorDeTarefasContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,6 +95,23 @@ namespace GestorDeTarefas.Migrations
                     b.HasIndex("ColaboradorId");
 
                     b.ToTable("ColaboradorProjetoSprint");
+                });
+
+            modelBuilder.Entity("GestorDeTarefas.Models.Idioma", b =>
+                {
+                    b.Property<int>("IdiomaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("NomeIdioma")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("IdiomaId");
+
+                    b.ToTable("Idioma");
                 });
 
             modelBuilder.Entity("GestorDeTarefas.Models.ProjetoSprintDesign", b =>

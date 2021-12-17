@@ -34,5 +34,9 @@ namespace GestorDeTarefas.Models
 
         public ICollection<ColaboradorProjetoSprint> ColaboradorProjetoSprints { get; set; }
 
+        public ICollection<ColaboradorIdioma> ColaboradorIdiomas { get; set; }
+
+        
+
     }
 }
