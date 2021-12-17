@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GestorDeTarefas.Models.Cargo>
+﻿@model CargoListViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -9,27 +9,16 @@
 <p>
     <a asp-action="Create" class="btn btn-dark">Criar Novo</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome_Cargo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome_Cargo)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.CargoId" class="btn btn-info">Details</a>
-                <a asp-action="Edit" asp-route-id="@item.CargoId" class="btn btn-warning">Edit</a>
-                <a asp-action="Delete" asp-route-id="@item.CargoId" class="btn btn-danger">Delete</a>
-            </td>
-        </tr>
+@foreach (Cargo cargo in Model.Cargos)
+{
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">@cargo.Nome_Cargo</h5>
+
+
+            <a asp-action="Details" asp-route-id="@cargo.CargoId" class="btn btn-info">Details</a>
+            <a asp-action="Edit" asp-route-id="@cargo.CargoId" class="btn btn-warning">Edit</a>
+            <a asp-action="Delete" asp-route-id="@cargo.CargoId" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
 }
-    </tbody>
-</table>
