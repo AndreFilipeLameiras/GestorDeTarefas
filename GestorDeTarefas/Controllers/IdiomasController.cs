@@ -60,7 +60,12 @@ namespace GestorDeTarefas.Controllers
             {
                 _context.Add(idioma);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                
+
+                ViewBag.Title = "Idioma adicionado";
+                ViewBag.Message = "Idioma adicionado com sucesso.";
+                return View("Success");
+
             }
             return View(idioma);
         }
