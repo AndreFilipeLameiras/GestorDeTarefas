@@ -182,5 +182,12 @@ namespace GestorDeTarefas.Controllers
         {
             return _context.ProjetoSprintDesign.Any(e => e.ID_P_Design == id);
         }
+
+
+        public async Task<IActionResult> AdicionarColaborador()
+        {
+            var gestorDeTarefasContext = _context.ColaboradorProjetoSprint.Include(c => c.Colaborador);
+            return View(await gestorDeTarefasContext.ToListAsync());
+        }
     }
 }

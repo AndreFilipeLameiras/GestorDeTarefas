@@ -115,7 +115,9 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Cargo editado";
+                ViewBag.Message = "Cargo alterado com sucesso.";
+                return View("Success");
             }
             return View(cargo);
         }
@@ -146,7 +148,10 @@ namespace GestorDeTarefas.Controllers
             var cargo = await _context.Cargo.FindAsync(id);
             _context.Cargo.Remove(cargo);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            ViewBag.Title = "Cargo Apagado";
+            ViewBag.Message = "Cargo apagado com sucesso.";
+            return View("Success");
         }
 
         private bool CargoExists(int id)
