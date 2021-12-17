@@ -34,7 +34,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             var cargo = await _context.Cargo
-                .FirstOrDefaultAsync(m => m.CargoId == id);
+                .SingleOrDefaultAsync(b => b.CargoId == id);
             if (cargo == null)
             {
                 return NotFound();
@@ -62,7 +62,9 @@ namespace GestorDeTarefas.Controllers
             {
                 _context.Add(cargo);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Cargo Adicionado";
+                ViewBag.Message = "Cargo adicionado com sucesso.";
+                return View("Success");
             }
             return View(cargo);
         }
