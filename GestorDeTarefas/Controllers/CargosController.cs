@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
+using GestorDeTarefas.ViewModels;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -20,9 +21,40 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Cargos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string nome, int page = 1)
         {
-            return View(await _context.Cargo.ToListAsync());
+            var cargoSearch = _context.Cargo
+              .Where(b => nome == null || b.Nome_Cargo.Contains(nome));
+            var pagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                TotalItems = cargoSearch.Count()
+            };
+
+            if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
+            {
+                pagingInfo.CurrentPage = pagingInfo.TotalPages;
+            }
+
+            if (pagingInfo.CurrentPage < 1)
+            {
+                pagingInfo.CurrentPage = 1;
+            }
+
+            var cargos = await _context.Cargo
+                            .OrderBy(b => b.Nome_Cargo)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+
+            return View(
+                new CargoListViewModel
+                {
+                    Cargos = cargos,
+                    PagingInfo = pagingInfo,
+                    NomeSearched = nome
+                }
+            );
         }
 
         // GET: Cargos/Details/5
