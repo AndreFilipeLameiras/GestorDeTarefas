@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
+using GestorDeTarefas.ViewModels;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -22,7 +23,25 @@ namespace GestorDeTarefas.Controllers
         // GET: Idiomas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Idioma.ToListAsync());
+            var pagingInfo = new PagingInfo 
+            {
+                CurrentPage = 1,
+                TotalItems = _context.Idioma.Count()
+            };
+
+            var idiomas = await _context.Idioma
+                            .OrderBy(b => b.NomeIdioma)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+
+            return View(
+                new IdiomaListViewModel
+                {
+                    Idiomas = idiomas,
+                    PagingInfo = pagingInfo
+                }
+                );
         }
 
         // GET: Idiomas/Details/5
