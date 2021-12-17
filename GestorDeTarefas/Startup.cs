@@ -101,13 +101,14 @@ namespace GestorDeTarefas
                 endpoints.MapRazorPages();
             });
 
-            SeedData.CreateRoles(roleManager);
+            SeedData.CreateRoles(roleManager); 
             SeedData.CreateDefaultAdmin(userManager);
 
             if (env.IsDevelopment())
             {
                 SeedData.PopulateUsers(userManager);
                 SeedData.Populate(gestorDeTarefasContext);
+                SeedDataProjeto.Populate(gestorDeTarefasContext);
             }
         }
     }
