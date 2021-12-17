@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace GestorDeTarefas.Migrations
+namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
 {
-    public partial class ProjetoSprint : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,6 +18,32 @@ namespace GestorDeTarefas.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cargo", x => x.CargoId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Idioma",
+                columns: table => new
+                {
+                    IdiomaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NomeIdioma = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Idioma", x => x.IdiomaId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjetoSprintDesign",
+                columns: table => new
+                {
+                    ID_P_Design = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NomeProjeto = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjetoSprintDesign", x => x.ID_P_Design);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,7 +81,7 @@ namespace GestorDeTarefas.Migrations
                         column: x => x.CargoId,
                         principalTable: "Cargo",
                         principalColumn: "CargoId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,13 +99,37 @@ namespace GestorDeTarefas.Migrations
                         column: x => x.ColaboradorId,
                         principalTable: "Colaborador",
                         principalColumn: "ColaboradorId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ColaboradorProdutividade_SistemaProdutividade_SistemaProdutividadeId",
                         column: x => x.SistemaProdutividadeId,
                         principalTable: "SistemaProdutividade",
                         principalColumn: "SistemaProdutividadeId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ColaboradorProjetoSprint",
+                columns: table => new
+                {
+                    ID_P_Design = table.Column<int>(type: "int", nullable: false),
+                    ColaboradorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ColaboradorProjetoSprint", x => new { x.ID_P_Design, x.ColaboradorId });
+                    table.ForeignKey(
+                        name: "FK_ColaboradorProjetoSprint_Colaborador_ColaboradorId",
+                        column: x => x.ColaboradorId,
+                        principalTable: "Colaborador",
+                        principalColumn: "ColaboradorId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ColaboradorProjetoSprint_ProjetoSprintDesign_ID_P_Design",
+                        column: x => x.ID_P_Design,
+                        principalTable: "ProjetoSprintDesign",
+                        principalColumn: "ID_P_Design",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -101,7 +151,7 @@ namespace GestorDeTarefas.Migrations
                         column: x => x.ColaboradorId,
                         principalTable: "Colaborador",
                         principalColumn: "ColaboradorId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -115,6 +165,11 @@ namespace GestorDeTarefas.Migrations
                 column: "SistemaProdutividadeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ColaboradorProjetoSprint_ColaboradorId",
+                table: "ColaboradorProjetoSprint",
+                column: "ColaboradorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tarefas_ColaboradorId",
                 table: "Tarefas",
                 column: "ColaboradorId");
@@ -126,10 +181,19 @@ namespace GestorDeTarefas.Migrations
                 name: "ColaboradorProdutividade");
 
             migrationBuilder.DropTable(
+                name: "ColaboradorProjetoSprint");
+
+            migrationBuilder.DropTable(
+                name: "Idioma");
+
+            migrationBuilder.DropTable(
                 name: "Tarefas");
 
             migrationBuilder.DropTable(
                 name: "SistemaProdutividade");
+
+            migrationBuilder.DropTable(
+                name: "ProjetoSprintDesign");
 
             migrationBuilder.DropTable(
                 name: "Colaborador");

@@ -29,7 +29,21 @@ namespace GestorDeTarefas.Data
                 .WithMany(c => c.ProdutividadeColaborador)
                 .HasForeignKey(bc => bc.SistemaProdutividadeId);
 
+            ////////////////Idioma Colaborador//////////////////
+            modelBuilder.Entity<ColaboradorIdioma>()
+               .HasKey(bc => new { bc.ColaboradorId, bc.IdiomaId });
 
+            modelBuilder.Entity<ColaboradorIdioma>()
+                .HasOne(bc => bc.Colaborador)
+                .WithMany(b => b.ColaboradorIdiomas)
+                .HasForeignKey(bc => bc.ColaboradorId);
+
+            modelBuilder.Entity<ColaboradorIdioma>()
+                .HasOne(bc => bc.Idioma)
+                .WithMany(c => c.IdiomaColaboradores)
+                .HasForeignKey(bc => bc.IdiomaId);
+
+            //////////Fim Idioma Colaborador//////////////
 
 
             ////////////ProjetoSprint Colaborador////////////
@@ -74,5 +88,7 @@ namespace GestorDeTarefas.Data
         public DbSet<GestorDeTarefas.Models.ColaboradorProjetoSprint> ColaboradorProjetoSprint { get; set; }
 
         public DbSet<GestorDeTarefas.Models.ProjetoSprintDesign> ProjetoSprintDesign { get; set; }
+
+        public DbSet<GestorDeTarefas.Models.Idioma> Idioma { get; set; }
     }
 }

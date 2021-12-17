@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
+using GestorDeTarefas.ViewModels;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -20,9 +21,41 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: ProjetoSprintDesigns
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string nome, int page = 1)
         {
-            return View(await _context.ProjetoSprintDesign.ToListAsync());
+            var projetoSearch = _context.ProjetoSprintDesign
+               .Where(b => nome == null || b.NomeProjeto.Contains(nome));
+            var pagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                TotalItems = projetoSearch.Count()
+            };
+
+            if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
+            {
+                pagingInfo.CurrentPage = pagingInfo.TotalPages;
+            }
+
+            if (pagingInfo.CurrentPage < 1)
+            {
+                pagingInfo.CurrentPage = 1;
+            }
+
+            var projeto = await projetoSearch
+                            .Include(b => b.ProjetoSprintColaboradores)
+                            .OrderBy(b => b.NomeProjeto)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+
+            return View(
+                new ProjetoSprintListViewModel
+                {
+                    ProjetoSprints = projeto,
+                    PagingInfo = pagingInfo,
+                    NomeSearched = nome
+                }
+            );
         }
 
         // GET: ProjetoSprintDesigns/Details/5
