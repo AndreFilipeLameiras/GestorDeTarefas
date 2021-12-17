@@ -21,11 +21,11 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Idiomas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
             var pagingInfo = new PagingInfo 
             {
-                CurrentPage = 1,
+                CurrentPage = page,
                 TotalItems = _context.Idioma.Count()
             };
 
