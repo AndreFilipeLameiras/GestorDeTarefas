@@ -116,7 +116,9 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Idioma editado";
+                ViewBag.Message = "Idioma editado com sucesso.";
+                return View("Success");
             }
             return View(idioma);
         }
@@ -147,7 +149,10 @@ namespace GestorDeTarefas.Controllers
             var idioma = await _context.Idioma.FindAsync(id);
             _context.Idioma.Remove(idioma);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            ViewBag.Title = "Idioma eliminado";
+            ViewBag.Message = "Idioma elimindo com sucesso.";
+            return View("Success");
         }
 
         private bool IdiomaExists(int id)
