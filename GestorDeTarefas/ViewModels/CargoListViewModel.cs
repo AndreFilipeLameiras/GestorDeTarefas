@@ -10,5 +10,7 @@ namespace GestorDeTarefas.ViewModels
     {
         public IEnumerable<Cargo> Cargos { get; set; }
         public PagingInfo PagingInfo { get; set; }
+
+        public string NomeSearched { get; set; }
     }
 }
