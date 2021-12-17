@@ -184,10 +184,53 @@ namespace GestorDeTarefas.Controllers
         }
 
 
+        /////////////////////Adicionar Colaborador/////////////////////
+
         public async Task<IActionResult> AdicionarColaborador()
         {
-            var gestorDeTarefasContext = _context.ColaboradorProjetoSprint.Include(c => c.Colaborador);
-            return View(await gestorDeTarefasContext.ToListAsync());
+            int id=0;
+            int id2 = 0;
+            ColaboradorProjetoSprint colaboradorProjetoSprint = new ColaboradorProjetoSprint();
+            id = colaboradorProjetoSprint.ID_P_Design;
+            id2 = colaboradorProjetoSprint.ColaboradorId;
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var projetoSprintDesign = await _context.ColaboradorProjetoSprint.FindAsync(id,id2);
+            if (projetoSprintDesign == null)
+            {
+                return NotFound();
+            }
+
+            
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
+            
+            return View(colaboradorProjetoSprint);
         }
+
+        // POST: ProjetoSprintDesigns/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdicionarColaborador(int id, [Bind("ID_P_Design,ColaboradorId")] ColaboradorProjetoSprint projetoSprintDesign)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(projetoSprintDesign);
+                await _context.SaveChangesAsync();
+                //   return RedirectToAction(nameof(Index));
+
+                ViewBag.Name = "Colaborador Adicionado";
+                ViewBag.Message = "Colaborador sucessfully added.";
+                return View("Success");
+            }
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", projetoSprintDesign.ColaboradorId);
+            return View(projetoSprintDesign);
+        }
+
     }
 }
