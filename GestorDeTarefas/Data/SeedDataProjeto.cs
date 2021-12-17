@@ -10,32 +10,15 @@ namespace GestorDeTarefas.Data
     {
         internal static void Populate(GestorDeTarefasContext db)
         {
-
-            if (!db.ProjetoSprintDesign.Any())
-            {
-                db.ProjetoSprintDesign.AddRange(new List<ProjetoSprintDesign>() {
-                            SeedDataProjeto.CriarEvento(db,"Montagem"),
-                            SeedDataProjeto.CriarEvento(db,"Construção"),
-                            SeedDataProjeto.CriarEvento(db,"Limpesa"),
-                            });
-                db.SaveChangesAsync().GetAwaiter().GetResult();
+			if (db.ProjetoSprintDesign.Any()) return;
+			db.ProjetoSprintDesign.AddRange(
+				new ProjetoSprintDesign { NomeProjeto = "Kayak"}
+				
+			);
 
 
-            }
-        }
-
-        private static ProjetoSprintDesign CriarEvento(GestorDeTarefasContext db, string nome)
-        {
-
-
-
-
-            return new ProjetoSprintDesign()
-            {
-                NomeProjeto = nome.Split(' ')[0]
-
-            };
-        }
-    }
+		}
+	}
 }
+
 
