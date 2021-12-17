@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace GestorDeTarefas.Migrations
+namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
 {
     [DbContext(typeof(GestorDeTarefasContext))]
-    [Migration("20211215104837_ProjetoSprint")]
-    partial class ProjetoSprint
+    [Migration("20211216103750_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,6 +84,55 @@ namespace GestorDeTarefas.Migrations
                     b.ToTable("ColaboradorProdutividade");
                 });
 
+            modelBuilder.Entity("GestorDeTarefas.Models.ColaboradorProjetoSprint", b =>
+                {
+                    b.Property<int>("ID_P_Design")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ColaboradorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID_P_Design", "ColaboradorId");
+
+                    b.HasIndex("ColaboradorId");
+
+                    b.ToTable("ColaboradorProjetoSprint");
+                });
+
+            modelBuilder.Entity("GestorDeTarefas.Models.Idioma", b =>
+                {
+                    b.Property<int>("IdiomaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("NomeIdioma")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("IdiomaId");
+
+                    b.ToTable("Idioma");
+                });
+
+            modelBuilder.Entity("GestorDeTarefas.Models.ProjetoSprintDesign", b =>
+                {
+                    b.Property<int>("ID_P_Design")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("NomeProjeto")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.HasKey("ID_P_Design");
+
+                    b.ToTable("ProjetoSprintDesign");
+                });
+
             modelBuilder.Entity("GestorDeTarefas.Models.SistemaProdutividade", b =>
                 {
                     b.Property<int>("SistemaProdutividadeId")
@@ -146,7 +195,7 @@ namespace GestorDeTarefas.Migrations
                     b.HasOne("GestorDeTarefas.Models.Cargo", "Cargo")
                         .WithMany("Colaboradors")
                         .HasForeignKey("CargoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cargo");
@@ -157,13 +206,13 @@ namespace GestorDeTarefas.Migrations
                     b.HasOne("GestorDeTarefas.Models.Colaborador", "Colaborador")
                         .WithMany("ColaboradorProdutividad")
                         .HasForeignKey("ColaboradorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("GestorDeTarefas.Models.SistemaProdutividade", "SistemaProdutividade")
                         .WithMany("ProdutividadeColaborador")
                         .HasForeignKey("SistemaProdutividadeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Colaborador");
@@ -171,12 +220,31 @@ namespace GestorDeTarefas.Migrations
                     b.Navigation("SistemaProdutividade");
                 });
 
+            modelBuilder.Entity("GestorDeTarefas.Models.ColaboradorProjetoSprint", b =>
+                {
+                    b.HasOne("GestorDeTarefas.Models.Colaborador", "Colaborador")
+                        .WithMany("ColaboradorProjetoSprints")
+                        .HasForeignKey("ColaboradorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GestorDeTarefas.Models.ProjetoSprintDesign", "ProjetoSprintDesign")
+                        .WithMany("ProjetoSprintColaboradores")
+                        .HasForeignKey("ID_P_Design")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Colaborador");
+
+                    b.Navigation("ProjetoSprintDesign");
+                });
+
             modelBuilder.Entity("GestorDeTarefas.Models.Tarefas", b =>
                 {
                     b.HasOne("GestorDeTarefas.Models.Colaborador", "Colaborador")
                         .WithMany("Tarefas")
                         .HasForeignKey("ColaboradorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Colaborador");
@@ -191,7 +259,14 @@ namespace GestorDeTarefas.Migrations
                 {
                     b.Navigation("ColaboradorProdutividad");
 
+                    b.Navigation("ColaboradorProjetoSprints");
+
                     b.Navigation("Tarefas");
+                });
+
+            modelBuilder.Entity("GestorDeTarefas.Models.ProjetoSprintDesign", b =>
+                {
+                    b.Navigation("ProjetoSprintColaboradores");
                 });
 
             modelBuilder.Entity("GestorDeTarefas.Models.SistemaProdutividade", b =>
