@@ -47,5 +47,8 @@ namespace GestorDeTarefas.Models
         [DisplayName("Colaborador")]
         public int ColaboradorId { get; set; }
         public Colaborador Colaborador { get; set; }
+
+        public int ID_P_Design { get; set; }
+        public ProjetoSprintDesign ProjetoSprint { get; set; }
     }
 }

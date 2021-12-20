@@ -43,6 +43,7 @@ namespace GestorDeTarefas.Models
       
 
         public ICollection<ColaboradorProjetoSprint> ProjetoSprintColaboradores { get; set; }
+        public ICollection<Tarefas> Tarefas { get; set; }
 
 
     }
