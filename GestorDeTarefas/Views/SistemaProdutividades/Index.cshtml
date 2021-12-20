@@ -40,15 +40,23 @@
             <a class="page-link" asp-action="Index" asp-route-page="1">First</a>
         </li>
         @{
-            for (int p = 1; p <= Model.PagingInfo.TotalPages; p++)
-            {
+            for (int p = 1; p <= Model.PagingInfo.TotalPages; p++) { 
+                if (p == Model.PagingInfo.CurrentPage)
+                {
+                    <li class="page-item active">
+                        <a class="page-link" href="#">@p <span class="sr-only">(current)</span></a>
+                    </li>
+                }
+                else{
                 <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-page="@p">@p</a>
+                   <a class="page-link" asp-action="Index" asp-route-page="@p">@p</a>
                 </li>
+
+                 }
             }
         }
-        <li class="page-item">
-            <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.PageSize">Last</a>
-        </li>
-    </ul>
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages">Ultima</a>
+            </li>
+        </ul>
 </nav>
