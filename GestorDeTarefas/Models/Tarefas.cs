@@ -18,16 +18,29 @@ namespace GestorDeTarefas.Models
         [StringLength(80, MinimumLength = 3, ErrorMessage = "A tarefa deve ter entre 3 e 80 caracteres")]
         public string Nome { get; set; }
 
-        [Display(Name = "Data Inicio")]
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
-        [Required(ErrorMessage = "Por favor, insira a data de inicio da tarefa")]
-        public DateTime DataInicio { get; set; }
+        [DataType(DataType.Date)]
+        [Display(Name = "Data Prevista de Inicio")]
+        [DisplayFormat(DataFormatString = "{dd/MM/yyyy}")]
+        [Required(ErrorMessage = "Por favor, insira a data prevista de inicio da tarefa")]
+        public DateTime DataPrevistaInicio { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "Data Definitiva do Inicio")]
+        [DisplayFormat(DataFormatString = "{dd/MM/yyyy}")]
+        [Required(ErrorMessage = "Por favor, insira a data definitiva de inicio da tarefa")]
+        public DateTime DataDefinitivaInicio { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "Data Prevista do Fim")]
+        [DisplayFormat(DataFormatString = "{dd/MM/yyyy}")]
+        [Required(ErrorMessage = "Por favor, insira a data prevista do fim da tarefa")]
+        public DateTime DataPrevistaFim { get; set; }
 
 
-        [Display(Name = "Data Fim")]
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
-        [Required(ErrorMessage = "Por favor, insira a data do fim da tarefa")]
-        public DateTime DataFim { get; set; }
+        [DataType(DataType.Date)]
+        [Display(Name = "Data Definitiva do Fim")]
+        [DisplayFormat(DataFormatString = "{dd/MM/yyyy}")]
+        public DateTime DataDefinitivaFim { get; set; }
 
         [ForeignKey("FK_ColaboradorId")]
         [DisplayName("Colaborador")]
