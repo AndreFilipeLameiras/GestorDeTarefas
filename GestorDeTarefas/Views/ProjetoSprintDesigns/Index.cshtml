@@ -7,7 +7,7 @@
 <h1>Lista de Projetos</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-dark">Create New</a>
+    <a asp-action="Create" class="btn btn-dark">Criar Novo</a>
 </p>
 
 <div class="card">
@@ -30,10 +30,14 @@
     <div class="card mt-3">
         <div class="card-body">
             <h5 class="card-title">Projeto: @projeto.NomeProjeto</h5>
+            <p class="card-text">Data Prevista de Inicio: @projeto.DataPrevistaInicio</p>
+            <p class="card-text">Data Definitiva de Inicio: @projeto.DataDefinitivaInicio</p>
+            <p class="card-text">Data Prevista de Fim: @projeto.DataPrevistaFim</p>
+            <p class="card-text">Data Definitiva de Fim: @projeto.DataDefinitivaFim</p>
 
-            <a asp-action="Details" asp-route-id="@projeto.ID_P_Design" class="btn btn-info">Details</a>
-            <a asp-action="Edit" asp-route-id="@projeto.ID_P_Design" class="btn btn-warning">Edit</a>
-            <a asp-action="Delete" asp-route-id="@projeto.ID_P_Design" class="btn btn-danger">Delete</a>          
+            <a asp-action="Details" asp-route-id="@projeto.ID_P_Design" class="btn btn-info">Detalhes</a>
+            <a asp-action="Edit" asp-route-id="@projeto.ID_P_Design" class="btn btn-warning">Editar</a>
+            <a asp-action="Delete" asp-route-id="@projeto.ID_P_Design" class="btn btn-danger">Apagar</a>
             <a asp-action="AdicionarColaborador" asp-route-id="@projeto.ID_P_Design" class="btn btn-outline-success">Adicionar colaborador</a>
 
         </div>
@@ -48,13 +52,13 @@
             if (Model.PagingInfo.CurrentPage == 1)
             {
                 <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">First</a>
+                    <a class="page-link" href="#" tabindex="-1">Primeiro</a>
                 </li>
             }
             else
             {
                 <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-page="1">First</a>
+                    <a class="page-link" asp-action="Index" asp-route-page="1">Primeiro</a>
                 </li>
             }
 
@@ -83,13 +87,13 @@
             if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
             {
                 <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Last</a>
+                    <a class="page-link" href="#" tabindex="-1">Ultimo</a>
                 </li>
             }
             else
             {
                 <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages">Last</a>
+                    <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages">Ultimo</a>
                 </li>
             }
         }

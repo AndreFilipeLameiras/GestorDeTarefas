@@ -87,7 +87,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID_P_Design,NomeProjeto")] ProjetoSprintDesign projetoSprintDesign)
+        public async Task<IActionResult> Create([Bind("ID_P_Design,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] ProjetoSprintDesign projetoSprintDesign)
         {
             if (ModelState.IsValid)
             {
@@ -119,7 +119,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID_P_Design,NomeProjeto")] ProjetoSprintDesign projetoSprintDesign)
+        public async Task<IActionResult> Edit(int id, [Bind("ID_P_Design,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] ProjetoSprintDesign projetoSprintDesign)
         {
             if (id != projetoSprintDesign.ID_P_Design)
             {

@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\GestorDeTarefasMigrations\" />
     <Folder Include="wwwroot\Imagens\" />
   </ItemGroup>
 

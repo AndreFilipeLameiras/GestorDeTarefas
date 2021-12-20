@@ -9,7 +9,7 @@
 @if (User.IsInRole("product_manager"))
 {
     <p>
-        <a asp-action="Create" class="btn btn-dark">Create New</a>
+        <a asp-action="Create" class="btn btn-dark">Criar Nova</a>
     </p>
 }
     <div class="card">
@@ -32,16 +32,18 @@
             <div class="card-body">
                 <h5 class="card-title">Tarefa: @tarefa.Nome</h5>
                 <p class="card-text lead">Colaborador: @tarefa.Colaborador.Name</p>
-                <p class="card-text">Data de Inicio: @tarefa.DataInicio</p>
-                <p class="card-text">Data de Fim: @tarefa.DataFim</p>
+                <p class="card-text">Data Prevista de Inicio: @tarefa.DataPrevistaInicio</p>
+                <p class="card-text">Data Definitiva de Inicio: @tarefa.DataDefinitivaInicio</p>
+                <p class="card-text">Data Prevista de Fim: @tarefa.DataPrevistaFim</p>
+                <p class="card-text">Data Definitiva de Fim: @tarefa.DataDefinitivaFim</p>
 
 
-                <a asp-action="Details" asp-route-id="@tarefa.Id" class="btn btn-info">Details</a>
-              @if (User.IsInRole("product_manager"))
-              {
-                <a asp-action="Edit" asp-route-id="@tarefa.Id" class="btn btn-warning">Edit</a>
-                <a asp-action="Delete" asp-route-id="@tarefa.Id" class="btn btn-danger">Delete</a>
-              }
+                <a asp-action="Details" asp-route-id="@tarefa.Id" class="btn btn-info">Detalhes</a>
+                @if (User.IsInRole("product_manager"))
+                {
+                    <a asp-action="Edit" asp-route-id="@tarefa.Id" class="btn btn-warning">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@tarefa.Id" class="btn btn-danger">Apagar</a>
+                }
             </div>
         </div>
     }
@@ -53,13 +55,13 @@
                 if (Model.PagingInfo.CurrentPage == 1)
                 {
                     <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">First</a>
+                        <a class="page-link" href="#" tabindex="-1">Primeiro</a>
                     </li>
                 }
                 else
                 {
                     <li class="page-item">
-                        <a class="page-link" asp-action="Index" asp-route-page="1">First</a>
+                        <a class="page-link" asp-action="Index" asp-route-page="1">Primeiro</a>
                     </li>
                 }
 
@@ -88,13 +90,13 @@
                 if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
                 {
                     <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Last</a>
+                        <a class="page-link" href="#" tabindex="-1">Ultimo</a>
                     </li>
                 }
                 else
                 {
                     <li class="page-item">
-                        <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages">Last</a>
+                        <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages">Ultimo</a>
                     </li>
                 }
             }
