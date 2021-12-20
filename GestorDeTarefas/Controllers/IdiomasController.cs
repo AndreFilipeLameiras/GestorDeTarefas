@@ -54,6 +54,7 @@ namespace GestorDeTarefas.Controllers
                 {
                     Idiomas = idiomas,
                     PagingInfo = pagingInfo
+                    TitleSearched = name
                 }
                 );
         }

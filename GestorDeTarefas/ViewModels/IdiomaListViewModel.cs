@@ -10,5 +10,7 @@ namespace GestorDeTarefas.ViewModels
     {
         public IEnumerable<Idioma> Idiomas { get; set; }
         public PagingInfo PagingInfo { get; set; }
+
+        public string TitleSearched { get; set; }
     }
 }
