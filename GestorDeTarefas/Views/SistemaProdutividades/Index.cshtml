@@ -40,7 +40,14 @@
             <a class="page-link" asp-action="Index" asp-route-page="1">First</a>
         </li>
         @{
-            for (int p = 1; p <= Model.PagingInfo.TotalPages; p++) { 
+            int firstPage = Model.PagingInfo.CurrentPage - PagingInfo.NUMBER_PAGES_SHOW_BEFORE_AFTER;
+            if (firstPage < 1) firstPage = 1;
+
+            int lastPage = Model.PagingInfo.CurrentPage + PagingInfo.NUMBER_PAGES_SHOW_BEFORE_AFTER;
+            if (lastPage > Model.PagingInfo.TotalPages) lastPage = Model.PagingInfo.TotalPages;
+
+            for (int p = firstPage; p <= lastPage; p++)
+            {
                 if (p == Model.PagingInfo.CurrentPage)
                 {
                     <li class="page-item active">
