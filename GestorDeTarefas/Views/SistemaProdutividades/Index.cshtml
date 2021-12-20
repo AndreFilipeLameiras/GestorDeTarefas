@@ -21,10 +21,10 @@
             <p class="card-text">Data Prevista de Fim: @projeto.DataPrevistaFim</p>
             <p class="card-text">Data Definitiva de Fim: @projeto.DataDefinitivaFim</p>
 
-            <a asp-action="Edit" asp-route-id="@projeto.SistemaProdutividadeId">Edit</a> |
-            <a asp-action="Details" asp-route-id="@projeto.SistemaProdutividadeId">Details</a> |
-            <a asp-action="Delete" asp-route-id="@projeto.SistemaProdutividadeId">Delete</a>
-
+            
+            <a asp-action="Details" asp-route-id="@projeto.SistemaProdutividadeId" class="btn btn-info">Detalhes</a>
+            <a asp-action="Edit" asp-route-id="@projeto.SistemaProdutividadeId" class="btn btn-warning">Editar</a>
+            <a asp-action="Delete" asp-route-id="@projeto.SistemaProdutividadeId" class="btn btn-danger">Apagar</a>
 
         </div>
     </div>
