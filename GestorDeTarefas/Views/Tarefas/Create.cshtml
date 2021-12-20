@@ -1,10 +1,10 @@
 ﻿@model GestorDeTarefas.Models.Tarefas
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Criar";
 }
 
-<h1>Create</h1>
+<h1>Criar</h1>
 
 <h4>Tarefas</h4>
 <hr />
@@ -18,28 +18,38 @@
                 <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DataInicio" class="control-label"></label>
-                <input asp-for="DataInicio" class="form-control" />
-                <span asp-validation-for="DataInicio" class="text-danger"></span>
+                <label asp-for="DataPrevistaInicio" class="control-label"></label>
+                <input asp-for="DataPrevistaInicio" class="form-control" />
+                <span asp-validation-for="DataPrevistaInicio" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DataFim" class="control-label"></label>
-                <input asp-for="DataFim" class="form-control" />
-                <span asp-validation-for="DataFim" class="text-danger"></span>
+                <label asp-for="DataDefinitivaInicio" class="control-label"></label>
+                <input asp-for="DataDefinitivaInicio" class="form-control" />
+                <span asp-validation-for="DataDefinitivaInicio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataPrevistaFim" class="control-label"></label>
+                <input asp-for="DataPrevistaFim" class="form-control" />
+                <span asp-validation-for="DataPrevistaFim" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataDefinitivaFim" class="control-label"></label>
+                <input asp-for="DataDefinitivaFim" class="form-control" />
+                <span asp-validation-for="DataDefinitivaFim" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ColaboradorId" class="control-label"></label>
-                <select asp-for="ColaboradorId" class ="form-control" asp-items="ViewBag.ColaboradorId"></select>
+                <select asp-for="ColaboradorId" class="form-control" asp-items="ViewBag.ColaboradorId"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Criar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index" class="btn btn-success">Back to List</a>
+    <a asp-action="Index" class="btn btn-success">Voltar a lista</a>
 </div>
 
 @section Scripts {
