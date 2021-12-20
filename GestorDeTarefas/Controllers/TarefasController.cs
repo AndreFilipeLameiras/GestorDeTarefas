@@ -91,7 +91,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,DataInicio,DataFim,ColaboradorId")] Tarefas tarefas)
+        public async Task<IActionResult> Create([Bind("Id, Nome, DataPrevistaInicio, DataDefinitivaInicio, DataPrevistaFim, DataDefinitivaFim, ColaboradorId")] Tarefas tarefas)
         {
             if (ModelState.IsValid)
             {
@@ -131,7 +131,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataInicio,DataFim,ColaboradorId")] Tarefas tarefas)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim,ColaboradorId")] Tarefas tarefas)
         {
             if (id != tarefas.Id)
             {
@@ -194,7 +194,7 @@ namespace GestorDeTarefas.Controllers
             _context.Tarefas.Remove(tarefas);
             await _context.SaveChangesAsync();
             // return RedirectToAction(nameof(Index));
-            ViewBag.Name = "Tarefa deleted";
+            ViewBag.Name = "Tarefa Apagada";
             ViewBag.Message = "Tarefa sucessfully deleted.";
             return View("Success");
         }
