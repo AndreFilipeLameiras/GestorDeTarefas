@@ -53,7 +53,7 @@ namespace GestorDeTarefas.Controllers
                 new IdiomaListViewModel
                 {
                     Idiomas = idiomas,
-                    PagingInfo = pagingInfo
+                    PagingInfo = pagingInfo,
                     TitleSearched = name
                 }
                 );
