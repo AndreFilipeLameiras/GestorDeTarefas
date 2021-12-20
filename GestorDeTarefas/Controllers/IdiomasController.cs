@@ -21,12 +21,15 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Idiomas
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(string name, int page = 1)
         {
+            var idiomaSearch = _context.Idioma
+                .Where(b => name == null || b.NomeIdioma.Contains(name));
+
             var pagingInfo = new PagingInfo 
             {
                 CurrentPage = page,
-                TotalItems = _context.Idioma.Count()
+                TotalItems = idiomaSearch.Count()
             };
 
             if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
@@ -40,7 +43,7 @@ namespace GestorDeTarefas.Controllers
             }
 
 
-            var idiomas = await _context.Idioma
+            var idiomas = await idiomaSearch
                             .OrderBy(b => b.NomeIdioma)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
                             .Take(pagingInfo.PageSize)
