@@ -4,35 +4,35 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Modelo Sistema de Produtividade</h1>
+<h1>Lista dos Projetos</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-dark"> Create New</a>
+    <a asp-action="Create" class="btn btn-dark">Criar novo Projeto</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>           
-            
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            
-            
-            <td>
-                <a asp-action="Details" asp-route-id="@item.SistemaProdutividadeId" class="btn btn-info">Detalhes</a>
-                <a asp-action="Edit" asp-route-id="@item.SistemaProdutividadeId" class="btn btn-warning">Editar</a>
-                <a asp-action="Delete" asp-route-id="@item.SistemaProdutividadeId" class="btn btn-danger">Eliminar</a>                
-            </td>
-        </tr>
+
+
+@foreach (var projeto in Model)
+{
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Projeto: @projeto.NomeProjeto</h5>
+            <p class="card-text">Data Prevista de Inicio: @projeto.DataPrevistaInicio</p>
+            <p class="card-text">Data Definitiva de Inicio: @projeto.DataDefinitivaInicio</p>
+            <p class="card-text">Data Prevista de Fim: @projeto.DataPrevistaFim</p>
+            <p class="card-text">Data Definitiva de Fim: @projeto.DataDefinitivaFim</p>
+
+            <a asp-action="Edit" asp-route-id="@projeto.SistemaProdutividadeId">Edit</a> |
+            <a asp-action="Details" asp-route-id="@projeto.SistemaProdutividadeId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@projeto.SistemaProdutividadeId">Delete</a>
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+
 }
-    </tbody>
-</table>

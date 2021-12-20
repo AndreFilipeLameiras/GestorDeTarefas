@@ -46,7 +46,6 @@ namespace GestorDeTarefas.Controllers
         // GET: SistemaProdutividades/Create
         public IActionResult Create()
         {
-            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
             return View();
         }
 
@@ -55,7 +54,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SistemaProdutividadeId,Nome,O_que_fazer,Estamos_a_fazer,Concluido")] SistemaProdutividade sistemaProdutividade)
+        public async Task<IActionResult> Create([Bind("SistemaProdutividadeId,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] SistemaProdutividade sistemaProdutividade)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +86,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SistemaProdutividadeId,Nome,O_que_fazer,Estamos_a_fazer,Concluido")] SistemaProdutividade sistemaProdutividade)
+        public async Task<IActionResult> Edit(int id, [Bind("SistemaProdutividadeId,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] SistemaProdutividade sistemaProdutividade)
         {
             if (id != sistemaProdutividade.SistemaProdutividadeId)
             {
