@@ -29,6 +29,16 @@ namespace GestorDeTarefas.Controllers
                 TotalItems = _context.SistemaProdutividade.Count()
             };
 
+            if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
+            {
+                pagingInfo.CurrentPage = pagingInfo.TotalPages;
+            }
+
+            if (pagingInfo.CurrentPage < 1)
+            {
+                pagingInfo.CurrentPage = 1;
+            }
+
             var project = await _context.SistemaProdutividade
                             .OrderBy(b => b.NomeProjeto)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
