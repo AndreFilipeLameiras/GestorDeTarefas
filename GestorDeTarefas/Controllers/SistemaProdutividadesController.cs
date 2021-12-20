@@ -21,16 +21,16 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: SistemaProdutividades
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
             var pagingInfo = new PagingInfo
             {
-                CurrentPage = 1,
+                CurrentPage = page,
                 TotalItems = _context.SistemaProdutividade.Count()
             };
 
             var project = await _context.SistemaProdutividade
-
+                            .OrderBy(b => b.NomeProjeto)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
                             .Take(pagingInfo.PageSize)
                             .ToListAsync();
