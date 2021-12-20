@@ -45,7 +45,13 @@
             @Html.DisplayNameFor(model => model.Colaborador)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Colaborador.Contacto)
+            @Html.DisplayFor(model => model.Colaborador.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProjetoSprint)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProjetoSprint.NomeProjeto)
         </dd>
     </dl>
 
