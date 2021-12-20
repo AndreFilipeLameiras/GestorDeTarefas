@@ -29,6 +29,17 @@ namespace GestorDeTarefas.Controllers
                 TotalItems = _context.Idioma.Count()
             };
 
+            if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
+            {
+                pagingInfo.CurrentPage = pagingInfo.TotalPages;
+            }
+
+            if (pagingInfo.CurrentPage < 1)
+            {
+                pagingInfo.CurrentPage = 1;
+            }
+
+
             var idiomas = await _context.Idioma
                             .OrderBy(b => b.NomeIdioma)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
