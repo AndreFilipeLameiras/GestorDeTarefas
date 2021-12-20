@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
+using GestorDeTarefas.ViewModels;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -22,7 +23,28 @@ namespace GestorDeTarefas.Controllers
         // GET: SistemaProdutividades
         public async Task<IActionResult> Index()
         {
-            return View(await _context.SistemaProdutividade.ToListAsync());
+            var pagingInfo = new PagingInfo
+            {
+                CurrentPage = 1,
+                TotalItems = _context.SistemaProdutividade.Count()
+            };
+
+            var project = await _context.SistemaProdutividade
+
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+
+            return View(
+                new SistemProdListViewmodel
+                {
+                    ProjetoProdutividade = project,
+                    PagingInfo = pagingInfo
+                }
+            );
+
+
+            
         }
 
         // GET: SistemaProdutividades/Details/5
