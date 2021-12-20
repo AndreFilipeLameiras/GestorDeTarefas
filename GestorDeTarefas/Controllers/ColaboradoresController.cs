@@ -41,7 +41,7 @@ namespace GestorDeTarefas.Controllers
                 pagingInfo.CurrentPage = 1;
             }
 
-            var colaboradors = await _context.Colaborador
+            var colaboradors = await colaboradorSearch
                              .Include(b => b.Cargo)
                             .OrderBy(b => b.Name)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)

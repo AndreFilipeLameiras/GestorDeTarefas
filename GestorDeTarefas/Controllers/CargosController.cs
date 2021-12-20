@@ -41,7 +41,7 @@ namespace GestorDeTarefas.Controllers
                 pagingInfo.CurrentPage = 1;
             }
 
-            var cargos = await _context.Cargo
+            var cargos = await cargoSearch
                             .OrderBy(b => b.Nome_Cargo)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
                             .Take(pagingInfo.PageSize)
