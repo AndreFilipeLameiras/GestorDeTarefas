@@ -1,0 +1,39 @@
+﻿@model GestorDeTarefas.ViewModels.ProjetoSprintListViewModel
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+ 
+<h1>Detalhes</h1>
+  
+<div>
+    <h4>ProjetoSprintDesign</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NomeProjeto)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NomeProjeto)
+        </dd>
+        <dt class="col-sm-10">
+            <!-- @Html.DisplayFor(model => model.Colaboradores)-->
+            Colaboradores: 
+        </dt>
+        <dd class="col-sm-10">
+            @foreach(var item in Model.Colaboradores)
+            {
+                if (item.Checked)
+                {
+                    <div>@item.Name</div>
+                }
+            }
+        </dd>
+
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID_P_Design" class="btn btn-warning">Editar</a> |
+    <a asp-action="Index" class="btn btn-success">Voltar a lista</a>
+</div>
