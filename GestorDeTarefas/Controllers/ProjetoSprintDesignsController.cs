@@ -196,11 +196,6 @@ namespace GestorDeTarefas.Controllers
         }
 
 
-
-
-
-
-
         public async Task<IActionResult> AdicionarColaboradores(int? id)
         {
             if (id == null)
