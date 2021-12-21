@@ -57,7 +57,7 @@ namespace GestorDeTarefas.Controllers
                 }
             );
         }
-
+        
         // GET: ProjetoSprintDesigns/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -74,6 +74,52 @@ namespace GestorDeTarefas.Controllers
             }
 
             return View(projetoSprintDesign);
+        }
+
+
+
+
+
+
+
+
+        public async Task<IActionResult> DetailsColaboradorProjeto(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var projetoSprintDesign = await _context.ProjetoSprintDesign
+                .FirstOrDefaultAsync(m => m.ID_P_Design == id);
+            if (projetoSprintDesign == null)
+            {
+                return NotFound();
+            }
+
+            var Results = from b in _context.Colaborador
+                          select new
+                          {
+                              b.ColaboradorId,
+                              b.Name,
+                              Checked = ((from ab in _context.ColaboradorProjetoSprint
+                                          where (ab.ID_P_Design == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                          select ab).Count() > 0)
+                          };
+
+            var MyViewModel = new ProjetoSprintListViewModel();
+            MyViewModel.ID_P_Design = id.Value;
+            MyViewModel.NomeProjeto = projetoSprintDesign.NomeProjeto;
+
+            var MyCheckBoxList = new List<CheckBoxViewModel>();
+
+            foreach (var item in Results)
+            {
+                MyCheckBoxList.Add(new CheckBoxViewModel { Id = item.ColaboradorId, Name = item.Name, Checked = item.Checked });
+
+                MyViewModel.Colaboradores = MyCheckBoxList;
+            }
+            return View(MyViewModel);
         }
 
         // GET: ProjetoSprintDesigns/Create
@@ -114,7 +160,7 @@ namespace GestorDeTarefas.Controllers
             return View(projetoSprintDesign);
         }
 
-        // POST: ProjetoSprintDesigns/Edit/5
+        // POST: aaa/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -147,6 +193,87 @@ namespace GestorDeTarefas.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(projetoSprintDesign);
+        }
+
+
+
+
+
+
+
+        public async Task<IActionResult> AdicionarColaboradores(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            ProjetoSprintDesign projetoSprintDesign = _context.ProjetoSprintDesign.Find(id);
+
+           // var projetoSprintDesign = await _context.ProjetoSprintDesign.FindAsync(id);
+            if (projetoSprintDesign == null)
+            {
+                return NotFound();
+            }
+
+            var Results = from b in _context.Colaborador
+                          select new
+                          {
+                              b.ColaboradorId,
+                              b.Name,
+                              Checked = ((from ab in _context.ColaboradorProjetoSprint
+                                          where (ab.ID_P_Design == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                          select ab).Count() > 0)
+                          };
+
+            var MyViewModel = new ProjetoSprintListViewModel();
+            MyViewModel.ID_P_Design = id.Value;
+            MyViewModel.NomeProjeto = projetoSprintDesign.NomeProjeto;
+
+            var MyCheckBoxList = new List<CheckBoxViewModel>();
+
+            foreach (var item in Results)
+            {
+                MyCheckBoxList.Add(new CheckBoxViewModel {Id=item.ColaboradorId, Name = item.Name,Checked = item.Checked });
+
+                MyViewModel.Colaboradores = MyCheckBoxList;
+            }
+            return View(MyViewModel);
+        }
+
+        // POST: ProjetoSprintDesigns/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdicionarColaboradores(ProjetoSprintListViewModel projetoSprint)
+        {
+            var MyProjet = _context.ProjetoSprintDesign.Find(projetoSprint.ID_P_Design);
+            MyProjet.NomeProjeto = projetoSprint.NomeProjeto;
+
+            foreach( var item in _context.ColaboradorProjetoSprint)
+            {
+                if(item.ID_P_Design == projetoSprint.ID_P_Design)
+                {
+                    _context.Entry(item).State = EntityState.Deleted;
+                  
+                }
+            }
+
+            foreach (var item in projetoSprint.Colaboradores)
+            {
+                if (item.Checked)
+                {
+                    _context.ColaboradorProjetoSprint.Add(new
+                        ColaboradorProjetoSprint()
+                    { ID_P_Design = projetoSprint.ID_P_Design, ColaboradorId = item.Id });
+                }
+            }
+              
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+              
+            return View(projetoSprint);
         }
 
         // GET: ProjetoSprintDesigns/Delete/5
@@ -184,53 +311,6 @@ namespace GestorDeTarefas.Controllers
         }
 
 
-        /////////////////////Adicionar Colaborador/////////////////////
-
-        public async Task<IActionResult> AdicionarColaborador()
-        {
-            int id=0;
-            int id2 = 0;
-            ColaboradorProjetoSprint colaboradorProjetoSprint = new ColaboradorProjetoSprint();
-            id = colaboradorProjetoSprint.ID_P_Design;
-            id2 = colaboradorProjetoSprint.ColaboradorId;
-
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var projetoSprintDesign = await _context.ColaboradorProjetoSprint.FindAsync(id,id2);
-            if (projetoSprintDesign == null)
-            {
-                return NotFound();
-            }
-
-            
-            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
-            
-            return View(colaboradorProjetoSprint);
-        }
-
-        // POST: ProjetoSprintDesigns/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AdicionarColaborador(int id, [Bind("ID_P_Design,ColaboradorId")] ColaboradorProjetoSprint projetoSprintDesign)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(projetoSprintDesign);
-                await _context.SaveChangesAsync();
-                //   return RedirectToAction(nameof(Index));
-
-                ViewBag.Name = "Colaborador Adicionado";
-                ViewBag.Message = "Colaborador sucessfully added.";
-                return View("Success");
-            }
-            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", projetoSprintDesign.ColaboradorId);
-            return View(projetoSprintDesign);
-        }
-
+       
     }
 }

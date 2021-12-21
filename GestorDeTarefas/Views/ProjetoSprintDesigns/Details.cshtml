@@ -2,49 +2,47 @@
 
 @{
     ViewData["Title"] = "Detalhes";
-}
+} 
 
 <h1>Detalhes</h1>
 
 <div>
-    <h4>ProjetoSprintDesign</h4>
+    <h4>Projeto Sprint Design</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NomeProjeto)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.NomeProjeto)
         </dd>
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DataPrevistaInicio)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DataPrevistaInicio)
         </dd>
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DataDefinitivaInicio)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DataDefinitivaInicio)
         </dd>
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DataPrevistaFim)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DataPrevistaFim)
         </dd>
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DataDefinitivaFim)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DataDefinitivaFim)
         </dd>
-       
     </dl>
 </div>
-
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ID_P_Design" class="btn btn-warning">Editar</a> |
-    <a asp-action="Index" class="btn btn-success">Voltar a lista</a>
+<div> 
+    <a asp-action="Edit" asp-route-id="@Model.ID_P_Design">Edit</a> |
+    <a asp-action="Index" class="btn btn-success">Voltar a lista</a> 
 </div>
