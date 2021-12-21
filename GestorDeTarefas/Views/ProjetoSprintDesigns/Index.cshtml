@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create" class="btn btn-dark">Criar Novo</a>
 </p>
-
+ 
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Pesquisar</h5>
@@ -38,7 +38,8 @@
             <a asp-action="Details" asp-route-id="@projeto.ID_P_Design" class="btn btn-info">Detalhes</a>
             <a asp-action="Edit" asp-route-id="@projeto.ID_P_Design" class="btn btn-warning">Editar</a>
             <a asp-action="Delete" asp-route-id="@projeto.ID_P_Design" class="btn btn-danger">Apagar</a>
-            <a asp-action="AdicionarColaborador" asp-route-id="@projeto.ID_P_Design" class="btn btn-outline-success">Adicionar colaborador</a>
+            <a asp-action="DetailsColaboradorProjeto" asp-route-id="@projeto.ID_P_Design" class="btn btn-outline-info">Ver Colaboradores</a>
+            <a asp-action="AdicionarColaboradores" asp-route-id="@projeto.ID_P_Design" class="btn btn-outline-success">Adicionar Colaboradores</a>
 
         </div>
     </div>
