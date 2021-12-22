@@ -279,14 +279,28 @@ namespace GestorDeTarefas.Controllers
                 return NotFound();
             }
 
-            var projetoSprintDesign = await _context.ProjetoSprintDesign
-                .FirstOrDefaultAsync(m => m.ID_P_Design == id);
-            if (projetoSprintDesign == null)
+           
+           
+            
+            try
             {
-                return NotFound();
+                var projetoSprintDesign = await _context.ProjetoSprintDesign
+               .FirstOrDefaultAsync(m => m.ID_P_Design == id);
+
+                if (projetoSprintDesign == null)
+                {
+                    return NotFound();
+                }
+                return View(projetoSprintDesign);
+                
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                
+                return View("MensagemErro");
             }
 
-            return View(projetoSprintDesign);
+            
         }
 
         // POST: ProjetoSprintDesigns/Delete/5
@@ -294,10 +308,24 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var projetoSprintDesign = await _context.ProjetoSprintDesign.FindAsync(id);
-            _context.ProjetoSprintDesign.Remove(projetoSprintDesign);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            
+
+            try
+            {
+                var projetoSprintDesign = await _context.ProjetoSprintDesign.FindAsync(id);
+                _context.ProjetoSprintDesign.Remove(projetoSprintDesign);
+                await _context.SaveChangesAsync();
+                ViewBag.Title = "Projeto apagado";
+                ViewBag.Message = "Projeto apagado com sucesso!!!";
+                return View("Sucess");
+
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                ViewBag.Title = "Ups! Este projeto não pode ser apagado.";
+                ViewBag.Message = "Verifique as ligações entre as tabelas!!!";
+                return View("MensagemErro");
+            }
         }
 
         private bool ProjetoSprintDesignExists(int id)
