@@ -180,7 +180,9 @@ namespace GestorDeTarefas.Controllers
                 return NotFound();
             }
 
-            var tarefas = await _context.Tarefas
+            try
+            {
+                var tarefas = await _context.Tarefas
                 .Include(t => t.Colaborador)
                 .Include(t => t.ProjetoSprint)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -190,6 +192,12 @@ namespace GestorDeTarefas.Controllers
             }
 
             return View(tarefas);
+            }
+            catch (DbUpdateException /* ex */)
+            {
+
+                return View("MensagemErro");
+            }
         }
 
         // POST: Tarefas/Delete/5
@@ -197,13 +205,22 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tarefas = await _context.Tarefas.FindAsync(id);
+            try
+            {
+                var tarefas = await _context.Tarefas.FindAsync(id);
             _context.Tarefas.Remove(tarefas);
             await _context.SaveChangesAsync();
             // return RedirectToAction(nameof(Index));
             ViewBag.Name = "Tarefa Apagada";
             ViewBag.Message = "Tarefa apagada com sucesso!!!";
             return View("Success");
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                ViewBag.Title = "Ups! Esta tarefa não pode ser apagada.";
+                ViewBag.Message = "Verifique as ligações entre as tabelas!!!";
+                return View("MensagemErro");
+            }
         }
 
         [Authorize(Roles = "customer")]
