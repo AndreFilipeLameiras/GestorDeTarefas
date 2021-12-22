@@ -102,8 +102,8 @@ namespace GestorDeTarefas.Controllers
                 await _context.SaveChangesAsync();
              //   return RedirectToAction(nameof(Index));
 
-                ViewBag.Name = "Tarefa added";
-                ViewBag.Message = "Tarefa sucessfully added.";
+                ViewBag.Title = "Tarefa adicionada";
+                ViewBag.Message = "Tarefa adicionada com sucesso!!!";
                 return View("Success");
             }
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", tarefas.ColaboradorId);
@@ -163,8 +163,8 @@ namespace GestorDeTarefas.Controllers
                 }
                 // return RedirectToAction(nameof(Index));
 
-                ViewBag.Name = "Tarefa adited";
-                ViewBag.Message = "Tarefa sucessfully altered.";
+                ViewBag.Title = "Tarefa Alterada";
+                ViewBag.Message = "Tarefa alterada com sucesso!!!.";
                 return View("Success");
             }
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", tarefas.ColaboradorId);
@@ -202,7 +202,7 @@ namespace GestorDeTarefas.Controllers
             await _context.SaveChangesAsync();
             // return RedirectToAction(nameof(Index));
             ViewBag.Name = "Tarefa Apagada";
-            ViewBag.Message = "Tarefa sucessfully deleted.";
+            ViewBag.Message = "Tarefa apagada com sucesso!!!";
             return View("Success");
         }
 
