@@ -20,7 +20,7 @@
                 <input name="nome" type="search" class="form-control" value="@Model.NomeSearched" />
                 <div class="mt-3"> 
                     <input type="submit" value="Pesquisar" class="btn btn-info" />
-                    <a asp-action="Index" class="btn btn-secondary">Apagar</a>
+                    <a asp-action="Index" class="btn btn-secondary">Limpar</a>
                 </div>
             </form>
         </div>
@@ -33,11 +33,7 @@
                 <h5 class="card-title">Tarefa: @tarefa.Nome</h5>
                 <p class="card-text lead">Colaborador: @tarefa.Colaborador.Name</p>
                 <p class="card-text lead">Projeto Sprint: @tarefa.ProjetoSprint</p>
-                <p class="card-text">Data Prevista de Inicio: @tarefa.DataPrevistaInicio</p>
-                <p class="card-text">Data Definitiva de Inicio: @tarefa.DataDefinitivaInicio</p>
-                <p class="card-text">Data Prevista de Fim: @tarefa.DataPrevistaFim</p>
-                <p class="card-text">Data Definitiva de Fim: @tarefa.DataDefinitivaFim</p>
-
+                
 
                 <a asp-action="Details" asp-route-id="@tarefa.Id" class="btn btn-info">Detalhes</a>
                 @if (User.IsInRole("product_manager"))
