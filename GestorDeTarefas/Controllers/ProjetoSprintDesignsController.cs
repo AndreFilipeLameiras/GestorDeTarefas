@@ -139,7 +139,9 @@ namespace GestorDeTarefas.Controllers
             {
                 _context.Add(projetoSprintDesign);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Projeto adicionado";
+                ViewBag.Message = "Projeto adicionado com sucesso!!!";
+                return View("Success");
             }
             return View(projetoSprintDesign);
         }
@@ -190,7 +192,9 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Projeto Alterado";
+                ViewBag.Message = "Projeto Alterado com sucesso!!!.";
+                return View("Success");
             }
             return View(projetoSprintDesign);
         }
@@ -233,6 +237,7 @@ namespace GestorDeTarefas.Controllers
 
                 MyViewModel.Colaboradores = MyCheckBoxList;
             }
+            
             return View(MyViewModel);
         }
 
@@ -251,7 +256,9 @@ namespace GestorDeTarefas.Controllers
                 if(item.ID_P_Design == projetoSprint.ID_P_Design)
                 {
                     _context.Entry(item).State = EntityState.Deleted;
-                  
+                    ViewBag.Title = "Alteração do colaborador no projeto";
+                    ViewBag.Message = "Colaborador alterado no projeto com sucesso!!!";
+                    return View("Success");
                 }
             }
 
@@ -262,12 +269,15 @@ namespace GestorDeTarefas.Controllers
                     _context.ColaboradorProjetoSprint.Add(new
                         ColaboradorProjetoSprint()
                     { ID_P_Design = projetoSprint.ID_P_Design, ColaboradorId = item.Id });
+                    
                 }
             }
               
                 _context.SaveChanges();
-                return RedirectToAction("Index");
-              
+
+            ViewBag.Title = "Colaborador adicionado ao projeto";
+            ViewBag.Message = "Colaborador adicionado ao projeto com sucesso!!!";
+            return View("Success");
             return View(projetoSprint);
         }
 
@@ -279,9 +289,7 @@ namespace GestorDeTarefas.Controllers
                 return NotFound();
             }
 
-           
-           
-            
+                       
             try
             {
                 var projetoSprintDesign = await _context.ProjetoSprintDesign
@@ -291,6 +299,7 @@ namespace GestorDeTarefas.Controllers
                 {
                     return NotFound();
                 }
+
                 return View(projetoSprintDesign);
                 
             }
@@ -317,7 +326,7 @@ namespace GestorDeTarefas.Controllers
                 await _context.SaveChangesAsync();
                 ViewBag.Title = "Projeto apagado";
                 ViewBag.Message = "Projeto apagado com sucesso!!!";
-                return View("Sucess");
+                return View("Success");
 
             }
             catch (DbUpdateException /* ex */)
