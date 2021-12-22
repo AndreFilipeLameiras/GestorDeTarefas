@@ -81,7 +81,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Tarefas/Create
-        [Authorize (Roles = "product_manager")]
+       // [Authorize (Roles = "product_manager")]
         public IActionResult Create()
         {
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");

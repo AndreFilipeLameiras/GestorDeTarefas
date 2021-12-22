@@ -46,15 +46,14 @@
                 <select asp-for="ID_P_Design" class="form-control" asp-items="ViewBag.ID_P_Design"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Criar" class="btn btn-primary" />
+                <input type="submit" value="Criar" class="btn btn-primary" /> 
+                <a asp-action="Index" class="btn btn-success">Voltar a lista</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index" class="btn btn-success">Voltar a lista</a>
-</div>
+ 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
