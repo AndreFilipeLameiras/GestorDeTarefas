@@ -229,6 +229,11 @@ namespace GestorDeTarefas.Controllers
             return View();
         }
 
+        public IActionResult MensagemErro()
+        {
+            return View();
+        }
+
         [Authorize(Roles = "customer")]
         public string Buy(int id)
         {
