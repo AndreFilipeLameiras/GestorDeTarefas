@@ -211,7 +211,7 @@ namespace GestorDeTarefas.Controllers
             _context.Tarefas.Remove(tarefas);
             await _context.SaveChangesAsync();
             // return RedirectToAction(nameof(Index));
-            ViewBag.Name = "Tarefa Apagada";
+            ViewBag.Title = "Tarefa Apagada";
             ViewBag.Message = "Tarefa apagada com sucesso!!!";
             return View("Success");
             }
@@ -221,6 +221,12 @@ namespace GestorDeTarefas.Controllers
                 ViewBag.Message = "Verifique as ligações entre as tabelas!!!";
                 return View("MensagemErro");
             }
+        }
+
+
+        public IActionResult Success()
+        {
+            return View();
         }
 
         [Authorize(Roles = "customer")]
