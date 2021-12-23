@@ -79,8 +79,15 @@ namespace GestorDeTarefas.Controllers
 
 
 
+        public IActionResult Success()
+        {
+            return View();
+        }
 
-
+        public IActionResult MensagemErro()
+        {
+            return View();
+        }
 
 
         public async Task<IActionResult> DetailsColaboradorProjeto(int? id)
