@@ -3,67 +3,69 @@
 @{
     ViewData["Title"] = "Adicionar colaboradores";
 }
+<div style="margin-bottom:379px;">
+    <h1>Adicionar colaboradores ao Projeto Sprint Design</h1>
 
-<h1>Adicionar colaboradores ao Projeto Sprint Design</h1>
-
-<div class="row">
-    <div class="col">
-        <form asp-action="AdicionarColaboradores">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ID_P_Design" />
-            <table class="table ">
-                <thead>
-                    <tr>
-                        <th scope="col">
-                            <label asp-for="NomeProjeto" class="control-label">Nome do Projeto</label>
-                        </th>
-                        <th scope="col">Colaboradores</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="form-group">                                
-                                <input asp-for="NomeProjeto" class="form-control-plaintext" />
-                                <span asp-validation-for="NomeProjeto" class="text-danger"></span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">                          
-                                <div class="col">
-                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
-                                    {
-                                        <dd class="col-sm-10">
-                                            @Html.EditorFor(m => Model.Colaboradores[i].Checked)
-
-                                            @Html.DisplayFor(m => Model.Colaboradores[i].Name)
-
-                                            @Html.HiddenFor(m => Model.Colaboradores[i].Name)
-                                            @Html.HiddenFor(m => Model.Colaboradores[i].Id)
-                                        </dd>
-                                    }
-
+    <div class="row">
+        <div class="col">
+            <form asp-action="AdicionarColaboradores">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ID_P_Design" />
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <label asp-for="NomeProjeto" class="control-label">Nome do Projeto</label>
+                            </th>
+                            <th scope="col">Colaboradores</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="form-group">
+                                    <input asp-for="NomeProjeto" class="form-control-plaintext" />
+                                    <span asp-validation-for="NomeProjeto" class="text-danger"></span>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <div class="col">
+                                        @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                        {
+                                            <dd class="col-sm-10">
+                                                @Html.EditorFor(m => Model.Colaboradores[i].Checked)
 
-               
-            <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-            </div>
-        </form>
+                                                @Html.DisplayFor(m => Model.Colaboradores[i].Name)
+
+                                                @Html.HiddenFor(m => Model.Colaboradores[i].Name)
+                                                @Html.HiddenFor(m => Model.Colaboradores[i].Id)
+                                            </dd>
+                                        }
+
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <div class="form-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
     </div>
+
+
+
 </div>
 
-
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
 
 
 

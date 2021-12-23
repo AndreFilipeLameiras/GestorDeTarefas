@@ -89,7 +89,7 @@ namespace GestorDeTarefas.Controllers
             return View();
         }
 
-
+       
         public async Task<IActionResult> DetailsColaboradorProjeto(int? id)
         {
             if (id == null)
@@ -209,6 +209,7 @@ namespace GestorDeTarefas.Controllers
 
         public async Task<IActionResult> AdicionarColaboradores(int? id)
         {
+           
             if (id == null)
             {
                 return NotFound();
@@ -246,6 +247,8 @@ namespace GestorDeTarefas.Controllers
             }
             
             return View(MyViewModel);
+
+           
         }
 
         // POST: ProjetoSprintDesigns/Edit/5

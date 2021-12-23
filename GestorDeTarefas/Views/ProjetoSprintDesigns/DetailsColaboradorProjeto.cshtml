@@ -3,48 +3,48 @@
 @{
     ViewData["Title"] = "Detalhes";
 }
+<div style="margin-bottom:379px;">
+    <h1>Detalhes do Projeto Sprint Design</h1>
 
-<h1>Detalhes do Projeto Sprint Design</h1>
+    <div>
 
-<div> 
+        <table class="table ">
+            <thead>
+                <htr>
+                    <th scope="col">Nome do Projeto</th>
+                    <th scope="col">Colaboradores</th>
 
-    <table class="table ">
-        <thead>
-            <htr>
-                <th scope="col">Nome do Projeto</th>
-                <th scope="col">Colaboradores</th>
-              
-            </htr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                   @Html.DisplayFor(model => model.NomeProjeto)                
-                </td>
-                <td>
-                    @foreach (var item in Model.Colaboradores)
-                    {
-                        if (item.Checked)
+                </htr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => model.NomeProjeto)
+                    </td>
+                    <td>
+                        @foreach (var item in Model.Colaboradores)
                         {
-                            <div>@item.Name</div>
+                            if (item.Checked)
+                            {
+                                <div>@item.Name</div>
+                            }
                         }
-                    }
 
-                </td>
+                    </td>
 
-            </tr>
+                </tr>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.ID_P_Design" class="btn btn-warning">Editar</a> |
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </div>
 
 </div>
-
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ID_P_Design" class="btn btn-warning">Editar</a> |
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-</div>
-
-
 
 
 
