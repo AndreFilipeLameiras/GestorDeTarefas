@@ -258,7 +258,6 @@ namespace GestorDeTarefas.Controllers
                     _context.Entry(item).State = EntityState.Deleted;
                     ViewBag.Title = "Alteração do colaborador no projeto";
                     ViewBag.Message = "Colaborador alterado no projeto com sucesso!!!";
-                    return View("Success");
                 }
             }
 
@@ -269,14 +268,15 @@ namespace GestorDeTarefas.Controllers
                     _context.ColaboradorProjetoSprint.Add(new
                         ColaboradorProjetoSprint()
                     { ID_P_Design = projetoSprint.ID_P_Design, ColaboradorId = item.Id });
-                    
+                    ViewBag.Title = "Colaborador adicionado ao projeto";
+                    ViewBag.Message = "Colaborador adicionado ao projeto com sucesso!!!";
+                    // return View("Success");
                 }
             }
               
                 _context.SaveChanges();
 
-            ViewBag.Title = "Colaborador adicionado ao projeto";
-            ViewBag.Message = "Colaborador adicionado ao projeto com sucesso!!!";
+            
             return View("Success");
             return View(projetoSprint);
         }
