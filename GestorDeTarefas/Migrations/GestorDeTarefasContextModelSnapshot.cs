@@ -4,16 +4,14 @@ using GestorDeTarefas.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
+namespace GestorDeTarefas.Migrations
 {
     [DbContext(typeof(GestorDeTarefasContext))]
-    [Migration("20211220202734_secund")]
-    partial class secund
+    partial class GestorDeTarefasContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,6 +112,23 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                     b.ToTable("ColaboradorProjetoSprint");
                 });
 
+            modelBuilder.Entity("GestorDeTarefas.Models.EstadoProjeto", b =>
+                {
+                    b.Property<int>("Id_Estado")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("NomeEstado")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id_Estado");
+
+                    b.ToTable("EstadoProjeto");
+                });
+
             modelBuilder.Entity("GestorDeTarefas.Models.Idioma", b =>
                 {
                     b.Property<int>("IdiomaId")
@@ -138,7 +153,7 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DataDefinitivaFim")
+                    b.Property<DateTime?>("DataDefinitivaFim")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataDefinitivaInicio")
@@ -199,7 +214,7 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                     b.Property<int>("ColaboradorId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DataDefinitivaFim")
+                    b.Property<DateTime?>("DataDefinitivaFim")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataDefinitivaInicio")
