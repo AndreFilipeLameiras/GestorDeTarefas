@@ -40,7 +40,7 @@ namespace GestorDeTarefas.Models
         [DataType(DataType.Date)]
         [Display(Name = "Data Definitiva do Fim")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
-        public DateTime DataDefinitivaFim { get; set; }
+        public DateTime? DataDefinitivaFim { get; set; }
 
        
         [ForeignKey("FK_ColaboradorId")]

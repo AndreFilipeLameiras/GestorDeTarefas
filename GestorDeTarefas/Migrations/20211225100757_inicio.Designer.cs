@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
+namespace GestorDeTarefas.Migrations
 {
     [DbContext(typeof(GestorDeTarefasContext))]
-    [Migration("20211220154759_tarefa")]
-    partial class tarefa
+    [Migration("20211225100757_inicio")]
+    partial class inicio
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -114,6 +114,23 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                     b.ToTable("ColaboradorProjetoSprint");
                 });
 
+            modelBuilder.Entity("GestorDeTarefas.Models.EstadoProjeto", b =>
+                {
+                    b.Property<int>("Id_Estado")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("NomeEstado")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id_Estado");
+
+                    b.ToTable("EstadoProjeto");
+                });
+
             modelBuilder.Entity("GestorDeTarefas.Models.Idioma", b =>
                 {
                     b.Property<int>("IdiomaId")
@@ -138,6 +155,18 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime?>("DataDefinitivaFim")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataDefinitivaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataPrevistaFim")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataPrevistaInicio")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("NomeProjeto")
                         .IsRequired()
                         .HasMaxLength(60)
@@ -155,22 +184,22 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Concluido")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                    b.Property<DateTime>("DataDefinitivaFim")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Estamos_a_fazer")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                    b.Property<DateTime>("DataDefinitivaInicio")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Nome")
+                    b.Property<DateTime>("DataPrevistaFim")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataPrevistaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NomeProjeto")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("O_que_fazer")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.HasKey("SistemaProdutividadeId");
 
@@ -187,7 +216,7 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                     b.Property<int>("ColaboradorId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DataDefinitivaFim")
+                    b.Property<DateTime?>("DataDefinitivaFim")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataDefinitivaInicio")
@@ -199,14 +228,22 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                     b.Property<DateTime>("DataPrevistaInicio")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ID_P_Design")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
 
+                    b.Property<int?>("ProjetoSprintID_P_Design")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ColaboradorId");
+
+                    b.HasIndex("ProjetoSprintID_P_Design");
 
                     b.ToTable("Tarefas");
                 });
@@ -287,7 +324,13 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("GestorDeTarefas.Models.ProjetoSprintDesign", "ProjetoSprint")
+                        .WithMany("Tarefas")
+                        .HasForeignKey("ProjetoSprintID_P_Design");
+
                     b.Navigation("Colaborador");
+
+                    b.Navigation("ProjetoSprint");
                 });
 
             modelBuilder.Entity("GestorDeTarefas.Models.Cargo", b =>
@@ -314,6 +357,8 @@ namespace GestorDeTarefas.Data.GestorDeTarefasMigrations
             modelBuilder.Entity("GestorDeTarefas.Models.ProjetoSprintDesign", b =>
                 {
                     b.Navigation("ProjetoSprintColaboradores");
+
+                    b.Navigation("Tarefas");
                 });
 
             modelBuilder.Entity("GestorDeTarefas.Models.SistemaProdutividade", b =>
