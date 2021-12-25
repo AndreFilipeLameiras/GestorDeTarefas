@@ -9,6 +9,10 @@ namespace GestorDeTarefas.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool Checked { get; set; } 
+        public bool Checked { get; set; }
+
+        public DateTime DataInicio { get; set; }
+
+        public DateTime DataFim { get; set; }
     }
 }
