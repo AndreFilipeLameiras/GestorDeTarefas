@@ -50,5 +50,9 @@ namespace GestorDeTarefas.Models
 
         public int ID_P_Design { get; set; }
         public ProjetoSprintDesign ProjetoSprint { get; set; }
+
+        public int Id_Estado { get; set; }
+
+        public EstadoProjeto EstadoProjeto { get; set; }
     }
 }
