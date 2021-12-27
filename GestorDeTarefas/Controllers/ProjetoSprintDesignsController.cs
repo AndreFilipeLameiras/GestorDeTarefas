@@ -278,7 +278,9 @@ namespace GestorDeTarefas.Controllers
                     _context.ColaboradorProjetoSprint.Add(new
                         ColaboradorProjetoSprint()
                     { ID_P_Design = projetoSprint.ID_P_Design, ColaboradorId = item.Id,
-                        DataInicio=item.DataInicio, DataFim=item.DataFim});
+                        DataInicio = item.DataInicio, DataFim = item.DataFim});
+
+                    
                     ViewBag.Title = "Colaborador adicionado ao projeto";
                     ViewBag.Message = "Colaborador adicionado ao projeto com sucesso!!!";
                     // return View("Success");

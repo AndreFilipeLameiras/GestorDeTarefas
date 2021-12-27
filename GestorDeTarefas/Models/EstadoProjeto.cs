@@ -15,5 +15,7 @@ namespace GestorDeTarefas.Models
         [Required(ErrorMessage = "Por favor, insira o estado")]
         [StringLength(20, MinimumLength = 5, ErrorMessage = "O estado deve ter entre 5 e 20 caracteres")]
         public string NomeEstado { get; set; }
+
+        public ICollection<Tarefas> Tarefas { get; set; }
     }
 }
