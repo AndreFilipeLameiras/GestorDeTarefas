@@ -45,6 +45,7 @@ namespace GestorDeTarefas.Controllers
             var tarefa = await tarefaSearch
                             .Include(b => b.Colaborador)
                             .Include(b => b.ProjetoSprint)
+                            .Include(b => b.EstadoProjeto)
                             .OrderBy(b => b.Nome)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
                             .Take(pagingInfo.PageSize)
@@ -71,6 +72,7 @@ namespace GestorDeTarefas.Controllers
             var tarefas = await _context.Tarefas
                 .Include(t => t.Colaborador)
                 .Include(t => t.ProjetoSprint)
+                .Include(t => t.EstadoProjeto)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (tarefas == null)
             {
@@ -86,6 +88,7 @@ namespace GestorDeTarefas.Controllers
         {
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
             ViewData["ID_P_Design"] = new SelectList(_context.ProjetoSprintDesign, "ID_P_Design", "NomeProjeto");
+            ViewData["Id_Estado"] = new SelectList(_context.EstadoProjeto, "Id_Estado", "NomeEstado");
             return View();
         }
 
@@ -94,7 +97,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id, Nome, DataPrevistaInicio, DataDefinitivaInicio, DataPrevistaFim, DataDefinitivaFim, ColaboradorId,ID_P_Design")] Tarefas tarefas)
+        public async Task<IActionResult> Create([Bind("Id, Nome, DataPrevistaInicio, DataDefinitivaInicio, DataPrevistaFim, DataDefinitivaFim, ColaboradorId,ID_P_Design,Id_Estado")] Tarefas tarefas)
         {
             if (ModelState.IsValid)
             {
@@ -108,6 +111,7 @@ namespace GestorDeTarefas.Controllers
             }
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", tarefas.ColaboradorId);
             ViewData["ID_P_Design"] = new SelectList(_context.ProjetoSprintDesign, "ID_P_Design", "NomeProjeto", tarefas.ID_P_Design);
+            ViewData["Id_Estado"] = new SelectList(_context.EstadoProjeto, "Id_Estado", "NomeEstado", tarefas.Id_Estado);
             return View(tarefas);
 
             
@@ -128,6 +132,7 @@ namespace GestorDeTarefas.Controllers
             }
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", tarefas.ColaboradorId);
             ViewData["ID_P_Design"] = new SelectList(_context.ProjetoSprintDesign, "ID_P_Design", "NomeProjeto", tarefas.ID_P_Design);
+            ViewData["Id_Estado"] = new SelectList(_context.EstadoProjeto, "Id_Estado", "NomeEstado", tarefas.Id_Estado);
             return View(tarefas);
         }
 
@@ -136,7 +141,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim,ColaboradorId,ID_P_Design")] Tarefas tarefas)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim,ColaboradorId,ID_P_Design,Id_Estado")] Tarefas tarefas)
         {
             if (id != tarefas.Id)
             {
@@ -169,6 +174,7 @@ namespace GestorDeTarefas.Controllers
             }
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", tarefas.ColaboradorId);
             ViewData["ID_P_Design"] = new SelectList(_context.ProjetoSprintDesign, "ID_P_Design", "NomeProjeto", tarefas.ID_P_Design);
+            ViewData["Id_Estado"] = new SelectList(_context.EstadoProjeto, "Id_Estado", "NomeEstado", tarefas.Id_Estado);
             return View(tarefas);
         }
 
@@ -185,6 +191,7 @@ namespace GestorDeTarefas.Controllers
                 var tarefas = await _context.Tarefas
                 .Include(t => t.Colaborador)
                 .Include(t => t.ProjetoSprint)
+                .Include(t => t.EstadoProjeto)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tarefas == null)
             {
