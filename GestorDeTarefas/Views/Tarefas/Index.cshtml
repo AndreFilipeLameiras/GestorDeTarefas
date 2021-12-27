@@ -33,7 +33,8 @@
                 <h5 class="card-title">Tarefa: @tarefa.Nome</h5>
                 <p class="card-text lead">Colaborador: @tarefa.Colaborador.Name</p>
                 <p class="card-text lead">Projeto Sprint: @tarefa.ProjetoSprint</p>
-                
+                <p class="card-text lead">Estado da tarefa: @tarefa.EstadoProjeto</p>
+
 
                 <a asp-action="Details" asp-route-id="@tarefa.Id" class="btn btn-info">Detalhes</a>
                 @if (User.IsInRole("product_manager"))
