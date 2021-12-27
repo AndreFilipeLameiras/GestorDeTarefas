@@ -15,7 +15,8 @@ namespace GestorDeTarefas.Data
             PopulateCargo(db);
             PopulateColaborador(db);
             PopulateTarefas(db);
-
+            PopulateEstado(db);
+            PopulateIdioma(db);
 
         }
          
@@ -175,6 +176,77 @@ namespace GestorDeTarefas.Data
             db.SaveChanges();
         }
 
+
+        private static void PopulateEstado(GestorDeTarefasContext db)
+        {
+            if (db.EstadoProjeto.Any())
+            {
+                return;
+            }
+
+            db.EstadoProjeto.AddRange(
+                new EstadoProjeto
+                {
+                    NomeEstado = "Em atraso"
+                    
+                },
+               new EstadoProjeto
+               {
+                   NomeEstado = "Dentro do prazo"
+
+               },
+               new EstadoProjeto
+               {
+                   NomeEstado = "Concluído"
+
+               }
+
+
+            );
+
+            db.SaveChanges();
+        }
+
+
+        private static void PopulateIdioma(GestorDeTarefasContext db)
+        {
+            if (db.Idioma.Any())
+            {
+                return;
+            }
+
+            db.Idioma.AddRange(
+                new Idioma
+                {
+                    NomeIdioma = "Português"
+
+                },
+               new Idioma
+               {
+                   NomeIdioma = "Françês"
+
+               },
+               new Idioma
+               {
+                   NomeIdioma = "Inglês"
+
+               },
+               new Idioma
+               {
+                   NomeIdioma = "Espanhol"
+
+               },
+               new Idioma
+               {
+                   NomeIdioma = "Alemão"
+
+               }
+
+
+            );
+
+            db.SaveChanges();
+        }
 
 
 
