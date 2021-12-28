@@ -67,7 +67,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             var projetoSprintDesign = await _context.ProjetoSprintDesign
-                .FirstOrDefaultAsync(m => m.ID_P_Design == id);
+                .FirstOrDefaultAsync(m => m.ProjetoSprintDesignID == id);
             if (projetoSprintDesign == null)
             {
                 return NotFound();
@@ -98,7 +98,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             var projetoSprintDesign = await _context.ProjetoSprintDesign
-                .FirstOrDefaultAsync(m => m.ID_P_Design == id);
+                .FirstOrDefaultAsync(m => m.ProjetoSprintDesignID == id);
             if (projetoSprintDesign == null)
             {
                 return NotFound();
@@ -110,12 +110,12 @@ namespace GestorDeTarefas.Controllers
                               b.ColaboradorId,
                               b.Name,
                               Checked = ((from ab in _context.ColaboradorProjetoSprint
-                                          where (ab.ID_P_Design == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                          where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
                                           select ab).Count() > 0)
                           };
 
             var MyViewModel = new ProjetoSprintListViewModel();
-            MyViewModel.ID_P_Design = id.Value;
+            MyViewModel.ProjetoSprintDesignID = id.Value;
             MyViewModel.NomeProjeto = projetoSprintDesign.NomeProjeto;
 
             var MyCheckBoxList = new List<CheckBoxViewModel>();
@@ -133,14 +133,14 @@ namespace GestorDeTarefas.Controllers
         public IActionResult Create()
         {
             return View();
-        }
+        } 
 
         // POST: ProjetoSprintDesigns/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID_P_Design,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] ProjetoSprintDesign projetoSprintDesign)
+        public async Task<IActionResult> Create([Bind("ProjetoSprintDesignID,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] ProjetoSprintDesign projetoSprintDesign)
         {
             if (projetoSprintDesign.DataPrevistaFim < projetoSprintDesign.DataDefinitivaInicio || projetoSprintDesign.DataPrevistaFim < projetoSprintDesign.DataPrevistaInicio)
             {
@@ -187,9 +187,9 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID_P_Design,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] ProjetoSprintDesign projetoSprintDesign)
+        public async Task<IActionResult> Edit(int id, [Bind("ProjetoSprintDesignID,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] ProjetoSprintDesign projetoSprintDesign)
         {
-            if (id != projetoSprintDesign.ID_P_Design)
+            if (id != projetoSprintDesign.ProjetoSprintDesignID)
             {
                 return NotFound();
             }
@@ -228,7 +228,7 @@ namespace GestorDeTarefas.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProjetoSprintDesignExists(projetoSprintDesign.ID_P_Design))
+                    if (!ProjetoSprintDesignExists(projetoSprintDesign.ProjetoSprintDesignID))
                     {
                         return NotFound();
                     }
@@ -267,15 +267,15 @@ namespace GestorDeTarefas.Controllers
                               b.ColaboradorId,
                               b.Name,
                               Checked = ((from ab in _context.ColaboradorProjetoSprint
-                                          where (ab.ID_P_Design == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                          where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
                                           select ab).Count() > 0)
                           };
 
             var MyViewModel = new ProjetoSprintListViewModel();
-            MyViewModel.ID_P_Design = id.Value;
+            MyViewModel.ProjetoSprintDesignID = id.Value;
             MyViewModel.NomeProjeto = projetoSprintDesign.NomeProjeto;
 
-            var MyCheckBoxList = new List<CheckBoxViewModel>();
+            var MyCheckBoxList = new List<CheckBoxViewModel>(); 
 
             foreach (var item in Results)
             {
@@ -296,12 +296,12 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AdicionarColaboradores(ProjetoSprintListViewModel projetoSprint)
         {
-            var MyProjet = _context.ProjetoSprintDesign.Find(projetoSprint.ID_P_Design);
+            var MyProjet = _context.ProjetoSprintDesign.Find(projetoSprint.ProjetoSprintDesignID);
             MyProjet.NomeProjeto = projetoSprint.NomeProjeto;
 
             foreach( var item in _context.ColaboradorProjetoSprint)
             {
-                if(item.ID_P_Design == projetoSprint.ID_P_Design)
+                if(item.ProjetoSprintDesignID == projetoSprint.ProjetoSprintDesignID)
                 {
                     _context.Entry(item).State = EntityState.Deleted;
                     ViewBag.Title = "Alteração do colaborador no projeto";
@@ -315,7 +315,7 @@ namespace GestorDeTarefas.Controllers
                 {
                     _context.ColaboradorProjetoSprint.Add(new
                         ColaboradorProjetoSprint()
-                    { ID_P_Design = projetoSprint.ID_P_Design, ColaboradorId = item.Id,
+                    { ProjetoSprintDesignID = projetoSprint.ProjetoSprintDesignID, ColaboradorId = item.Id,
                         DataInicio = item.DataInicio, DataFim = item.DataFim});
 
                     
@@ -344,7 +344,7 @@ namespace GestorDeTarefas.Controllers
             try
             {
                 var projetoSprintDesign = await _context.ProjetoSprintDesign
-               .FirstOrDefaultAsync(m => m.ID_P_Design == id);
+               .FirstOrDefaultAsync(m => m.ProjetoSprintDesignID == id);
 
                 if (projetoSprintDesign == null)
                 {
@@ -390,7 +390,7 @@ namespace GestorDeTarefas.Controllers
 
         private bool ProjetoSprintDesignExists(int id)
         {
-            return _context.ProjetoSprintDesign.Any(e => e.ID_P_Design == id);
+            return _context.ProjetoSprintDesign.Any(e => e.ProjetoSprintDesignID == id);
         }
 
 
