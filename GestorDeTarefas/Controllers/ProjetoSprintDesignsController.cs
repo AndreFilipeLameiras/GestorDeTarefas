@@ -142,8 +142,21 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID_P_Design,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] ProjetoSprintDesign projetoSprintDesign)
         {
+            if (projetoSprintDesign.DataPrevistaFim < projetoSprintDesign.DataDefinitivaInicio || projetoSprintDesign.DataPrevistaFim < projetoSprintDesign.DataPrevistaInicio)
+            {
+                ModelState.AddModelError("DataPrevistaFim", "Data prevista de fim não deve ser " +
+                    "menor do que a data prevista ou efetiva de inicio");
+            }
             if (ModelState.IsValid)
             {
+                if (projetoSprintDesign.DataPrevistaInicio < projetoSprintDesign.DataDefinitivaInicio)
+                {
+                    projetoSprintDesign.EstadoProjeto = "Em atraso";
+                }
+                if (projetoSprintDesign.DataPrevistaInicio >= projetoSprintDesign.DataDefinitivaInicio)
+                {
+                    projetoSprintDesign.EstadoProjeto = "Dentro do prazo";
+                }
                 _context.Add(projetoSprintDesign);
                 await _context.SaveChangesAsync();
                 ViewBag.Title = "Projeto adicionado";
@@ -180,11 +193,36 @@ namespace GestorDeTarefas.Controllers
             {
                 return NotFound();
             }
+            if (projetoSprintDesign.DataPrevistaFim < projetoSprintDesign.DataDefinitivaInicio || projetoSprintDesign.DataPrevistaFim < projetoSprintDesign.DataPrevistaInicio)
+            {
+                ModelState.AddModelError("DataPrevistaFim", "Data prevista de fim não deve ser " +
+                    "menor do que a data prevista ou efetiva de inicio");
+            }
+
+            if (projetoSprintDesign.DataDefinitivaFim < projetoSprintDesign.DataDefinitivaInicio)
+            {
+                ModelState.AddModelError("DataDefinitivaFim", "Data Efetiva de fim não deve ser " +
+                    "menor do que a data efetiva de inicio");
+            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (projetoSprintDesign.DataPrevistaInicio < projetoSprintDesign.DataDefinitivaInicio)
+                    {
+                        projetoSprintDesign.EstadoProjeto = "Em atraso";
+
+                    }
+                    if (projetoSprintDesign.DataPrevistaInicio >= projetoSprintDesign.DataDefinitivaInicio)
+                    {
+                        projetoSprintDesign.EstadoProjeto = "Dentro do prazo";
+                    }
+
+                    if (projetoSprintDesign.DataDefinitivaFim != null)
+                    {
+                        projetoSprintDesign.EstadoProjeto = "Concluído"; 
+                    }
                     _context.Update(projetoSprintDesign);
                     await _context.SaveChangesAsync();
                 }
