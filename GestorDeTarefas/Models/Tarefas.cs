@@ -42,7 +42,11 @@ namespace GestorDeTarefas.Models
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? DataDefinitivaFim { get; set; }
 
-       
+        [Display(Name = "Estado da tarefa")]
+        [StringLength(20, MinimumLength = 5, ErrorMessage = "A tarefa deve ter entre 5 e 20 caracteres")]
+        public string? EstadoTarefa { get; set; }
+
+
         [ForeignKey("FK_ColaboradorId")]
         [DisplayName("Colaborador")]
         public int ColaboradorId { get; set; }
@@ -51,8 +55,5 @@ namespace GestorDeTarefas.Models
         public int ID_P_Design { get; set; }
         public ProjetoSprintDesign ProjetoSprint { get; set; }
 
-        public int Id_Estado { get; set; }
-
-        public EstadoProjeto EstadoProjeto { get; set; }
     }
 }
