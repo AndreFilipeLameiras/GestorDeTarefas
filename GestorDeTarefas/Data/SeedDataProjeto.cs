@@ -16,7 +16,7 @@ namespace GestorDeTarefas.Data
             PopulateColaborador(db);
             PopulateTarefas(db);
             PopulateIdioma(db);
-
+             
         }
          
 
@@ -24,11 +24,37 @@ namespace GestorDeTarefas.Data
         {
             if (db.ProjetoSprintDesign.Any()) return;
             db.ProjetoSprintDesign.AddRange(
-                new ProjetoSprintDesign { NomeProjeto = "Kayak" },
-                new ProjetoSprintDesign { NomeProjeto = "Criação de automovel" },
-                new ProjetoSprintDesign { NomeProjeto = "Construção Civil" },
-                new ProjetoSprintDesign { NomeProjeto = "Reparação de computadores" },
-                new ProjetoSprintDesign { NomeProjeto = "Manutenção de estrada" }
+                new ProjetoSprintDesign { NomeProjeto = "Kayak",
+                DataPrevistaInicio=DateTime.Parse("20/12/2021"),
+                DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
+                DataPrevistaFim = DateTime.Parse("22/12/2021"),
+                EstadoProjeto="Dentro do prazo"
+                
+                },
+                new ProjetoSprintDesign { NomeProjeto = "Criação de automovel",
+                    DataPrevistaInicio = DateTime.Parse("20/12/2021"),
+                    DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
+                    DataPrevistaFim = DateTime.Parse("22/12/2021"),
+                    EstadoProjeto = "Dentro do prazo"
+                },
+                new ProjetoSprintDesign { NomeProjeto = "Construção Civil",
+                    DataPrevistaInicio = DateTime.Parse("16/12/2021"),
+                    DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
+                    DataPrevistaFim = DateTime.Parse("22/12/2021"),
+                    EstadoProjeto = "Em atraso"
+                },
+                new ProjetoSprintDesign { NomeProjeto = "Reparação de computadores",
+                    DataPrevistaInicio = DateTime.Parse("20/09/2021"),
+                    DataDefinitivaInicio = DateTime.Parse("18/11/2021"),
+                    DataPrevistaFim = DateTime.Parse("22/12/2021"),
+                    EstadoProjeto = "Em atraso"
+                },
+                new ProjetoSprintDesign { NomeProjeto = "Manutenção de estrada",
+                    DataPrevistaInicio = DateTime.Parse("20/12/2021"),
+                    DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
+                    DataPrevistaFim = DateTime.Parse("22/12/2021"),
+                    EstadoProjeto = "Dentro do prazo"
+                }
 
             );
 
@@ -122,50 +148,50 @@ namespace GestorDeTarefas.Data
                 new Tarefas { 
                     Nome="Limpeza",
                     ColaboradorId=1,ProjetoSprintDesignID=3,
-                    DataDefinitivaInicio=DateTime.Today.Date,
-                    DataPrevistaInicio=DateTime.Parse("10/12/2021"),
-                    DataPrevistaFim = DateTime.Parse("30/12/2021"),
-                    DataDefinitivaFim=default
+                    DataPrevistaInicio = DateTime.Parse("20/09/2021"),
+                    DataDefinitivaInicio = DateTime.Parse("18/11/2021"),
+                    DataPrevistaFim = DateTime.Parse("22/12/2021"),
+                    EstadoTarefa = "Em atraso"
                 },
                 new Tarefas
                 {
                     Nome = "Pintar",
                     ColaboradorId = 3,
                     ProjetoSprintDesignID = 2,
-                    DataDefinitivaInicio = DateTime.Today.Date,
-                    DataPrevistaInicio = DateTime.Parse("10/07/2021"),
-                    DataPrevistaFim = DateTime.Parse("25/11/2021"),
-                    DataDefinitivaFim = default
+                    DataPrevistaInicio = DateTime.Parse("20/12/2021"),
+                    DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
+                    DataPrevistaFim = DateTime.Parse("22/12/2021"),
+                    EstadoTarefa= "Dentro do prazo"
                 },
                 new Tarefas
                 {
                     Nome = "Montar",
                     ColaboradorId = 4,
                     ProjetoSprintDesignID = 1,
-                    DataDefinitivaInicio = DateTime.Today.Date,
-                    DataPrevistaInicio = DateTime.Parse("10/12/2021"),
-                    DataPrevistaFim = DateTime.Parse("30/12/2021"),
-                    DataDefinitivaFim = default
+                    DataPrevistaInicio = DateTime.Parse("20/12/2021"),
+                    DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
+                    DataPrevistaFim = DateTime.Parse("22/12/2021"),
+                    EstadoTarefa = "Dentro do prazo"
                 },
                 new Tarefas
                 {
                     Nome = "Martelar Pneu",
                     ColaboradorId = 5,
                     ProjetoSprintDesignID = 5,
-                    DataDefinitivaInicio = DateTime.Today.Date,
-                    DataPrevistaInicio = DateTime.Parse("10/12/2021"),
-                    DataPrevistaFim = DateTime.Parse("30/12/2021"),
-                    DataDefinitivaFim = default
+                    DataPrevistaInicio = DateTime.Parse("20/12/2021"),
+                    DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
+                    DataPrevistaFim = DateTime.Parse("22/12/2021"),
+                    EstadoTarefa = "Dentro do prazo"
                 },
                 new Tarefas
                 {
                     Nome = "Limpeza",
                     ColaboradorId = 1,
                     ProjetoSprintDesignID = 3,
-                    DataDefinitivaInicio = DateTime.Today.Date,
-                    DataPrevistaInicio = DateTime.Parse("10/12/2021"),
-                    DataPrevistaFim = DateTime.Parse("30/12/2021"),
-                    DataDefinitivaFim = default
+                    DataPrevistaInicio = DateTime.Parse("20/09/2021"),
+                    DataDefinitivaInicio = DateTime.Parse("18/11/2021"),
+                    DataPrevistaFim = DateTime.Parse("22/12/2021"),
+                    EstadoTarefa = "Em atraso"
                 }
 
 
