@@ -88,7 +88,7 @@ namespace GestorDeTarefas.Controllers
         {
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
             ViewData["ID_P_Design"] = new SelectList(_context.ProjetoSprintDesign, "ID_P_Design", "NomeProjeto");
-            ViewData["Id_Estado"] = new SelectList(_context.EstadoProjeto, "Id_Estado", "NomeEstado");
+         
             return View();
         }
 
@@ -99,8 +99,22 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id, Nome, DataPrevistaInicio, DataDefinitivaInicio, DataPrevistaFim, DataDefinitivaFim, ColaboradorId,ID_P_Design,Id_Estado")] Tarefas tarefas)
         {
+
+            if (tarefas.DataPrevistaFim < tarefas.DataDefinitivaInicio || tarefas.DataPrevistaFim < tarefas.DataPrevistaInicio)
+            {
+                ModelState.AddModelError("DataPrevistaFim", "Data prevista de fim não deve ser " +
+                    "menor do que a data prevista ou efetiva de inicio");
+            }
             if (ModelState.IsValid)
             {
+                if(tarefas.DataPrevistaInicio < tarefas.DataDefinitivaInicio)
+                {
+                    tarefas.Id_Estado=1;
+                }
+                if (tarefas.DataPrevistaInicio >= tarefas.DataDefinitivaInicio)
+                {
+                    tarefas.Id_Estado = 2;
+                }
                 _context.Add(tarefas);
                 await _context.SaveChangesAsync();
              //   return RedirectToAction(nameof(Index));
@@ -111,7 +125,7 @@ namespace GestorDeTarefas.Controllers
             }
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", tarefas.ColaboradorId);
             ViewData["ID_P_Design"] = new SelectList(_context.ProjetoSprintDesign, "ID_P_Design", "NomeProjeto", tarefas.ID_P_Design);
-            ViewData["Id_Estado"] = new SelectList(_context.EstadoProjeto, "Id_Estado", "NomeEstado", tarefas.Id_Estado);
+          
             return View(tarefas);
 
             
@@ -148,10 +162,29 @@ namespace GestorDeTarefas.Controllers
                 return NotFound();
             }
 
+            if (tarefas.DataPrevistaFim < tarefas.DataDefinitivaInicio || tarefas.DataPrevistaFim < tarefas.DataPrevistaInicio)
+            {
+                ModelState.AddModelError("DataPrevistaFim", "Data prevista de fim não deve ser " +
+                    "menor do que a data prevista ou efetiva de inicio");
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (tarefas.DataPrevistaInicio < tarefas.DataDefinitivaInicio)
+                    {
+                        tarefas.Id_Estado = 1;
+                    }
+                    if (tarefas.DataPrevistaInicio >= tarefas.DataDefinitivaInicio)
+                    {
+                        tarefas.Id_Estado = 2;
+                    }
+
+                    if (tarefas.DataDefinitivaFim !=null && tarefas.DataDefinitivaFim >= tarefas.DataDefinitivaInicio)
+                    {
+                        tarefas.Id_Estado = 3;
+                    }
                     _context.Update(tarefas);
                     await _context.SaveChangesAsync();
                 }
