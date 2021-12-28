@@ -16,7 +16,7 @@ namespace GestorDeTarefas.Data
             PopulateColaborador(db);
             PopulateTarefas(db);
             PopulateIdioma(db);
-
+             
         }
          
 
