@@ -47,11 +47,13 @@ namespace GestorDeTarefas.Models
         public string? EstadoTarefa { get; set; }
 
 
+        [Required(ErrorMessage = "Por favor, escolha opção")]
         [ForeignKey("FK_ColaboradorId")]
         [DisplayName("Colaborador")]
         public int ColaboradorId { get; set; }
         public Colaborador Colaborador { get; set; }
 
+        [Required(ErrorMessage = "Por favor, escolha opção")]
         public int ID_P_Design { get; set; }
         public ProjetoSprintDesign ProjetoSprint { get; set; }
 
