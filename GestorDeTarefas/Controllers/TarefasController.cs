@@ -168,6 +168,12 @@ namespace GestorDeTarefas.Controllers
                     "menor do que a data prevista ou efetiva de inicio");
             }
 
+            if (tarefas.DataDefinitivaFim < tarefas.DataDefinitivaInicio)
+            {
+                ModelState.AddModelError("DataDefinitivaFim", "Data Efetiva de fim não deve ser " +
+                    "menor do que a data efetiva de inicio");
+            }
+
             if (ModelState.IsValid)
             {
                 try
@@ -181,7 +187,7 @@ namespace GestorDeTarefas.Controllers
                         tarefas.Id_Estado = 2;
                     }
 
-                    if (tarefas.DataDefinitivaFim !=null && tarefas.DataDefinitivaFim >= tarefas.DataDefinitivaInicio)
+                    if (tarefas.DataDefinitivaFim !=null)
                     {
                         tarefas.Id_Estado = 3;
                     }
