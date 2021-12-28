@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GestorDeTarefas.Migrations
 {
-    public partial class inicio : Migration
+    public partial class tarefa : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,19 +18,6 @@ namespace GestorDeTarefas.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cargo", x => x.CargoId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EstadoProjeto",
-                columns: table => new
-                {
-                    Id_Estado = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NomeEstado = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EstadoProjeto", x => x.Id_Estado);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,17 +37,18 @@ namespace GestorDeTarefas.Migrations
                 name: "ProjetoSprintDesign",
                 columns: table => new
                 {
-                    ID_P_Design = table.Column<int>(type: "int", nullable: false)
+                    ProjetoSprintDesignID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NomeProjeto = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     DataPrevistaInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataDefinitivaInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataPrevistaFim = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataDefinitivaFim = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    DataDefinitivaFim = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EstadoProjeto = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjetoSprintDesign", x => x.ID_P_Design);
+                    table.PrimaryKey("PK_ProjetoSprintDesign", x => x.ProjetoSprintDesignID);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,12 +142,14 @@ namespace GestorDeTarefas.Migrations
                 name: "ColaboradorProjetoSprint",
                 columns: table => new
                 {
-                    ID_P_Design = table.Column<int>(type: "int", nullable: false),
-                    ColaboradorId = table.Column<int>(type: "int", nullable: false)
+                    ProjetoSprintDesignID = table.Column<int>(type: "int", nullable: false),
+                    ColaboradorId = table.Column<int>(type: "int", nullable: false),
+                    DataInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataFim = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ColaboradorProjetoSprint", x => new { x.ID_P_Design, x.ColaboradorId });
+                    table.PrimaryKey("PK_ColaboradorProjetoSprint", x => new { x.ProjetoSprintDesignID, x.ColaboradorId });
                     table.ForeignKey(
                         name: "FK_ColaboradorProjetoSprint_Colaborador_ColaboradorId",
                         column: x => x.ColaboradorId,
@@ -167,10 +157,10 @@ namespace GestorDeTarefas.Migrations
                         principalColumn: "ColaboradorId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ColaboradorProjetoSprint_ProjetoSprintDesign_ID_P_Design",
-                        column: x => x.ID_P_Design,
+                        name: "FK_ColaboradorProjetoSprint_ProjetoSprintDesign_ProjetoSprintDesignID",
+                        column: x => x.ProjetoSprintDesignID,
                         principalTable: "ProjetoSprintDesign",
-                        principalColumn: "ID_P_Design",
+                        principalColumn: "ProjetoSprintDesignID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -185,9 +175,9 @@ namespace GestorDeTarefas.Migrations
                     DataDefinitivaInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataPrevistaFim = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataDefinitivaFim = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EstadoTarefa = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     ColaboradorId = table.Column<int>(type: "int", nullable: false),
-                    ID_P_Design = table.Column<int>(type: "int", nullable: false),
-                    ProjetoSprintID_P_Design = table.Column<int>(type: "int", nullable: true)
+                    ProjetoSprintDesignID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,10 +189,10 @@ namespace GestorDeTarefas.Migrations
                         principalColumn: "ColaboradorId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Tarefas_ProjetoSprintDesign_ProjetoSprintID_P_Design",
-                        column: x => x.ProjetoSprintID_P_Design,
+                        name: "FK_Tarefas_ProjetoSprintDesign_ProjetoSprintDesignID",
+                        column: x => x.ProjetoSprintDesignID,
                         principalTable: "ProjetoSprintDesign",
-                        principalColumn: "ID_P_Design",
+                        principalColumn: "ProjetoSprintDesignID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -232,9 +222,9 @@ namespace GestorDeTarefas.Migrations
                 column: "ColaboradorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tarefas_ProjetoSprintID_P_Design",
+                name: "IX_Tarefas_ProjetoSprintDesignID",
                 table: "Tarefas",
-                column: "ProjetoSprintID_P_Design");
+                column: "ProjetoSprintDesignID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -247,9 +237,6 @@ namespace GestorDeTarefas.Migrations
 
             migrationBuilder.DropTable(
                 name: "ColaboradorProjetoSprint");
-
-            migrationBuilder.DropTable(
-                name: "EstadoProjeto");
 
             migrationBuilder.DropTable(
                 name: "Tarefas");

@@ -99,7 +99,7 @@ namespace GestorDeTarefas.Migrations
 
             modelBuilder.Entity("GestorDeTarefas.Models.ColaboradorProjetoSprint", b =>
                 {
-                    b.Property<int>("ID_P_Design")
+                    b.Property<int>("ProjetoSprintDesignID")
                         .HasColumnType("int");
 
                     b.Property<int>("ColaboradorId")
@@ -111,7 +111,7 @@ namespace GestorDeTarefas.Migrations
                     b.Property<DateTime>("DataInicio")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("ID_P_Design", "ColaboradorId");
+                    b.HasKey("ProjetoSprintDesignID", "ColaboradorId");
 
                     b.HasIndex("ColaboradorId");
 
@@ -137,7 +137,7 @@ namespace GestorDeTarefas.Migrations
 
             modelBuilder.Entity("GestorDeTarefas.Models.ProjetoSprintDesign", b =>
                 {
-                    b.Property<int>("ID_P_Design")
+                    b.Property<int>("ProjetoSprintDesignID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -163,7 +163,7 @@ namespace GestorDeTarefas.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
-                    b.HasKey("ID_P_Design");
+                    b.HasKey("ProjetoSprintDesignID");
 
                     b.ToTable("ProjetoSprintDesign");
                 });
@@ -223,22 +223,19 @@ namespace GestorDeTarefas.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("ID_P_Design")
-                        .HasColumnType("int");
-
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
 
-                    b.Property<int?>("ProjetoSprintID_P_Design")
+                    b.Property<int>("ProjetoSprintDesignID")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ColaboradorId");
 
-                    b.HasIndex("ProjetoSprintID_P_Design");
+                    b.HasIndex("ProjetoSprintDesignID");
 
                     b.ToTable("Tarefas");
                 });
@@ -302,7 +299,7 @@ namespace GestorDeTarefas.Migrations
 
                     b.HasOne("GestorDeTarefas.Models.ProjetoSprintDesign", "ProjetoSprintDesign")
                         .WithMany("ProjetoSprintColaboradores")
-                        .HasForeignKey("ID_P_Design")
+                        .HasForeignKey("ProjetoSprintDesignID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -319,13 +316,15 @@ namespace GestorDeTarefas.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("GestorDeTarefas.Models.ProjetoSprintDesign", "ProjetoSprint")
+                    b.HasOne("GestorDeTarefas.Models.ProjetoSprintDesign", "ProjetoSprintDesign")
                         .WithMany("Tarefas")
-                        .HasForeignKey("ProjetoSprintID_P_Design");
+                        .HasForeignKey("ProjetoSprintDesignID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Colaborador");
 
-                    b.Navigation("ProjetoSprint");
+                    b.Navigation("ProjetoSprintDesign");
                 });
 
             modelBuilder.Entity("GestorDeTarefas.Models.Cargo", b =>

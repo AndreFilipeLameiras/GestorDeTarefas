@@ -121,7 +121,7 @@ namespace GestorDeTarefas.Data
             db.Tarefas.AddRange(
                 new Tarefas { 
                     Nome="Limpeza",
-                    ColaboradorId=1,ID_P_Design=3,
+                    ColaboradorId=1,ProjetoSprintDesignID=3,
                     DataDefinitivaInicio=DateTime.Today.Date,
                     DataPrevistaInicio=DateTime.Parse("10/12/2021"),
                     DataPrevistaFim = DateTime.Parse("30/12/2021"),
@@ -131,7 +131,7 @@ namespace GestorDeTarefas.Data
                 {
                     Nome = "Pintar",
                     ColaboradorId = 3,
-                    ID_P_Design = 2,
+                    ProjetoSprintDesignID = 2,
                     DataDefinitivaInicio = DateTime.Today.Date,
                     DataPrevistaInicio = DateTime.Parse("10/07/2021"),
                     DataPrevistaFim = DateTime.Parse("25/11/2021"),
@@ -141,7 +141,7 @@ namespace GestorDeTarefas.Data
                 {
                     Nome = "Montar",
                     ColaboradorId = 4,
-                    ID_P_Design = 1,
+                    ProjetoSprintDesignID = 1,
                     DataDefinitivaInicio = DateTime.Today.Date,
                     DataPrevistaInicio = DateTime.Parse("10/12/2021"),
                     DataPrevistaFim = DateTime.Parse("30/12/2021"),
@@ -151,7 +151,7 @@ namespace GestorDeTarefas.Data
                 {
                     Nome = "Martelar Pneu",
                     ColaboradorId = 5,
-                    ID_P_Design = 5,
+                    ProjetoSprintDesignID = 5,
                     DataDefinitivaInicio = DateTime.Today.Date,
                     DataPrevistaInicio = DateTime.Parse("10/12/2021"),
                     DataPrevistaFim = DateTime.Parse("30/12/2021"),
@@ -161,7 +161,7 @@ namespace GestorDeTarefas.Data
                 {
                     Nome = "Limpeza",
                     ColaboradorId = 1,
-                    ID_P_Design = 3,
+                    ProjetoSprintDesignID = 3,
                     DataDefinitivaInicio = DateTime.Today.Date,
                     DataPrevistaInicio = DateTime.Parse("10/12/2021"),
                     DataPrevistaFim = DateTime.Parse("30/12/2021"),

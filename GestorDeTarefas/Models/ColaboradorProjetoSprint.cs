@@ -9,7 +9,7 @@ namespace GestorDeTarefas.Models
     public class ColaboradorProjetoSprint
     {
 
-        public int ID_P_Design { get; set; }
+        public int ProjetoSprintDesignID { get; set; } 
         public ProjetoSprintDesign ProjetoSprintDesign { get; set; }
 
         public int ColaboradorId { get; set; }
