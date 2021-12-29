@@ -311,17 +311,31 @@ namespace GestorDeTarefas.Controllers
 
             foreach (var item in projetoSprint.Colaboradores)
             {
-                if (item.Checked)
+                if (item.Checked && item.ColaboradorProjetoSprintss.DataInicio==null)
+                {
+                    ModelState.AddModelError("", "Data de inicio é Obrigatória");
+                    return View(projetoSprint);
+                }
+                if (item.Checked && item.ColaboradorProjetoSprintss.DataFim == null)
+                {
+                    ModelState.AddModelError("", "Data de fim é Obrigatória");
+                    return View(projetoSprint);
+                }
+
+               
+                if (item.Checked && item.ColaboradorProjetoSprintss.DataInicio != null && item.ColaboradorProjetoSprintss.DataFim != null)
                 {
                     _context.ColaboradorProjetoSprint.Add(new
                         ColaboradorProjetoSprint()
                     { ProjetoSprintDesignID = projetoSprint.ProjetoSprintDesignID, ColaboradorId = item.Id,
-                        DataInicio = item.DataInicio, DataFim = item.DataFim});
+                        DataInicio = item.ColaboradorProjetoSprintss.DataInicio, DataFim = item.ColaboradorProjetoSprintss.DataFim});
 
                     
                     ViewBag.Title = "Colaborador adicionado ao projeto";
                     ViewBag.Message = "Colaborador adicionado ao projeto com sucesso!!!";
                     // return View("Success");
+
+              
                 }
             }
               
@@ -329,7 +343,7 @@ namespace GestorDeTarefas.Controllers
 
             
             return View("Success");
-            return View(projetoSprint);
+          //  return View(projetoSprint);
         }
 
         // GET: ProjetoSprintDesigns/Delete/5
