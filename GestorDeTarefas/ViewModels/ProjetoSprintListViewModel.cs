@@ -17,5 +17,7 @@ namespace GestorDeTarefas.ViewModels
         public string NomeProjeto { get; set; }
 
         public List<CheckBoxViewModel>Colaboradores { get; set; }
+
+        
     }
 }
