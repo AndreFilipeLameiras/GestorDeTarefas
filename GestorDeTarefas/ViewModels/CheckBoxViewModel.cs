@@ -13,5 +13,7 @@ namespace GestorDeTarefas.ViewModels
         public bool Checked { get; set; }
 
         public ColaboradorProjetoSprint ColaboradorProjetoSprintss { get; set; }
+
+        public ColaboradorProdutividade ColaboradorProjetoProd { get; set; }
     }
 }

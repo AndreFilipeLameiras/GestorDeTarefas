@@ -42,6 +42,10 @@ namespace GestorDeTarefas.Models
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime DataDefinitivaFim { get; set; }
 
+        [Display(Name = "Estado do Projeto")]
+        [StringLength(20, MinimumLength = 5, ErrorMessage = "O estado do projeto deve ter entre 5 e 20 caracteres")]
+        public string? EstadoProjeto { get; set; }
+
 
 
 
