@@ -181,5 +181,57 @@ namespace GestorDeTarefas.Controllers
         {
             return _context.SistemaProdutividade.Any(e => e.SistemaProdutividadeId == id);
         }
+
+        /////////////////////Adicionar Colaborador/////////////////////
+
+        public async Task<IActionResult> AdicionarColaborador()
+        {
+            int id = 0;
+            int id2 = 0;
+            ColaboradorProdutividade colaboradorSistemaprodutividade = new ColaboradorProdutividade();
+            id = colaboradorSistemaprodutividade.SistemaProdutividadeId;
+            id2 = colaboradorSistemaprodutividade.ColaboradorId;
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var sistemaProdutividade = await _context.ColaboradorSistemaProdutividade.FindAsync(id, id2);
+            if (sistemaProdutividade == null)
+            {
+                return NotFound();
+            }
+
+
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
+
+            return View(colaboradorSistemaprodutividade);
+        }
+
+        // POST: ProjetoSprintDesigns/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdicionarColaborador(int id, [Bind("SistemaProdutividadeId,ColaboradorId")] ColaboradorProdutividade sistemaProdutividade)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(sistemaProdutividade);
+                await _context.SaveChangesAsync();
+                //   return RedirectToAction(nameof(Index));
+
+                ViewBag.Name = "Colaborador Adicionado";
+                ViewBag.Message = "Colaborador sucessfully added.";
+                return View("Success");
+            }
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", sistemaProdutividade.ColaboradorId);
+            return View(sistemaProdutividade);
+        }
+
+
+
+
     }
 }
