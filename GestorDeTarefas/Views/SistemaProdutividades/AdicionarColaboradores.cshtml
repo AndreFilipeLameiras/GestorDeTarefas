@@ -1,37 +1,52 @@
-﻿model GestorDeTarefas.Models.ColaboradorProdutividade
+﻿@model GestorDeTarefas.ViewModels.SistemProdListViewmodel
 
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Adicionar Colaboradores";
 }
 
-<h1>View</h1>
+<h1>Adicionar Colaboradores ao Projeto Sistema Produtividade</h1>
 
-<h4>ColaboradorProjetoProdutividade</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="View">
+        <form asp-action="AdicionarColaboradores">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID_SistemaProdutividade" />
             <div class="form-group">
-                <label asp-for="SistemaProdutividadeId" class="control-label"></label>
-                <input asp-for="SistemaProdutividadeId" />
-                <input name="nome" type="submit" />
+                <label asp-for="NomeProjeto" class="control-label"></label>
+                <input asp-for="NomeProjeto" class="form-control" />
+                <span asp-validation-for="NomeProjeto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Colaboradores, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                    {
+                        @Html.EditorFor(m => Model.Colaboradores[i].Checked)
+
+                        @Html.DisplayFor(m => Model.Colaboradores[i].Name)
+
+                        @Html.HiddenFor(m => Model.Colaboradores[i].Name)
+                        @Html.HiddenFor(m => Model.Colaboradores[i].Id)
+
+                    }
+
+                </div>
             </div>
             <div class="form-group">
-                <label asp-for="ColaboradorId" class="control-label"></label>
-                <select asp-for="ColaboradorId" class="form-control" asp-items="ViewBag.ColaboradorId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Salvar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Voltar a lista</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+
