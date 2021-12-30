@@ -10,5 +10,9 @@ namespace GestorDeTarefas.ViewModels
     {
         public IEnumerable<SistemaProdutividade> ProjetoProdutividade { get; set; }
         public PagingInfo PagingInfo { get; set; }
+
+        public int ID_SistemaProdutividade { get; set; }
+        public string NomeProjeto { get; set; }
+        public List<CheckBoxViewModel> Colaboradores { get; set; }
     }
 }
