@@ -75,6 +75,56 @@ namespace GestorDeTarefas.Controllers
             return View(sistemaProdutividade);
         }
 
+
+        public async Task<IActionResult> DetailsColaboradorProjeto(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var sistemaProdutividade = await _context.SistemaProdutividade
+                .FirstOrDefaultAsync(m => m.SistemaProdutividadeId == id);
+            if (sistemaProdutividade == null)
+            {
+                return NotFound();
+            }
+
+            var Results = from b in _context.Colaborador
+                          select new
+                          {
+                              b.ColaboradorId,
+                              b.Name,
+                              Checked = ((from ab in _context.ColaboradorSistemaProdutividade
+                                          where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                          select ab).Count() > 0)
+                          };
+
+            var MyViewModel = new SistemProdListViewmodel();
+            MyViewModel.ID_SistemaProdutividade = id.Value;
+            MyViewModel.NomeProjeto = sistemaProdutividade.NomeProjeto;
+
+            var MyCheckBoxList = new List<CheckBoxViewModel>();
+
+            foreach (var item in Results)
+            {
+                MyCheckBoxList.Add(new CheckBoxViewModel { Id = item.ColaboradorId, Name = item.Name, Checked = item.Checked });
+
+                MyViewModel.Colaboradores = MyCheckBoxList;
+            }
+            return View(MyViewModel);
+        }
+
+
+
+
+
+
+
+
+
+
+
         // GET: SistemaProdutividades/Create
         public IActionResult Create()
         {
