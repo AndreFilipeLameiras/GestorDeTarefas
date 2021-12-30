@@ -1,0 +1,49 @@
+﻿@model GestorDeTarefas.ViewModels.SistemProdListViewmodel
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+<h1>Detalhes</h1>
+
+<div>
+    <h4>Projeto Sprint Design</h4>
+
+
+    <table class="table ">
+        <thead>
+            <tr>
+                <th scope="col">Nome do Projeto</th>
+                <th scope="col">Colaboradores</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.NomeProjeto)
+                </td>
+                <td>
+                    @foreach (var item in Model.Colaboradores)
+                    {
+                        if (item.Checked)
+                        {
+                            <div>@item.Name</div>
+                        }
+                    }
+
+                </td>
+
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID_SistemaProdutividade" class="btn btn-warning">Editar</a> |
+    <a asp-action="Index" class="btn btn-secondary">Voltar à lista</a>
+</div>
+
+
