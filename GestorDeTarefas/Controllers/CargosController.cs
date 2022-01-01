@@ -56,7 +56,7 @@ namespace GestorDeTarefas.Controllers
                 }
             );
         }
-
+        
         // GET: Cargos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -74,7 +74,7 @@ namespace GestorDeTarefas.Controllers
 
             return View(cargo);
         }
-
+        
         // GET: Cargos/Create
         public IActionResult Create()
         {
