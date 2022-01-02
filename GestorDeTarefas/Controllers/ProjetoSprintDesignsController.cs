@@ -114,15 +114,29 @@ namespace GestorDeTarefas.Controllers
                                           select ab).Count() > 0)
                           };
 
+            var Resultado = from b in _context.ColaboradorProjetoSprint
+                          select new
+                          {
+                              b.ColaboradorId,
+                              b.Colaborador.Name,
+                              b.DataInicio,
+                              b.DataFim,
+                              Checked = ((from ab in _context.ColaboradorProjetoSprint
+                                          where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                          select ab).Count() > 0)
+                          };
+
+
             var MyViewModel = new ProjetoSprintListViewModel();
             MyViewModel.ProjetoSprintDesignID = id.Value;
             MyViewModel.NomeProjeto = projetoSprintDesign.NomeProjeto;
 
             var MyCheckBoxList = new List<CheckBoxViewModel>();
 
-            foreach (var item in Results)
+            foreach (var item in Resultado)
             {
-                MyCheckBoxList.Add(new CheckBoxViewModel { Id = item.ColaboradorId, Name = item.Name, Checked = item.Checked });
+                MyCheckBoxList.Add(new CheckBoxViewModel { Id = item.ColaboradorId, Name = item.Name, Checked = item.Checked,
+                DataInicio = item.DataInicio, DataFim = item.DataFim});
 
                 MyViewModel.Colaboradores = MyCheckBoxList;
             }
