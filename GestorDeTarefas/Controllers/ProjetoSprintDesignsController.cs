@@ -428,8 +428,12 @@ namespace GestorDeTarefas.Controllers
                     ModelState.AddModelError("", "Data de fim é Obrigatória");
                     return View(projetoSprint);
                 }
+                if (item.Checked && item.ColaboradorProjetoSprintss.DataFim.Value< item.ColaboradorProjetoSprintss.DataInicio.Value)
+                {
+                    ModelState.AddModelError("", "Data de fim deve ser maior ou igual a data de inicio");
+                    return View(projetoSprint);
+                }
 
-               
                 if (item.Checked)
                 {
                    
