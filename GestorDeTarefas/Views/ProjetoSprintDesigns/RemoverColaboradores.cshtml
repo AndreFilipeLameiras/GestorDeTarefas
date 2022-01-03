@@ -1,12 +1,10 @@
 ﻿@model GestorDeTarefas.ViewModels.ProjetoSprintListViewModel
 @{
-    ViewData["Title"] = "RemoverColaboradores";
+    ViewData["Title"] = "Remover Colaboradores";
 }
 
-<h1>RemoverColaboradores</h1>
-
 <div style="margin-bottom:379px;">
-    <h1>Adicionar colaboradores ao Projeto Sprint Design</h1>
+    <h1>Remover Colaboradores no Projeto Sprint Design</h1>
 
     <div class="row">
         <div class="col">
@@ -20,6 +18,8 @@
                                 <label asp-for="NomeProjeto" class="control-label">Nome do Projeto</label>
                             </th>
                             <th scope="col">Colaboradores</th>
+                            <th scope="col">Data de inicio</th>
+                            <th scope="col">Data de fim</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,40 +30,53 @@
                                     <span asp-validation-for="NomeProjeto" class="text-danger"></span>
                                 </div>
                             </td>
-                            <td>
-                                <div class="form-group">
-                                    <div class="col">
-                                        @if (Model.Colaboradores != null)
-                                        {
-                                            @for (int i = 0; i < Model.Colaboradores.Count(); i++)
-                                            {
-                                                <dd class="col-sm-10">
 
 
-                                                    @Html.EditorFor(m => Model.Colaboradores[i].Checked)
-
-                                                    @Html.DisplayFor(m => Model.Colaboradores[i].Name)
-
-
-                                                    @Html.HiddenFor(m => Model.Colaboradores[i].Name)
-                                                    @Html.HiddenFor(m => Model.Colaboradores[i].Id)
-
+                            @if (Model.Colaboradores != null)
+                            {
+                                <td>
+                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                    {
+                                        <dd>
 
 
-                                                    @Html.DisplayFor(m => Model.Colaboradores[i].DataInicio)
-                                                    @Html.DisplayFor(m => Model.Colaboradores[i].DataFim)
+                                            @Html.EditorFor(m => Model.Colaboradores[i].Checked)
+                                            @Html.DisplayFor(m => Model.Colaboradores[i].Name)
+                                            @Html.HiddenFor(m => Model.Colaboradores[i].Name)
+                                            @Html.HiddenFor(m => Model.Colaboradores[i].Id)
+                                        </dd>
 
 
 
+                                    }
 
 
+                                </td>
+                                <td>
+                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                    {
 
 
-                                                </dd>
-                                            }}
-                                        </div>
-                                </div>
-                            </td>
+                                    <dd>
+                                        @Html.DisplayFor(m => Model.Colaboradores[i].DataInicio)
+                                    </dd>
+
+                                    }
+
+                                </td>
+                                <td>
+                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                    {
+
+                                    <dd>
+                                        @Html.DisplayFor(m => Model.Colaboradores[i].DataFim)
+
+                                    </dd>
+                                    }
+
+
+                                </td>
+                            }
                         </tr>
                     </tbody>
                 </table>
@@ -84,3 +97,9 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+
+
+
+
+
