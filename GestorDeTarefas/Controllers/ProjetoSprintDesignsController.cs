@@ -261,56 +261,63 @@ namespace GestorDeTarefas.Controllers
 
         public async Task<IActionResult> RemoverColaboradores(int? id)
         {
-           
-                if (id == null)
-                {
-                    return NotFound();
-                }
-
-                ProjetoSprintDesign projetoSprintDesign = _context.ProjetoSprintDesign.Find(id);
-
-                if (projetoSprintDesign == null)
-                {
-                    return NotFound();
-                }
-
-
-                var Resultado = from b in _context.ColaboradorProjetoSprint
-                                select new
-                                {
-                                    b.ColaboradorId,
-                                    b.Colaborador.Name,
-                                    b.DataInicio,
-                                    b.DataFim,
-                                    Checked = ((from ab in _context.ColaboradorProjetoSprint
-                                                where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
-                                                select ab).Count() > 0)
-                                };
-
-                var MyViewModel = new ProjetoSprintListViewModel();
-                MyViewModel.ProjetoSprintDesignID = id.Value;
-                MyViewModel.NomeProjeto = projetoSprintDesign.NomeProjeto;
-
-                var MyCheckBoxList = new List<CheckBoxViewModel>();
-
-                foreach (var item in Resultado)
-                {
-                    MyCheckBoxList.Add(new CheckBoxViewModel
-                    {
-                        Id = item.ColaboradorId,
-                        Name = item.Name,
-                        Checked = item.Checked,
-                        DataInicio = item.DataInicio,
-                        DataFim = item.DataFim
-                    });
-                    MyViewModel.Colaboradores = MyCheckBoxList;
-
-
-                }
-
-                return View(MyViewModel);
+            if (id == null)
+            {
+                return NotFound();
             }
-          
+
+            var projetoSprintDesign = await _context.ProjetoSprintDesign
+                .FirstOrDefaultAsync(m => m.ProjetoSprintDesignID == id);
+            if (projetoSprintDesign == null)
+            {
+                return NotFound();
+            }
+
+            var Results = from b in _context.Colaborador
+                          select new
+                          {
+                              b.ColaboradorId,
+                              b.Name,
+                              Checked = ((from ab in _context.ColaboradorProjetoSprint
+                                          where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                          select ab).Count() > 0)
+                          };
+
+            var Resultado = from b in _context.ColaboradorProjetoSprint
+                            select new
+                            {
+                                b.ColaboradorId,
+                                b.Colaborador.Name,
+                                b.DataInicio,
+                                b.DataFim,
+                                Checked = ((from ab in _context.ColaboradorProjetoSprint
+                                            where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                            select ab).Count() > 0)
+                            };
+
+
+            var MyViewModel = new ProjetoSprintListViewModel();
+            MyViewModel.ProjetoSprintDesignID = id.Value;
+            MyViewModel.NomeProjeto = projetoSprintDesign.NomeProjeto;
+
+            var MyCheckBoxList = new List<CheckBoxViewModel>();
+
+            foreach (var item in Resultado)
+            {
+                MyCheckBoxList.Add(new CheckBoxViewModel
+                {
+                    Id = item.ColaboradorId,
+                    Name = item.Name,
+                    Checked = item.Checked,
+                    DataInicio = item.DataInicio,
+                    DataFim = item.DataFim
+                });
+
+                MyViewModel.Colaboradores = MyCheckBoxList;
+            }
+            return View(MyViewModel);
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
