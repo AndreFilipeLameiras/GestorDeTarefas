@@ -36,23 +36,29 @@
 
                     </td>
                     <td>
-                        @foreach (var item in Model.Colaboradores)
+                        @for (int i = 0; i < Model.Colaboradores.Count(); i++)
                         {
-                            if (item.Checked)
+                            if (Model.Colaboradores[i].Checked)
                             {
-                                <div>@item.DataInicio</div>
 
+                                <dd>
+                                    @Html.DisplayFor(m => Model.Colaboradores[i].DataInicio)
+
+                                </dd>
                             }
                         }
 
                     </td>
                     <td>
-                        @foreach (var item in Model.Colaboradores)
+                        @for (int i = 0; i < Model.Colaboradores.Count(); i++)
                         {
-                            if (item.Checked)
+                            if (Model.Colaboradores[i].Checked)
                             {
-                                <div>@item.DataFim</div>
 
+                                <dd>
+                                    @Html.DisplayFor(m => Model.Colaboradores[i].DataFim)
+
+                                </dd>
                             }
                         }
                     </td>
