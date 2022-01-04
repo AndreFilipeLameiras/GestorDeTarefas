@@ -21,7 +21,7 @@ namespace GestorDeTarefas.Data
 
             modelBuilder.Entity<ColaboradorProdutividade>()
                 .HasOne(bc => bc.Colaborador)
-                .WithMany(b => b.ColaboradorProdutividad)
+                .WithMany(b => b.ColaboradorProdutividade)
                 .HasForeignKey(bc => bc.ColaboradorId);
 
             modelBuilder.Entity<ColaboradorProdutividade>()

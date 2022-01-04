@@ -14,7 +14,6 @@ namespace GestorDeTarefas.Models
 
         public int SistemaProdutividadeId { get; set; }
 
-
         public SistemaProdutividade SistemaProdutividade { get; set; }
 
 

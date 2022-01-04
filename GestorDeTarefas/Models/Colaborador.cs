@@ -30,7 +30,7 @@ namespace GestorDeTarefas.Models
 
         public ICollection<Tarefas> Tarefas { get; set; }
 
-        public ICollection<ColaboradorProdutividade> ColaboradorProdutividad { get; set; }
+        public ICollection<ColaboradorProdutividade> ColaboradorProdutividade { get; set; }
 
         public ICollection<ColaboradorProjetoSprint> ColaboradorProjetoSprints { get; set; }
 

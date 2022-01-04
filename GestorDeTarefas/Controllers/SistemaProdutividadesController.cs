@@ -21,12 +21,15 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: SistemaProdutividades
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(string nome, int page = 1)
         {
+            var projetoSearch = _context.SistemaProdutividade
+               .Where(b => nome == null || b.NomeProjeto.Contains(nome));
+
             var pagingInfo = new PagingInfo
             {
                 CurrentPage = page,
-                TotalItems = _context.SistemaProdutividade.Count()
+                TotalItems = projetoSearch.Count()
             };
 
             if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
@@ -39,7 +42,7 @@ namespace GestorDeTarefas.Controllers
                 pagingInfo.CurrentPage = 1;
             }
 
-            var project = await _context.SistemaProdutividade
+            var project = await projetoSearch
                             .Include(b => b.ProdutividadeColaborador)
                             .OrderBy(b => b.NomeProjeto)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
@@ -50,7 +53,8 @@ namespace GestorDeTarefas.Controllers
                 new SistemProdListViewmodel
                 {
                     ProjetoProdutividade = project,
-                    PagingInfo = pagingInfo
+                    PagingInfo = pagingInfo,
+                    NomeSearched = nome
                 }
             );
 
@@ -196,7 +200,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProjetoSprintDesignID,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] SistemaProdutividade sistemaProdutividade)
+        public async Task<IActionResult> Edit(int id, [Bind("SistemaProdutividadeId,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] SistemaProdutividade sistemaProdutividade)
         {
             if (id != sistemaProdutividade.SistemaProdutividadeId)
             {
@@ -275,13 +279,13 @@ namespace GestorDeTarefas.Controllers
                           {
                               b.ColaboradorId,
                               b.Name,
-                              Checked = ((from ab in _context.ColaboradorProjetoSprint
-                                          where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
+                              Checked = ((from ab in _context.ColaboradorSistemaProdutividade
+                                          where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
                                           select ab).Count() > 0)
                           };
 
-            var MyViewModel = new ProjetoSprintListViewModel();
-            MyViewModel.ProjetoSprintDesignID = id.Value;
+            var MyViewModel = new SistemProdListViewmodel();
+            MyViewModel.ID_SistemaProdutividade = id.Value;
             MyViewModel.NomeProjeto = sistemaProdutividade.NomeProjeto;
 
             var MyCheckBoxList = new List<CheckBoxViewModel>();
