@@ -58,8 +58,49 @@ namespace GestorDeTarefas.Controllers
             );
         }
 
-        // GET: Colaboradors/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> AdicionarIdiomaColaborador(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Colaborador colaborador = _context.Colaborador.Find(id);
+
+            // var projetoSprintDesign = await _context.ProjetoSprintDesign.FindAsync(id);
+            if (colaborador == null)
+            {
+                return NotFound();
+            }
+
+            var Results = from b in _context.Idioma
+                          select new
+                          {
+                              b.IdiomaId,
+                              b.NomeIdioma,
+                              Checked = ((from ab in _context.ColaboradorIdioma
+                                          where (ab.ColaboradorId == id) & (ab.IdiomaId == b.IdiomaId)
+                                          select ab).Count() > 0)
+                          };
+
+            var MyViewModel = new ColaboradorListViewModel();
+            MyViewModel.ColaboradorId = id.Value;
+            MyViewModel.NomeColaborador = colaborador.Name;
+
+            var MyCheckBoxList = new List<CheckBoxViewModelColaboradorIdioma>();
+
+            foreach (var item in Results)
+            {
+               MyCheckBoxList.Add(new CheckBoxViewModelColaboradorIdioma { Id = item.IdiomaId, Name = item.NomeIdioma, Checked = item.Checked });
+
+                MyViewModel.Idiomas = MyCheckBoxList;
+            }
+            return View(MyViewModel);
+        }
+
+
+            // GET: Colaboradors/Details/5
+            public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
