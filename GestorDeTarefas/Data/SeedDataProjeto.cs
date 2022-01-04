@@ -70,11 +70,15 @@ namespace GestorDeTarefas.Data
             }
 
             db.Cargo.AddRange(
-                new Cargo { Nome_Cargo = "Professor" },
+                new Cargo { Nome_Cargo = "Pintor" },
                 new Cargo { Nome_Cargo = "Eletricista" },
                 new Cargo { Nome_Cargo = "Mecanico" },
                 new Cargo { Nome_Cargo = "Encarregado" },
-                new Cargo { Nome_Cargo = "Ajudante" }
+                new Cargo { Nome_Cargo = "Ajudante" },
+                new Cargo { Nome_Cargo = "Gestor" },
+                new Cargo { Nome_Cargo = "FUNILEIRO" },
+                new Cargo { Nome_Cargo = "Bate Chapas" },
+                new Cargo { Nome_Cargo = "FUNILEIRO" }
 
             );
 

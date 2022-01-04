@@ -13,6 +13,8 @@
                 <htr>
                     <th scope="col">Nome do Projeto</th>
                     <th scope="col">Colaboradores</th>
+                    <th scope="col">Data de inicio</th>
+                    <th scope="col">Data de fim</th>
 
                 </htr>
             </thead>
@@ -21,17 +23,46 @@
                     <td>
                         @Html.DisplayFor(model => model.NomeProjeto)
                     </td>
+                    @if(Model.Colaboradores != null) { 
                     <td>
                         @foreach (var item in Model.Colaboradores)
                         {
                             if (item.Checked)
                             {
                                 <div>@item.Name</div>
+                                                             
                             }
                         }
 
                     </td>
+                    <td>
+                        @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                        {
+                            if (Model.Colaboradores[i].Checked)
+                            {
 
+                                <dd>
+                                    @Html.DisplayFor(m => Model.Colaboradores[i].DataInicio)
+
+                                </dd>
+                            }
+                        }
+
+                    </td>
+                    <td>
+                        @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                        {
+                            if (Model.Colaboradores[i].Checked)
+                            {
+
+                                <dd>
+                                    @Html.DisplayFor(m => Model.Colaboradores[i].DataFim)
+
+                                </dd>
+                            }
+                        }
+                    </td>
+                    }
                 </tr>
 
             </tbody>
