@@ -8,16 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
 using GestorDeTarefas.ViewModels;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace GestorDeTarefas.Controllers
 {
     public class ProjetoSprintDesignsController : Controller
     {
         private readonly GestorDeTarefasContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ProjetoSprintDesignsController(GestorDeTarefasContext context)
+        public ProjetoSprintDesignsController(GestorDeTarefasContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            this._hostEnvironment = hostEnvironment;
         }
 
         // GET: ProjetoSprintDesigns
@@ -154,7 +158,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProjetoSprintDesignID,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] ProjetoSprintDesign projetoSprintDesign)
+        public async Task<IActionResult> Create([Bind("ProjetoSprintDesignID,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim,CarregarImagemProjeto")] ProjetoSprintDesign projetoSprintDesign)
         {
             if (projetoSprintDesign.DataPrevistaFim < projetoSprintDesign.DataDefinitivaInicio || projetoSprintDesign.DataPrevistaFim < projetoSprintDesign.DataPrevistaInicio)
             {
@@ -171,6 +175,20 @@ namespace GestorDeTarefas.Controllers
                 {
                     projetoSprintDesign.EstadoProjeto = "Dentro do prazo";
                 }
+
+                //Guardar imagem no wwwroot/imagens
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(projetoSprintDesign.CarregarImagemProjeto.FileName);
+                string extension = Path.GetExtension(projetoSprintDesign.CarregarImagemProjeto.FileName);
+                projetoSprintDesign.ImagemProjeto =  fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/Imagens/", fileName);
+
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await projetoSprintDesign.CarregarImagemProjeto.CopyToAsync(fileStream);
+                }
+
+
                 _context.Add(projetoSprintDesign);
                 await _context.SaveChangesAsync();
                 ViewBag.Title = "Projeto adicionado";
@@ -508,6 +526,13 @@ namespace GestorDeTarefas.Controllers
             try
             {
                 var projetoSprintDesign = await _context.ProjetoSprintDesign.FindAsync(id);
+                //apagar imagem wwwroot
+                var imagePath = Path.Combine(_hostEnvironment.WebRootPath, "Imagens", projetoSprintDesign.ImagemProjeto);
+
+                if (System.IO.File.Exists(imagePath))
+                    System.IO.File.Delete(imagePath);
+
+
                 _context.ProjetoSprintDesign.Remove(projetoSprintDesign);
                 await _context.SaveChangesAsync();
                 ViewBag.Title = "Projeto apagado";
