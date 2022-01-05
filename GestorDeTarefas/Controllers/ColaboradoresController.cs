@@ -239,19 +239,27 @@ namespace GestorDeTarefas.Controllers
         // GET: Colaboradors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var colaborador = await _context.Colaborador
-                .SingleOrDefaultAsync(m => m.ColaboradorId == id);
-            if (colaborador == null)
+                var colaborador = await _context.Colaborador
+                    .SingleOrDefaultAsync(m => m.ColaboradorId == id);
+                if (colaborador == null)
+                {
+                    return NotFound();
+                }
+
+                return View(colaborador);
+                }
+            catch (DbUpdateException /* ex */)
             {
-                return NotFound();
-            }
 
-            return View(colaborador);
+                return View("MensagemErro");
+            }
         }
 
         // POST: Colaboradors/Delete/5
@@ -259,12 +267,22 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var colaborador = await _context.Colaborador.FindAsync(id);
-            _context.Colaborador.Remove(colaborador);
-            await _context.SaveChangesAsync();
-            ViewBag.Title = "Colaboradores apagado";
-            ViewBag.Message = "Colaborador apagado com sucesso.";
-            return View("Success");
+            try
+            {
+                var colaborador = await _context.Colaborador.FindAsync(id);
+                _context.Colaborador.Remove(colaborador);
+                await _context.SaveChangesAsync();
+                ViewBag.Title = "Colaboradores apagado";
+                ViewBag.Message = "Colaborador apagado com sucesso.";
+                return View("Success");
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                ViewBag.Title = "Ups! Este Colaborador não pode ser apagado.";
+                ViewBag.Message = "Verifique as ligações entre as tabelas!!!";
+                return View("MensagemErro");
+            }
+
         }
 
         private bool ColaboradorExists(int id)
