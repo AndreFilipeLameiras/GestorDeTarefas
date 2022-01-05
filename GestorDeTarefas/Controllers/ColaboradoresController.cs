@@ -67,7 +67,6 @@ namespace GestorDeTarefas.Controllers
 
             Colaborador colaborador = _context.Colaborador.Find(id);
 
-            // var projetoSprintDesign = await _context.ProjetoSprintDesign.FindAsync(id);
             if (colaborador == null)
             {
                 return NotFound();
@@ -98,9 +97,49 @@ namespace GestorDeTarefas.Controllers
             return View(MyViewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdicionarIdiomaColaborador(ColaboradorListViewModel colaborador)
+        {
+            var MyColaborador = _context.Colaborador.Find(colaborador.ColaboradorId);
+            MyColaborador.Name = colaborador.NomeColaborador;
 
-            // GET: Colaboradors/Details/5
-            public async Task<IActionResult> Details(int? id)
+            foreach (var item in _context.ColaboradorIdioma)
+            {
+                if (item.ColaboradorId == colaborador.ColaboradorId)
+                {
+                    _context.Entry(item).State = EntityState.Deleted;
+                    ViewBag.Title = "Alteração do idioma do colaborador";/////////////
+                    ViewBag.Message = "Idioma alterado no colaborador com sucesso!!!";/////////////
+                }
+            }
+
+            foreach (var item in colaborador.Idiomas)
+            {
+                if (item.Checked)
+                {
+                    _context.ColaboradorIdioma.Add(new
+                        ColaboradorIdioma()
+                    {
+                        ColaboradorId = colaborador.ColaboradorId,
+                        IdiomaId = item.Id,
+                    });
+
+
+                    ViewBag.Title = "Idioma adicionado ao Colaborador";
+                    ViewBag.Message = "Idioma adicionado ao Colaborador com sucesso!!!";
+                }
+            }
+
+            _context.SaveChanges();
+
+
+            return View("Success");
+        }
+
+
+        // GET: Colaboradors/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
