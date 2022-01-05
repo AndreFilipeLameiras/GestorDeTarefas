@@ -8,16 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
 using GestorDeTarefas.ViewModels;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace GestorDeTarefas.Controllers
 {
     public class ProjetoSprintDesignsController : Controller
     {
         private readonly GestorDeTarefasContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ProjetoSprintDesignsController(GestorDeTarefasContext context)
+        public ProjetoSprintDesignsController(GestorDeTarefasContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            this._hostEnvironment = hostEnvironment;
         }
 
         // GET: ProjetoSprintDesigns
@@ -114,15 +118,29 @@ namespace GestorDeTarefas.Controllers
                                           select ab).Count() > 0)
                           };
 
+            var Resultado = from b in _context.ColaboradorProjetoSprint
+                          select new
+                          {
+                              b.ColaboradorId,
+                              b.Colaborador.Name,
+                              b.DataInicio,
+                              b.DataFim,
+                              Checked = ((from ab in _context.ColaboradorProjetoSprint
+                                          where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                          select ab).Count() > 0)
+                          };
+
+
             var MyViewModel = new ProjetoSprintListViewModel();
             MyViewModel.ProjetoSprintDesignID = id.Value;
             MyViewModel.NomeProjeto = projetoSprintDesign.NomeProjeto;
 
             var MyCheckBoxList = new List<CheckBoxViewModel>();
 
-            foreach (var item in Results)
+            foreach (var item in Resultado)
             {
-                MyCheckBoxList.Add(new CheckBoxViewModel { Id = item.ColaboradorId, Name = item.Name, Checked = item.Checked });
+                MyCheckBoxList.Add(new CheckBoxViewModel { Id = item.ColaboradorId, Name = item.Name, Checked = item.Checked,
+                DataInicio = item.DataInicio, DataFim = item.DataFim});
 
                 MyViewModel.Colaboradores = MyCheckBoxList;
             }
@@ -140,7 +158,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProjetoSprintDesignID,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] ProjetoSprintDesign projetoSprintDesign)
+        public async Task<IActionResult> Create([Bind("ProjetoSprintDesignID,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim,CarregarImagemProjeto")] ProjetoSprintDesign projetoSprintDesign)
         {
             if (projetoSprintDesign.DataPrevistaFim < projetoSprintDesign.DataDefinitivaInicio || projetoSprintDesign.DataPrevistaFim < projetoSprintDesign.DataPrevistaInicio)
             {
@@ -157,6 +175,20 @@ namespace GestorDeTarefas.Controllers
                 {
                     projetoSprintDesign.EstadoProjeto = "Dentro do prazo";
                 }
+
+                //Guardar imagem no wwwroot/imagens
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(projetoSprintDesign.CarregarImagemProjeto.FileName);
+                string extension = Path.GetExtension(projetoSprintDesign.CarregarImagemProjeto.FileName);
+                projetoSprintDesign.ImagemProjeto =  fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/Imagens/", fileName);
+
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await projetoSprintDesign.CarregarImagemProjeto.CopyToAsync(fileStream);
+                }
+
+
                 _context.Add(projetoSprintDesign);
                 await _context.SaveChangesAsync();
                 ViewBag.Title = "Projeto adicionado";
@@ -245,8 +277,103 @@ namespace GestorDeTarefas.Controllers
         }
 
 
+        public async Task<IActionResult> RemoverColaboradores(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var projetoSprintDesign = await _context.ProjetoSprintDesign
+                .FirstOrDefaultAsync(m => m.ProjetoSprintDesignID == id);
+            if (projetoSprintDesign == null)
+            {
+                return NotFound();
+            }
+
+            var Results = from b in _context.Colaborador
+                          select new
+                          {
+                              b.ColaboradorId,
+                              b.Name,
+                              Checked = ((from ab in _context.ColaboradorProjetoSprint
+                                          where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                          select ab).Count() > 0)
+                          };
+
+            var Resultado = from b in _context.ColaboradorProjetoSprint
+                            select new
+                            {
+                                b.ColaboradorId,
+                                b.Colaborador.Name,
+                                b.DataInicio,
+                                b.DataFim,
+                                Checked = ((from ab in _context.ColaboradorProjetoSprint
+                                            where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                            select ab).Count() > 0)
+                            };
+
+
+            var MyViewModel = new ProjetoSprintListViewModel();
+            MyViewModel.ProjetoSprintDesignID = id.Value;
+            MyViewModel.NomeProjeto = projetoSprintDesign.NomeProjeto;
+
+            var MyCheckBoxList = new List<CheckBoxViewModel>();
+
+            foreach (var item in Resultado)
+            {
+                MyCheckBoxList.Add(new CheckBoxViewModel
+                {
+                    Id = item.ColaboradorId,
+                    Name = item.Name,
+                    Checked = item.Checked,
+                    DataInicio = item.DataInicio,
+                    DataFim = item.DataFim
+                });
+
+                MyViewModel.Colaboradores = MyCheckBoxList;
+            }
+            return View(MyViewModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoverColaboradores(ProjetoSprintListViewModel projetoSprint)
+        {
+            
+            foreach (var item in projetoSprint.Colaboradores)
+            {
+            
+                if (item.Checked==false)
+                {
+                    foreach (var itemm in _context.ColaboradorProjetoSprint)
+                    {
+                        if (itemm.ProjetoSprintDesignID == projetoSprint.ProjetoSprintDesignID && itemm.ColaboradorId == item.Id )
+                        {
+                            
+                            _context.Entry(itemm).State = EntityState.Deleted;
+
+                            ViewBag.Title = "Colaborador removido";
+                            ViewBag.Message = "Colaborador removido no projeto com sucesso!!!";
+                        }
+                            
+                    }
+                }
+            }
+
+            _context.SaveChanges();
+
+
+            return View("Success");
+            
+            
+            //  return View(projetoSprint);
+        }
+
         public async Task<IActionResult> AdicionarColaboradores(int? id)
         {
+            
            
             if (id == null)
             {
@@ -271,19 +398,32 @@ namespace GestorDeTarefas.Controllers
                                           select ab).Count() > 0)
                           };
 
+
+
+
             var MyViewModel = new ProjetoSprintListViewModel();
             MyViewModel.ProjetoSprintDesignID = id.Value;
             MyViewModel.NomeProjeto = projetoSprintDesign.NomeProjeto;
 
-            var MyCheckBoxList = new List<CheckBoxViewModel>(); 
-
-            foreach (var item in Results)
+            var MyCheckBoxList = new List<CheckBoxViewModel>();
+            foreach (var colaborador in Results)
             {
-                MyCheckBoxList.Add(new CheckBoxViewModel {Id=item.ColaboradorId, Name = item.Name,Checked = item.Checked });
+                if (colaborador.Checked == false) { 
+
+                MyCheckBoxList.Add(new CheckBoxViewModel
+                {
+                    Id = colaborador.ColaboradorId,
+                    Name = colaborador.Name,
+                    Checked = colaborador.Checked
+
+                });
+
+
 
                 MyViewModel.Colaboradores = MyCheckBoxList;
+                }
             }
-            
+
             return View(MyViewModel);
 
            
@@ -299,15 +439,7 @@ namespace GestorDeTarefas.Controllers
             var MyProjet = _context.ProjetoSprintDesign.Find(projetoSprint.ProjetoSprintDesignID);
             MyProjet.NomeProjeto = projetoSprint.NomeProjeto;
 
-            foreach( var item in _context.ColaboradorProjetoSprint)
-            {
-                if(item.ProjetoSprintDesignID == projetoSprint.ProjetoSprintDesignID)
-                {
-                    _context.Entry(item).State = EntityState.Deleted;
-                    ViewBag.Title = "Alteração do colaborador no projeto";
-                    ViewBag.Message = "Colaborador alterado no projeto com sucesso!!!";
-                }
-            }
+            
 
             foreach (var item in projetoSprint.Colaboradores)
             {
@@ -321,10 +453,15 @@ namespace GestorDeTarefas.Controllers
                     ModelState.AddModelError("", "Data de fim é Obrigatória");
                     return View(projetoSprint);
                 }
-
-               
-                if (item.Checked && item.ColaboradorProjetoSprintss.DataInicio != null && item.ColaboradorProjetoSprintss.DataFim != null)
+                if (item.Checked && item.ColaboradorProjetoSprintss.DataFim.Value< item.ColaboradorProjetoSprintss.DataInicio.Value)
                 {
+                    ModelState.AddModelError("", "Data de fim deve ser maior ou igual a data de inicio");
+                    return View(projetoSprint);
+                }
+
+                if (item.Checked)
+                {
+                   
                     _context.ColaboradorProjetoSprint.Add(new
                         ColaboradorProjetoSprint()
                     { ProjetoSprintDesignID = projetoSprint.ProjetoSprintDesignID, ColaboradorId = item.Id,
@@ -337,6 +474,8 @@ namespace GestorDeTarefas.Controllers
 
               
                 }
+
+                
             }
               
                 _context.SaveChanges();
@@ -387,6 +526,13 @@ namespace GestorDeTarefas.Controllers
             try
             {
                 var projetoSprintDesign = await _context.ProjetoSprintDesign.FindAsync(id);
+                //apagar imagem wwwroot
+                var imagePath = Path.Combine(_hostEnvironment.WebRootPath, "Imagens", projetoSprintDesign.ImagemProjeto);
+
+                if (System.IO.File.Exists(imagePath))
+                    System.IO.File.Delete(imagePath);
+
+
                 _context.ProjetoSprintDesign.Remove(projetoSprintDesign);
                 await _context.SaveChangesAsync();
                 ViewBag.Title = "Projeto apagado";

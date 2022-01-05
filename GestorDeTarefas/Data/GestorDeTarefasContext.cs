@@ -21,7 +21,7 @@ namespace GestorDeTarefas.Data
 
             modelBuilder.Entity<ColaboradorProdutividade>()
                 .HasOne(bc => bc.Colaborador)
-                .WithMany(b => b.ColaboradorProdutividad)
+                .WithMany(b => b.ColaboradorProdutividade)
                 .HasForeignKey(bc => bc.ColaboradorId);
 
             modelBuilder.Entity<ColaboradorProdutividade>()
@@ -72,7 +72,29 @@ namespace GestorDeTarefas.Data
             }
 
 
-            //////////////////Fim ProjetoSprint Colaborador/////////////
+            //////////////////Fim ProjetoSprint Colaborador///////////// 
+
+
+
+
+
+            ////////////SistemaProdutividade Colaborador////////////
+
+            modelBuilder.Entity<ColaboradorProdutividade>()
+                .HasKey(pc => new { pc.SistemaProdutividadeId, pc.ColaboradorId });          
+
+
+            modelBuilder.Entity<ColaboradorProjetoSprint>()
+               .HasOne(bc => bc.ProjetoSprintDesign)
+               .WithMany(b => b.ProjetoSprintColaboradores)
+               .HasForeignKey(bc => bc.ProjetoSprintDesignID);
+
+            modelBuilder.Entity<ColaboradorProjetoSprint>()
+                .HasOne(bc => bc.Colaborador)
+                .WithMany(c => c.ColaboradorProjetoSprints)
+                .HasForeignKey(bc => bc.ColaboradorId);
+
+            //////////////////Fim SistemProdutividade Colaborador/////////////
         }
 
 
@@ -82,6 +104,8 @@ namespace GestorDeTarefas.Data
         public DbSet<GestorDeTarefas.Models.Tarefas> Tarefas { get; set; }
 
         public DbSet<GestorDeTarefas.Models.SistemaProdutividade> SistemaProdutividade { get; set; }
+
+        public DbSet<GestorDeTarefas.Models.ColaboradorProdutividade> ColaboradorSistemaProdutividade { get; set; }
 
         public DbSet<GestorDeTarefas.Models.Cargo> Cargo { get; set; }
 

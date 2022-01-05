@@ -58,7 +58,7 @@
             else
             {
                 <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-page="1">First</a>
+                    <a class="page-link" asp-action="Index" asp-route-page="1">Primeiro</a>
                 </li>
             }
 
@@ -88,13 +88,13 @@
             if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
             {
                 <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Last</a>
+                    <a class="page-link" href="#" tabindex="-1">Ultimo</a>
                 </li>
             }
             else
             {
                 <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.PageSize">Last</a>
+                    <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.PageSize">Ultimo</a>
                 </li>
                 }
             }

@@ -1,7 +1,7 @@
 ﻿@model GestorDeTarefas.Models.SistemaProdutividade
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes";
 }
 
 <h1>Detalhes do Projeto</h1>
@@ -43,6 +43,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.SistemaProdutividadeId">Editar</a> |
-    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    <a asp-action="Edit" asp-route-id="@Model.SistemaProdutividadeId" class="btn btn-warning">Editar</a> |
+    <a asp-action="Index" class="btn btn-secondary">Voltar a lista</a>
 </div>

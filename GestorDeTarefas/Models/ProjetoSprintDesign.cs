@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -45,6 +47,12 @@ namespace GestorDeTarefas.Models
         [StringLength(20, MinimumLength = 5, ErrorMessage = "O estado do projeto deve ter entre 5 e 20 caracteres")]
         public string? EstadoProjeto { get; set; }
 
+        [Display(Name = "Imagem do Projeto")]
+        public string ImagemProjeto { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Carregar Imagem do Projeto")]
+        public IFormFile CarregarImagemProjeto { get; set; }
 
         public ICollection<ColaboradorProjetoSprint> ProjetoSprintColaboradores { get; set; }
         public ICollection<Tarefas> Tarefas { get; set; }
