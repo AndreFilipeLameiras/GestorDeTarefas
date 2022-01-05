@@ -115,6 +115,17 @@ namespace GestorDeTarefas.Controllers
                                           where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
                                           select ab).Count() > 0)
                           };
+            var Resultado = from b in _context.ColaboradorSistemaProdutividade
+                            select new
+                            {
+                                b.ColaboradorId,
+                                b.Colaborador.Name,
+                                b.DataInicio,
+                                b.DataFim,
+                                Checked = ((from ab in _context.ColaboradorSistemaProdutividade
+                                            where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                            select ab).Count() > 0)
+                            };
 
             var MyViewModel = new SistemProdListViewmodel();
             MyViewModel.ID_SistemaProdutividade = id.Value;
@@ -363,7 +374,7 @@ namespace GestorDeTarefas.Controllers
 
 
             return View("Success");
-            //  return View(projetoSprint);
+            //  return View(sistemaProdutividade);
         }
 
         // GET: SistemaProdutividades/Delete/5

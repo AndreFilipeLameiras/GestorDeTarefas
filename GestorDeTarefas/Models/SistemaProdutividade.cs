@@ -46,6 +46,8 @@ namespace GestorDeTarefas.Models
         [StringLength(20, MinimumLength = 5, ErrorMessage = "O estado do projeto deve ter entre 5 e 20 caracteres")]
         public string? EstadoProjeto { get; set; }
 
+        
+
 
 
 
