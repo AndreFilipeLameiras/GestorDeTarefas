@@ -25,7 +25,8 @@ namespace GestorDeTarefas.Controllers
         public async Task<IActionResult> Index(string nome,int page = 1)
         {
             var tarefaSearch = _context.Tarefas
-               .Where(b => nome == null || b.Nome.Contains(nome));
+               .Where(b => nome == null || b.Nome.Contains(nome) || b.EstadoTarefa.Contains(nome)
+               || b.Colaborador.Name.Contains(nome) || b.ProjetoSprintDesign.NomeProjeto.Contains(nome));
             var pagingInfo = new PagingInfo
             {
                 CurrentPage = page,
