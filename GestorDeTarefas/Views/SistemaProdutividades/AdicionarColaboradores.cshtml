@@ -20,6 +20,8 @@
                                 <label asp-for="NomeProjeto" class="control-label">Nome do Projeto</label>
                             </th>
                             <th scope="col">Colaboradores</th>
+                            <th scope="col">Data de inicio</th>
+                            <th scope="col">Data de fim</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,28 +37,48 @@
                                     <div class="col">
                                         @for (int i = 0; i < Model.Colaboradores.Count(); i++)
                                         {
-                                            <dd class="col-sm-10">
+                                            
+                                            <dd>
+
+
                                                 @Html.EditorFor(m => Model.Colaboradores[i].Checked)
-
                                                 @Html.DisplayFor(m => Model.Colaboradores[i].Name)
-
-
                                                 @Html.HiddenFor(m => Model.Colaboradores[i].Name)
                                                 @Html.HiddenFor(m => Model.Colaboradores[i].Id)
-
-                                                @Html.EditorFor(m => Model.Colaboradores[i].ColaboradorProjetoProd.DataInicio)
-
-                                                @Html.EditorFor(m => Model.Colaboradores[i].ColaboradorProjetoProd.DataFim)
-                                                @Html.HiddenFor(m => Model.Colaboradores[i].ColaboradorProjetoProd.DataInicio)
-                                                @Html.HiddenFor(m => Model.Colaboradores[i].ColaboradorProjetoProd.DataFim)
-
                                             </dd>
-                                        }
 
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+
+
+                                            }
+
+
+                                </td>
+                                <td>
+                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                    {
+
+
+                                        <dd>
+                                            @Html.EditorFor(m => Model.Colaboradores[i].ColaboradorProjetoSprintss.DataInicio)
+                                        </dd>
+
+                                    }
+
+                                </td>
+                                <td>
+                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                    {
+
+                                        <dd>
+                                            @Html.EditorFor(m => Model.Colaboradores[i].ColaboradorProjetoSprintss.DataFim)
+
+                                        </dd>
+                                    }
+
+
+                                </td>
+                                </td>
+                            </tr>
                     </tbody>
                 </table>
 

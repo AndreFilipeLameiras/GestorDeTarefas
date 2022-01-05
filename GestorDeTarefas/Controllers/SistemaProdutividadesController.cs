@@ -348,9 +348,13 @@ namespace GestorDeTarefas.Controllers
                     ModelState.AddModelError("", "Data de fim é Obrigatória");
                     return View(projetoPodutividade);
                 }
+                if (item.Checked && item.ColaboradorProjetoProd.DataFim.Value < item.ColaboradorProjetoSprintss.DataInicio.Value)
+                {
+                    ModelState.AddModelError("", "Data de fim deve ser maior ou igual a data de inicio");
+                    return View(projetoPodutividade);
+                }
 
-
-                if (item.Checked && item.ColaboradorProjetoProd.DataInicio != null && item.ColaboradorProjetoProd.DataFim != null)
+                if (item.Checked)
                 {
                     _context.ColaboradorSistemaProdutividade.Add(new
                         ColaboradorProdutividade()
