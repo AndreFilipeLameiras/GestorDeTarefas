@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="NomeProjeto" class="control-label"></label>
@@ -32,10 +32,15 @@
                 <input asp-for="DataPrevistaFim" class="form-control" />
                 <span asp-validation-for="DataPrevistaFim" class="text-danger"></span>
             </div>
-           
             <div class="form-group">
-                <input type="submit" value="Criar" class="btn btn-primary" /> 
-                <a asp-action="Index" class="btn btn-secondary">Voltar a lista</a> 
+                <label asp-for="CarregarImagemProjeto" class="control-label"></label>
+                <input asp-for="CarregarImagemProjeto"  accept="img/*" class="form-control" />
+                <span asp-validation-for="CarregarImagemProjeto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Criar" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Voltar a lista</a>
             </div>
         </form>
     </div>

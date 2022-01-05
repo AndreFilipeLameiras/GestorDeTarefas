@@ -4,14 +4,16 @@ using GestorDeTarefas.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GestorDeTarefas.Migrations
 {
     [DbContext(typeof(GestorDeTarefasContext))]
-    partial class GestorDeTarefasContextModelSnapshot : ModelSnapshot
+    [Migration("20220105032000_projetoSprintV3")]
+    partial class projetoSprintV3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,23 +86,17 @@ namespace GestorDeTarefas.Migrations
 
             modelBuilder.Entity("GestorDeTarefas.Models.ColaboradorProdutividade", b =>
                 {
-                    b.Property<int>("SistemaProdutividadeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ColaboradorId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DataFim")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("SistemaProdutividadeId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime?>("DataInicio")
-                        .HasColumnType("datetime2");
+                    b.HasKey("ColaboradorId", "SistemaProdutividadeId");
 
-                    b.HasKey("SistemaProdutividadeId", "ColaboradorId");
+                    b.HasIndex("SistemaProdutividadeId");
 
-                    b.HasIndex("ColaboradorId");
-
-                    b.ToTable("ColaboradorSistemaProdutividade");
+                    b.ToTable("ColaboradorProdutividade");
                 });
 
             modelBuilder.Entity("GestorDeTarefas.Models.ColaboradorProjetoSprint", b =>
@@ -184,7 +180,7 @@ namespace GestorDeTarefas.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("DataDefinitivaFim")
+                    b.Property<DateTime>("DataDefinitivaFim")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataDefinitivaInicio")
@@ -195,10 +191,6 @@ namespace GestorDeTarefas.Migrations
 
                     b.Property<DateTime>("DataPrevistaInicio")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("EstadoProjeto")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("NomeProjeto")
                         .IsRequired()
