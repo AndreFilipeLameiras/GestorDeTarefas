@@ -58,6 +58,86 @@ namespace GestorDeTarefas.Controllers
             );
         }
 
+        public async Task<IActionResult> AdicionarIdiomaColaborador(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Colaborador colaborador = _context.Colaborador.Find(id);
+
+            if (colaborador == null)
+            {
+                return NotFound();
+            }
+
+            var Results = from b in _context.Idioma
+                          select new
+                          {
+                              b.IdiomaId,
+                              b.NomeIdioma,
+                              Checked = ((from ab in _context.ColaboradorIdioma
+                                          where (ab.ColaboradorId == id) & (ab.IdiomaId == b.IdiomaId)
+                                          select ab).Count() > 0)
+                          };
+
+            var MyViewModel = new ColaboradorListViewModel();
+            MyViewModel.ColaboradorId = id.Value;
+            MyViewModel.NomeColaborador = colaborador.Name;
+
+            var MyCheckBoxList = new List<CheckBoxViewModelColaboradorIdioma>();
+
+            foreach (var item in Results)
+            {
+               MyCheckBoxList.Add(new CheckBoxViewModelColaboradorIdioma { Id = item.IdiomaId, Name = item.NomeIdioma, Checked = item.Checked });
+
+                MyViewModel.Idiomas = MyCheckBoxList;
+            }
+            return View(MyViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdicionarIdiomaColaborador(ColaboradorListViewModel colaborador)
+        {
+            var MyColaborador = _context.Colaborador.Find(colaborador.ColaboradorId);
+            MyColaborador.Name = colaborador.NomeColaborador;
+
+            foreach (var item in _context.ColaboradorIdioma)
+            {
+                if (item.ColaboradorId == colaborador.ColaboradorId)
+                {
+                    _context.Entry(item).State = EntityState.Deleted;
+                    ViewBag.Title = "Alteração do idioma do colaborador";/////////////
+                    ViewBag.Message = "Idioma alterado no colaborador com sucesso!!!";/////////////
+                }
+            }
+
+            foreach (var item in colaborador.Idiomas)
+            {
+                if (item.Checked)
+                {
+                    _context.ColaboradorIdioma.Add(new
+                        ColaboradorIdioma()
+                    {
+                        ColaboradorId = colaborador.ColaboradorId,
+                        IdiomaId = item.Id,
+                    });
+
+
+                    ViewBag.Title = "Idioma adicionado ao Colaborador";
+                    ViewBag.Message = "Idioma adicionado ao Colaborador com sucesso!!!";
+                }
+            }
+
+            _context.SaveChanges();
+
+
+            return View("Success");
+        }
+
+
         // GET: Colaboradors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -159,19 +239,27 @@ namespace GestorDeTarefas.Controllers
         // GET: Colaboradors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var colaborador = await _context.Colaborador
-                .SingleOrDefaultAsync(m => m.ColaboradorId == id);
-            if (colaborador == null)
+                var colaborador = await _context.Colaborador
+                    .SingleOrDefaultAsync(m => m.ColaboradorId == id);
+                if (colaborador == null)
+                {
+                    return NotFound();
+                }
+
+                return View(colaborador);
+                }
+            catch (DbUpdateException /* ex */)
             {
-                return NotFound();
-            }
 
-            return View(colaborador);
+                return View("MensagemErro");
+            }
         }
 
         // POST: Colaboradors/Delete/5
@@ -179,12 +267,22 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var colaborador = await _context.Colaborador.FindAsync(id);
-            _context.Colaborador.Remove(colaborador);
-            await _context.SaveChangesAsync();
-            ViewBag.Title = "Colaboradores apagado";
-            ViewBag.Message = "Colaborador apagado com sucesso.";
-            return View("Success");
+            try
+            {
+                var colaborador = await _context.Colaborador.FindAsync(id);
+                _context.Colaborador.Remove(colaborador);
+                await _context.SaveChangesAsync();
+                ViewBag.Title = "Colaboradores apagado";
+                ViewBag.Message = "Colaborador apagado com sucesso.";
+                return View("Success");
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                ViewBag.Title = "Ups! Este Colaborador não pode ser apagado.";
+                ViewBag.Message = "Verifique as ligações entre as tabelas!!!";
+                return View("MensagemErro");
+            }
+
         }
 
         private bool ColaboradorExists(int id)

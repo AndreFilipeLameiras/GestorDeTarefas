@@ -20,7 +20,7 @@
             <input name="nome" type="search" class="form-control" value="@Model.NomeSearched" />
             <div class="mt-3">
                 <input type="submit" value="Procurar" class="btn btn-info" />
-                <a asp-action="Index" class="btn btn-secondary">Apagar</a>
+                <a asp-action="Index" class="btn btn-secondary">Limpar</a>
             </div>
         </form>
     </div>
@@ -37,6 +37,7 @@
             <p class="card-text">@colaborador.Cargo.Nome_Cargo</p>
 
             <a asp-action="Details" asp-route-id="@colaborador.ColaboradorId" class="btn btn-info">Detalhes</a>
+            <a asp-action="AdicionarIdiomaColaborador" asp-route-id="@colaborador.ColaboradorId" class="btn btn-danger">AdicionarIdioma</a>
             <a asp-action="Edit" asp-route-id="@colaborador.ColaboradorId" class="btn btn-warning">Editar</a>
             <a asp-action="Delete" asp-route-id="@colaborador.ColaboradorId" class="btn btn-danger">Apagar</a>
         </div>

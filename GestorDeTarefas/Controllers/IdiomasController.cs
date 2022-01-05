@@ -160,7 +160,9 @@ namespace GestorDeTarefas.Controllers
         // GET: Idiomas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
+            {
+                if (id == null)
             {
                 return NotFound();
             }
@@ -173,6 +175,12 @@ namespace GestorDeTarefas.Controllers
             }
 
             return View(idioma);
+            }
+            catch (DbUpdateException /* ex */)
+            {
+
+                return View("MensagemErro");
+            }
         }
 
         // POST: Idiomas/Delete/5
@@ -180,13 +188,22 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var idioma = await _context.Idioma.FindAsync(id);
+            try
+            {
+                var idioma = await _context.Idioma.FindAsync(id);
             _context.Idioma.Remove(idioma);
             await _context.SaveChangesAsync();
 
             ViewBag.Title = "Idioma eliminado";
             ViewBag.Message = "Idioma elimindo com sucesso.";
             return View("Success");
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                ViewBag.Title = "Ups! Este idioma não pode ser apagado.";
+                ViewBag.Message = "Verifique as ligações entre as tabelas!!!";
+                return View("MensagemErro");
+            }
         }
 
         private bool IdiomaExists(int id)

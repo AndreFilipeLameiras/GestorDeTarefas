@@ -157,7 +157,9 @@ namespace GestorDeTarefas.Controllers
         // GET: Cargos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
+            {
+                if (id == null)
             {
                 return NotFound();
             }
@@ -170,6 +172,12 @@ namespace GestorDeTarefas.Controllers
             }
 
             return View(cargo);
+            }
+            catch (DbUpdateException /* ex */)
+            {
+
+                return View("MensagemErro");
+            }
         }
 
         // POST: Cargos/Delete/5
@@ -177,13 +185,22 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cargo = await _context.Cargo.FindAsync(id);
+            try
+            {
+                var cargo = await _context.Cargo.FindAsync(id);
             _context.Cargo.Remove(cargo);
             await _context.SaveChangesAsync();
 
             ViewBag.Title = "Cargo Apagado";
             ViewBag.Message = "Cargo apagado com sucesso.";
             return View("Success");
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                ViewBag.Title = "Ups! Este Cargo não pode ser apagado.";
+                ViewBag.Message = "Verifique as ligações entre as tabelas!!!";
+                return View("MensagemErro");
+            }
         }
 
         private bool CargoExists(int id)
