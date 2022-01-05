@@ -12,6 +12,7 @@ namespace GestorDeTarefas.ViewModels
         public PagingInfo PagingInfo { get; set; }
         public string NomeSearched { get; set; }
 
+
         public List<CheckBoxViewModelColaboradorIdioma> Idiomas { get; set;}
 
         public int ColaboradorId { get; set;}

@@ -21,10 +21,10 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Colaboradors
-        public async Task<IActionResult> Index(string nome, int page = 1)
+        public async Task<IActionResult> Index(string nome,int page = 1)
         {
             var colaboradorSearch = _context.Colaborador
-                .Where(b => nome == null || b.Name.Contains(nome));
+                .Where(b => nome == null || b.Name.Contains(nome) || b.Cargo.Nome_Cargo.Contains(nome));
             var pagingInfo = new PagingInfo
             {
                 CurrentPage = page,
@@ -53,7 +53,7 @@ namespace GestorDeTarefas.Controllers
                 {
                     Colaboradors = colaboradors,
                     PagingInfo = pagingInfo,
-                    NomeSearched = nome
+                    NomeSearched = nome,
                 }
             );
         }
