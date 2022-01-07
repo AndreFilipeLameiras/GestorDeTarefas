@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace GestorDeTarefas.ViewModels
 {
-    public class CheckBoxViewModel
+    public class CheckBoxViewModelProdutividade
     {
+
         public int Id { get; set; }
         public string Name { get; set; }
         public bool Checked { get; set; }
@@ -19,8 +20,6 @@ namespace GestorDeTarefas.ViewModels
         [DataType(DataType.Date)]
         public DateTime? DataFim { get; set; }
 
-        public ColaboradorProjetoSprint ColaboradorProjetoSprintss { get; set; }
-
-        
+        public ColaboradorProdutividade ColaboradorProjetoProd { get; set; }
     }
 }
