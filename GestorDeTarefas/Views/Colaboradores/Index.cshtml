@@ -1,4 +1,4 @@
-﻿    @model ColaboradorListViewModel
+﻿@model ColaboradorListViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -8,89 +8,95 @@
 
 <p>Há um total de @Model.PagingInfo.TotalItems colaboradores</p>
 
-<p>
-    <a asp-action="Create" class="btn btn-dark">Criar Novo</a>
-</p>
-
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">Procurar</h5>
-        <form asp-action="Index" method="get">
-            <label for="nome" class="control-label">Nome</label>
-            <input name="nome" type="search" class="form-control" value="@Model.NomeSearched" />
-            <div class="mt-3">
-                <input type="submit" value="Procurar" class="btn btn-info" />
-                <a asp-action="Index" class="btn btn-secondary">Limpar</a>
-            </div>
-        </form>
-    </div>
-</div>
-
-@foreach (var colaborador in Model.Colaboradors)
+@if (User.IsInRole("product_manager"))
 {
-    <div class="card mt-3">
-        <div class="card-body">
-            <h5 class="card-title">@colaborador.Name</h5>
-            @*<p class="card-text lead">@colaborador.Email</p>*@
-            @*<p class="card-text">@colaborador.Contacto</p>*@
-            @*<p class="card-text">@colaborador.Cargo</p>*@
-            <p class="card-text">@colaborador.Cargo.Nome_Cargo</p>
+    <p>
+        <a asp-action="Create" class="btn btn-dark">Criar Novo</a>
+    </p>
+}
 
-            <a asp-action="Details" asp-route-id="@colaborador.ColaboradorId" class="btn btn-info">Detalhes</a>
-            <a asp-action="Edit" asp-route-id="@colaborador.ColaboradorId" class="btn btn-warning">Editar</a>
-            <a asp-action="Delete" asp-route-id="@colaborador.ColaboradorId" class="btn btn-danger">Apagar</a>
-            <a asp-action="AdicionarIdiomaColaborador" asp-route-id="@colaborador.ColaboradorId" class="btn btn-outline-success">Adicionar Idioma</a>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Procurar</h5>
+            <form asp-action="Index" method="get">
+                <label for="nome" class="control-label">Nome</label>
+                <input name="nome" type="search" class="form-control" value="@Model.NomeSearched" />
+                <div class="mt-3">
+                    <input type="submit" value="Procurar" class="btn btn-info" />
+                    <a asp-action="Index" class="btn btn-secondary">Limpar</a>
+                </div>
+            </form>
         </div>
     </div>
-}
-<nav class="mt-3">
-    <ul class="pagination">
-        @{ if (Model.PagingInfo.CurrentPage == 1)
-            {
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Primeiro</a>
-                </li>
-            }
-            else
-            {
-                <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-page="1">Primeiro</a>
-                </li>
-            }
-            int firstPage = Model.PagingInfo.CurrentPage - PagingInfo.NUMBER_PAGES_SHOW_BEFORE_AFTER;
-            if (firstPage < 1) firstPage = 1;
 
-            int lastPage = Model.PagingInfo.CurrentPage + PagingInfo.NUMBER_PAGES_SHOW_BEFORE_AFTER;
-            if (lastPage > Model.PagingInfo.TotalPages) lastPage = Model.PagingInfo.TotalPages;
+    @foreach (var colaborador in Model.Colaboradors)
+    {
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5 class="card-title">@colaborador.Name</h5>
+                @*<p class="card-text lead">@colaborador.Email</p>*@
+                @*<p class="card-text">@colaborador.Contacto</p>*@
+                @*<p class="card-text">@colaborador.Cargo</p>*@
+                <p class="card-text">@colaborador.Cargo.Nome_Cargo</p>
 
-            for (int p = firstPage; p <= lastPage; p++)
-            {
-
-                if (p == Model.PagingInfo.CurrentPage)
+                <a asp-action="Details" asp-route-id="@colaborador.ColaboradorId" class="btn btn-info">Detalhes</a>
+                @if (User.IsInRole("product_manager"))
                 {
-                    <li class="page-item active">
-                        <a class="page-link" href="#">@p <span class="sr-only">(current)</span></a>
+                    <a asp-action="Edit" asp-route-id="@colaborador.ColaboradorId" class="btn btn-warning">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@colaborador.ColaboradorId" class="btn btn-danger">Apagar</a>
+                    <a asp-action="AdicionarIdiomaColaborador" asp-route-id="@colaborador.ColaboradorId" class="btn btn-outline-success">Adicionar Idioma</a>
+                }
+            </div>
+        </div>
+    }
+    <nav class="mt-3">
+        <ul class="pagination">
+            @{ if (Model.PagingInfo.CurrentPage == 1)
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Primeiro</a>
                     </li>
                 }
                 else
                 {
                     <li class="page-item">
-                        <a class="page-link" asp-action="Index" asp-route-page="@p">@p</a>
+                        <a class="page-link" asp-action="Index" asp-route-page="1">Primeiro</a>
+                    </li>
+                }
+                int firstPage = Model.PagingInfo.CurrentPage - PagingInfo.NUMBER_PAGES_SHOW_BEFORE_AFTER;
+                if (firstPage < 1) firstPage = 1;
+
+                int lastPage = Model.PagingInfo.CurrentPage + PagingInfo.NUMBER_PAGES_SHOW_BEFORE_AFTER;
+                if (lastPage > Model.PagingInfo.TotalPages) lastPage = Model.PagingInfo.TotalPages;
+
+                for (int p = firstPage; p <= lastPage; p++)
+                {
+
+                    if (p == Model.PagingInfo.CurrentPage)
+                    {
+                        <li class="page-item active">
+                            <a class="page-link" href="#">@p <span class="sr-only">(current)</span></a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-action="Index" asp-route-page="@p">@p</a>
+                        </li>
+                    }
+                }
+                if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Ultimo</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages">Ultimo</a>
                     </li>
                 }
             }
-            if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
-            {
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Ultimo</a>
-                </li>
- }
-            else
-            {
-                <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages">Ultimo</a>
-                </li>
-            }
-        }
-    </ul>
-</nav>
+        </ul>
+    </nav>
