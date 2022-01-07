@@ -105,7 +105,7 @@ namespace GestorDeTarefas.Data
 
         public DbSet<GestorDeTarefas.Models.SistemaProdutividade> SistemaProdutividade { get; set; }
 
-        public DbSet<GestorDeTarefas.Models.ColaboradorProdutividade> ColaboradorSistemaProdutividade { get; set; }
+        public DbSet<GestorDeTarefas.Models.ColaboradorProdutividade> ColaboradorProdutividade { get; set; }
 
         public DbSet<GestorDeTarefas.Models.Cargo> Cargo { get; set; }
 
