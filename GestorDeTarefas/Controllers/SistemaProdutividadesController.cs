@@ -106,36 +106,30 @@ namespace GestorDeTarefas.Controllers
                 return NotFound();
             }
 
-            var Results = from b in _context.Colaborador
-                          select new
-                          {
-                              b.ColaboradorId,
-                              b.Name,
-                              Checked = ((from ab in _context.ColaboradorSistemaProdutividade
-                                          where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
-                                          select ab).Count() > 0)
-                          };
-            var Resultado = from b in _context.ColaboradorSistemaProdutividade
+            
+            var Resultado = from b in _context.ColaboradorProdutividade
                             select new
                             {
                                 b.ColaboradorId,
                                 b.Colaborador.Name,
                                 b.DataInicio,
                                 b.DataFim,
-                                Checked = ((from ab in _context.ColaboradorSistemaProdutividade
+                                Checked = ((from ab in _context.ColaboradorProdutividade
                                             where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
                                             select ab).Count() > 0)
                             };
 
             var MyViewModel = new SistemProdListViewmodel();
-            MyViewModel.ID_SistemaProdutividade = id.Value;
+            MyViewModel.SistemaProdutividadeId = id.Value;
             MyViewModel.NomeProjeto = sistemaProdutividade.NomeProjeto;
 
-            var MyCheckBoxList = new List<CheckBoxViewModel>();
+            var MyCheckBoxList = new List<CheckBoxViewModelProdutividade>();
 
-            foreach (var item in Results)
+            foreach (var item in Resultado)
             {
-                MyCheckBoxList.Add(new CheckBoxViewModel { Id = item.ColaboradorId, Name = item.Name, Checked = item.Checked });
+                MyCheckBoxList.Add(new CheckBoxViewModelProdutividade
+                { Id = item.ColaboradorId, Name = item.Name, Checked = item.Checked,
+                DataInicio = item.DataInicio, DataFim = item.DataFim});
 
                 MyViewModel.Colaboradores = MyCheckBoxList;
             }
@@ -269,6 +263,91 @@ namespace GestorDeTarefas.Controllers
         }
 
 
+        public async Task<IActionResult> RemoverColaboradores(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var projetoProdutividade = await _context.SistemaProdutividade
+                .FirstOrDefaultAsync(m => m.SistemaProdutividadeId == id);
+            if (projetoProdutividade == null)
+            {
+                return NotFound();
+            }
+
+           
+            var Resultado = from b in _context.ColaboradorProdutividade
+                            select new
+                            {
+                                b.ColaboradorId,
+                                b.Colaborador.Name,
+                                b.DataInicio,
+                                b.DataFim,
+                                Checked = ((from ab in _context.ColaboradorProdutividade
+                                            where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                            select ab).Count() > 0)
+                            };
+
+
+            var MyViewModel = new SistemProdListViewmodel();
+            MyViewModel.SistemaProdutividadeId = id.Value;
+            MyViewModel.NomeProjeto = projetoProdutividade.NomeProjeto;
+
+            var MyCheckBoxList = new List<CheckBoxViewModelProdutividade>();
+
+            foreach (var item in Resultado)
+            {
+                MyCheckBoxList.Add(new CheckBoxViewModelProdutividade
+                {
+                    Id = item.ColaboradorId,
+                    Name = item.Name,
+                    Checked = item.Checked,
+                    DataInicio = item.DataInicio,
+                    DataFim = item.DataFim
+                });
+
+                MyViewModel.Colaboradores = MyCheckBoxList;
+            }
+            return View(MyViewModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoverColaboradores(SistemProdListViewmodel projetoProdutividade)
+        {
+
+            foreach (var item in projetoProdutividade.Colaboradores)
+            {
+
+                if (item.Checked == false)
+                {
+                    foreach (var itemm in _context.ColaboradorProdutividade)
+                    {
+                        if (itemm.SistemaProdutividadeId == projetoProdutividade.SistemaProdutividadeId && itemm.ColaboradorId == item.Id)
+                        {
+
+                            _context.Entry(itemm).State = EntityState.Deleted;
+
+                            ViewBag.Title = "Colaborador removido";
+                            ViewBag.Message = "Colaborador removido no projeto com sucesso!!!";
+                        }
+
+                    }
+                }
+            }
+
+            _context.SaveChanges();
+
+
+            return View("Success");
+
+
+            
+        }
+
         public async Task<IActionResult> AdicionarColaboradores(int? id)
         {
 
@@ -277,10 +356,10 @@ namespace GestorDeTarefas.Controllers
                 return NotFound();
             }
 
-            SistemaProdutividade sistemaProdutividade = _context.SistemaProdutividade.Find(id);
+            SistemaProdutividade SistemaProdutividade = _context.SistemaProdutividade.Find(id);
 
-            // var sistemaProdutividade = await _context.SistemaProdutividade.FindAsync(id);
-            if (sistemaProdutividade == null)
+         
+            if (SistemaProdutividade == null)
             {
                 return NotFound();
             }
@@ -290,76 +369,79 @@ namespace GestorDeTarefas.Controllers
                           {
                               b.ColaboradorId,
                               b.Name,
-                              Checked = ((from ab in _context.ColaboradorSistemaProdutividade
+                              Checked = ((from ab in _context.ColaboradorProdutividade
                                           where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
                                           select ab).Count() > 0)
                           };
 
+
+
+
             var MyViewModel = new SistemProdListViewmodel();
-            MyViewModel.ID_SistemaProdutividade = id.Value;
-            MyViewModel.NomeProjeto = sistemaProdutividade.NomeProjeto;
+            MyViewModel.SistemaProdutividadeId = id.Value;
+            MyViewModel.NomeProjeto = SistemaProdutividade.NomeProjeto;
 
-            var MyCheckBoxList = new List<CheckBoxViewModel>();
-
-            foreach (var item in Results)
+            var MyCheckBoxList = new List<CheckBoxViewModelProdutividade>();
+            foreach (var colaborador in Results)
             {
-                MyCheckBoxList.Add(new CheckBoxViewModel { Id = item.ColaboradorId, Name = item.Name, Checked = item.Checked });
+                if (colaborador.Checked == false)
+                {
 
-                MyViewModel.Colaboradores = MyCheckBoxList;
+                    MyCheckBoxList.Add(new CheckBoxViewModelProdutividade
+                    {
+                        Id = colaborador.ColaboradorId,
+                        Name = colaborador.Name,
+                        Checked = colaborador.Checked
+
+                    });
+
+
+
+                    MyViewModel.Colaboradores = MyCheckBoxList;
+                }
             }
 
             return View(MyViewModel);
 
-
         }
 
-
-
-        // POST: SistemaProdutividades/Edit/5
+        // POST: ProjetoSprintDesigns/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AdicionarColaboradores(SistemProdListViewmodel projetoPodutividade)
+        public async Task<IActionResult> AdicionarColaboradores(SistemProdListViewmodel projetoProdutividade)
         {
-            var MyProjet = _context.SistemaProdutividade.Find(projetoPodutividade.ID_SistemaProdutividade);
-            MyProjet.NomeProjeto = projetoPodutividade.NomeProjeto;
-
-            foreach (var item in _context.ColaboradorSistemaProdutividade)
-            {
-                if (item.SistemaProdutividadeId == projetoPodutividade.ID_SistemaProdutividade)
-                {
-                    _context.Entry(item).State = EntityState.Deleted;
-                    ViewBag.Title = "Alteração do colaborador no projeto";
-                    ViewBag.Message = "Colaborador alterado no projeto com sucesso!!!";
-                }
-            }
+            var MyProjet = _context.SistemaProdutividade.Find(projetoProdutividade.SistemaProdutividadeId);
+            MyProjet.NomeProjeto = projetoProdutividade.NomeProjeto;
 
 
-            foreach (var item in projetoPodutividade.Colaboradores)
+
+            foreach (var item in projetoProdutividade.Colaboradores)
             {
                 if (item.Checked && item.ColaboradorProjetoProd.DataInicio == null)
                 {
                     ModelState.AddModelError("", "Data de inicio é Obrigatória");
-                    return View(projetoPodutividade);
+                    return View(projetoProdutividade);
                 }
                 if (item.Checked && item.ColaboradorProjetoProd.DataFim == null)
                 {
                     ModelState.AddModelError("", "Data de fim é Obrigatória");
-                    return View(projetoPodutividade);
+                    return View(projetoProdutividade);
                 }
-                if (item.Checked && item.ColaboradorProjetoProd.DataFim.Value < item.ColaboradorProjetoSprintss.DataInicio.Value)
+                if (item.Checked && item.ColaboradorProjetoProd.DataFim.Value < item.ColaboradorProjetoProd.DataInicio.Value)
                 {
                     ModelState.AddModelError("", "Data de fim deve ser maior ou igual a data de inicio");
-                    return View(projetoPodutividade);
+                    return View(projetoProdutividade);
                 }
 
                 if (item.Checked)
                 {
-                    _context.ColaboradorSistemaProdutividade.Add(new
+
+                    _context.ColaboradorProdutividade.Add(new
                         ColaboradorProdutividade()
                     {
-                        SistemaProdutividadeId = projetoPodutividade.ID_SistemaProdutividade,
+                        SistemaProdutividadeId = projetoProdutividade.SistemaProdutividadeId,
                         ColaboradorId = item.Id,
                         DataInicio = item.ColaboradorProjetoProd.DataInicio,
                         DataFim = item.ColaboradorProjetoProd.DataFim
@@ -368,18 +450,20 @@ namespace GestorDeTarefas.Controllers
 
                     ViewBag.Title = "Colaborador adicionado ao projeto";
                     ViewBag.Message = "Colaborador adicionado ao projeto com sucesso!!!";
-                    // return View("Success");
-
+                    
 
                 }
+
+
             }
 
             _context.SaveChanges();
 
 
             return View("Success");
-            //  return View(sistemaProdutividade);
+            
         }
+
 
         // GET: SistemaProdutividades/Delete/5
         public async Task<IActionResult> Delete(int? id)
