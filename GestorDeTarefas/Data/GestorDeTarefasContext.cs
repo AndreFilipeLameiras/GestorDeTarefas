@@ -80,19 +80,19 @@ namespace GestorDeTarefas.Data
 
             ////////////SistemaProdutividade Colaborador////////////
 
-            modelBuilder.Entity<ColaboradorProdutividade>()
-                .HasKey(pc => new { pc.SistemaProdutividadeId, pc.ColaboradorId });          
+            //modelBuilder.Entity<ColaboradorProdutividade>()
+            //    .HasKey(pc => new { pc.SistemaProdutividadeId, pc.ColaboradorId });          
 
 
-            modelBuilder.Entity<ColaboradorProjetoSprint>()
-               .HasOne(bc => bc.ProjetoSprintDesign)
-               .WithMany(b => b.ProjetoSprintColaboradores)
-               .HasForeignKey(bc => bc.ProjetoSprintDesignID);
+            //modelBuilder.Entity<ColaboradorProjetoSprint>()
+            //   .HasOne(bc => bc.ProjetoSprintDesign)
+            //   .WithMany(b => b.ProjetoSprintColaboradores)
+            //   .HasForeignKey(bc => bc.ProjetoSprintDesignID);
 
-            modelBuilder.Entity<ColaboradorProjetoSprint>()
-                .HasOne(bc => bc.Colaborador)
-                .WithMany(c => c.ColaboradorProjetoSprints)
-                .HasForeignKey(bc => bc.ColaboradorId);
+            //modelBuilder.Entity<ColaboradorProjetoSprint>()
+            //    .HasOne(bc => bc.Colaborador)
+            //    .WithMany(c => c.ColaboradorProjetoSprints)
+            //    .HasForeignKey(bc => bc.ColaboradorId);
 
             //////////////////Fim SistemProdutividade Colaborador/////////////
         }
