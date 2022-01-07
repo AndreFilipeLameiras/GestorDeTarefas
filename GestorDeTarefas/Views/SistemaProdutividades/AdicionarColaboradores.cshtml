@@ -1,18 +1,16 @@
 ﻿@model GestorDeTarefas.ViewModels.SistemProdListViewmodel
 
 @{
-    ViewData["Title"] = "Adicionar Colaboradores";
+    ViewData["Title"] = "Adicionar colaboradores";
 }
-
-
 <div style="margin-bottom:379px;">
-    <h1>Adicionar Colaboradores ao Projeto Sistema Produtividade</h1>
+    <h1>Adicionar colaboradores ao Projeto Sprint Design</h1>
 
     <div class="row">
         <div class="col">
             <form asp-action="AdicionarColaboradores">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="ID_SistemaProdutividade" />
+                <input type="hidden" asp-for="SistemaProdutividadeId" />
                 <table class="table ">
                     <thead>
                         <tr>
@@ -32,24 +30,25 @@
                                     <span asp-validation-for="NomeProjeto" class="text-danger"></span>
                                 </div>
                             </td>
-                            <td>
-                                <div class="form-group">
-                                    <div class="col">
-                                        @for (int i = 0; i < Model.Colaboradores.Count(); i++)
-                                        {
-                                            
-                                            <dd>
 
 
-                                                @Html.EditorFor(m => Model.Colaboradores[i].Checked)
-                                                @Html.DisplayFor(m => Model.Colaboradores[i].Name)
-                                                @Html.HiddenFor(m => Model.Colaboradores[i].Name)
-                                                @Html.HiddenFor(m => Model.Colaboradores[i].Id)
-                                            </dd>
+                            @if (Model.Colaboradores != null)
+                            {
+                                <td>
+                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                    {
+                                        <dd style="margin-bottom:27px">
+
+
+                                            @Html.EditorFor(m => Model.Colaboradores[i].Checked)
+                                            @Html.DisplayFor(m => Model.Colaboradores[i].Name)
+                                            @Html.HiddenFor(m => Model.Colaboradores[i].Name)
+                                            @Html.HiddenFor(m => Model.Colaboradores[i].Id)
+                                        </dd>
 
 
 
-                                            }
+                                    }
 
 
                                 </td>
@@ -58,7 +57,7 @@
                                     {
 
 
-                                        <dd>
+                                        <dd style="margin-bottom:27px">
                                             @Html.EditorFor(m => Model.Colaboradores[i].ColaboradorProjetoProd.DataInicio)
                                         </dd>
 
@@ -69,7 +68,7 @@
                                     @for (int i = 0; i < Model.Colaboradores.Count(); i++)
                                     {
 
-                                        <dd>
+                                        <dd style="margin-bottom:27px">
                                             @Html.EditorFor(m => Model.Colaboradores[i].ColaboradorProjetoProd.DataFim)
 
                                         </dd>
@@ -77,14 +76,43 @@
 
 
                                 </td>
+
+                                <td>
+                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                    {
+
+                                        <dd>
+                                            <div class="form-group">
+                                                <input type="submit" value="Adicionar" class="btn btn-primary" />
+                                            </div>
+
+                                        </dd>
+                                    }
+
+
                                 </td>
-                            </tr>
+                                @*<td>
+                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                    {
+
+                                        <dd>
+                                            <div style="margin-bottom:5px">
+
+
+                                            </div>
+
+                                        </dd>
+                                    }
+
+
+                                </td>*@
+                            }
+                        </tr>
                     </tbody>
                 </table>
 
 
                 <div class="form-group">
-                    <input type="submit" value="Guardar" class="btn btn-primary" />
                     <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
                 </div>
             </form>
@@ -98,4 +126,7 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+
+
 
