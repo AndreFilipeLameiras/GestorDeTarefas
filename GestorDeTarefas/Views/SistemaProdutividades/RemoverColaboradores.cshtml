@@ -1,0 +1,126 @@
+﻿@model GestorDeTarefas.ViewModels.SistemProdListViewmodel
+@{
+    ViewData["Title"] = "Remover Colaboradores";
+}
+
+<div style="margin-bottom:379px;">
+    <h1>Remover Colaboradores no Projeto Sprint Design</h1>
+
+    <div class="row">
+        <div class="col">
+            <form asp-action="RemoverColaboradores">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="SistemaProdutividadeId" />
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <label asp-for="NomeProjeto" class="control-label">Nome do Projeto</label>
+                            </th>
+                            <th scope="col">Colaboradores</th>
+                            <th scope="col">Data de inicio</th>
+                            <th scope="col">Data de fim</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="form-group">
+                                    <input asp-for="NomeProjeto" class="form-control-plaintext" />
+                                    <span asp-validation-for="NomeProjeto" class="text-danger"></span>
+                                </div>
+                            </td>
+
+
+                            @if (Model.Colaboradores != null)
+                            {
+                                <td>
+                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                    {
+                                        if (Model.Colaboradores[i].Checked)
+                                        {
+                                            <dd>
+
+
+                                                @Html.EditorFor(m => Model.Colaboradores[i].Checked)
+                                                @Html.DisplayFor(m => Model.Colaboradores[i].Name)
+                                                @Html.HiddenFor(m => Model.Colaboradores[i].Name)
+                                                @Html.HiddenFor(m => Model.Colaboradores[i].Id)
+                                            </dd>
+                                        }
+
+
+                                    }
+
+
+                                </td>
+                                <td>
+                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                    {
+                                        if (Model.Colaboradores[i].Checked)
+                                        {
+
+                                            <dd>
+                                                @Html.DisplayFor(m => Model.Colaboradores[i].DataInicio)
+                                            </dd>
+                                        }
+                                    }
+
+                                </td>
+                                <td>
+                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                    {
+                                        if (Model.Colaboradores[i].Checked)
+                                        {
+
+                                            <dd>
+                                                @Html.DisplayFor(m => Model.Colaboradores[i].DataFim)
+
+                                            </dd>
+                                        }
+                                    }
+
+
+                                </td>
+                                <td>
+                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                    {
+
+                                        <dd>
+                                            <div class="form-group">
+                                                <input type="submit" value="Remover" style="color:red" />
+
+                                            </div>
+
+                                        </dd>
+                                    }
+
+
+                                </td>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <div class="form-group">
+                    @*<input type="submit" value="Guardar" class="btn btn-primary" />*@
+                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+
+
+
+
