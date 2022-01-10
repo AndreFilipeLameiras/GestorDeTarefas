@@ -95,7 +95,7 @@ namespace GestorDeTarefas.Controllers
         }
 
        
-        public async Task<IActionResult> DetailsColaboradorProjeto(int? id)
+        public async Task<IActionResult> DetailsColaboradorProjeto(string nome, int? id, int page = 1)
         {
             if (id == null)
             {
@@ -109,17 +109,9 @@ namespace GestorDeTarefas.Controllers
                 return NotFound();
             }
 
-            var Results = from b in _context.Colaborador
-                          select new
-                          {
-                              b.ColaboradorId,
-                              b.Name,
-                              Checked = ((from ab in _context.ColaboradorProjetoSprint
-                                          where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
-                                          select ab).Count() > 0)
-                          };
+            
 
-            var Resultado = from b in _context.ColaboradorProjetoSprint
+            var ResultadoSearch = from b in _context.ColaboradorProjetoSprint
                           select new
                           {
                               b.ColaboradorId,
@@ -127,15 +119,40 @@ namespace GestorDeTarefas.Controllers
                               b.DataInicio,
                               b.DataFim,
                               Checked = ((from ab in _context.ColaboradorProjetoSprint
-                                          where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                          where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId) 
                                           select ab).Count() > 0)
                           };
 
+            
 
-            var MyViewModel = new ProjetoSprintListViewModel();
-            MyViewModel.ProjetoSprintDesignID = id.Value;
-            MyViewModel.NomeProjeto = projetoSprintDesign.NomeProjeto;
 
+            var pagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                TotalItems = ResultadoSearch.Count()
+            };
+
+            if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
+            {
+                pagingInfo.CurrentPage = pagingInfo.TotalPages;
+            }
+
+            if (pagingInfo.CurrentPage < 1)
+
+            {
+                pagingInfo.CurrentPage = 1;
+            }
+
+
+
+            var Resultado = await ResultadoSearch    
+                            .OrderBy(b => b.Name)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+
+
+            var MyViewModel = new ProjetoSprintListViewModel();           
             var MyCheckBoxList = new List<CheckBoxViewModel>();
 
             foreach (var item in Resultado)
@@ -145,7 +162,13 @@ namespace GestorDeTarefas.Controllers
 
                 MyViewModel.Colaboradores = MyCheckBoxList;
             }
-            return View(MyViewModel);
+            
+            return View(new ProjetoSprintListViewModel { 
+            ProjetoSprintDesignID = id.Value,
+            NomeProjeto = projetoSprintDesign.NomeProjeto,
+            Colaboradores = MyCheckBoxList,
+            PagingInfo = pagingInfo
+        });
         }
 
         // GET: ProjetoSprintDesigns/Create
