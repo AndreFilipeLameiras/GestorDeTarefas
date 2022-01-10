@@ -119,11 +119,28 @@ namespace GestorDeTarefas.Controllers
                               b.DataInicio,
                               b.DataFim,
                               Checked = ((from ab in _context.ColaboradorProjetoSprint
+                                          
                                           where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId) 
-                                          select ab).Count() > 0)
+                                          select ab)
+                                          .Where(ab => ab.Colaborador.Name.Contains(nome))
+                                          .Count() > 0)
                           };
 
-            
+
+            var ResultadoSearch2 = from b in _context.ColaboradorProjetoSprint
+                                  select new
+                                  {
+                                      b.ColaboradorId,
+                                      b.Colaborador.Name,
+                                      b.DataInicio,
+                                      b.DataFim,
+                                      Checked = ((from ab in _context.ColaboradorProjetoSprint
+
+                                                  where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                                  select ab)
+                                                   .Count() > 0)
+                                  };
+
 
 
             var pagingInfo = new PagingInfo
@@ -145,12 +162,19 @@ namespace GestorDeTarefas.Controllers
 
 
 
-            var Resultado = await ResultadoSearch    
+            var Resultado = await ResultadoSearch2    
                             .OrderBy(b => b.Name)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
                             .Take(pagingInfo.PageSize)
                             .ToListAsync();
-
+            if (nome != null)
+            {
+                Resultado = await ResultadoSearch
+                            .OrderBy(b => b.Name)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+            }
 
             var MyViewModel = new ProjetoSprintListViewModel();           
             var MyCheckBoxList = new List<CheckBoxViewModel>();
@@ -167,6 +191,7 @@ namespace GestorDeTarefas.Controllers
             ProjetoSprintDesignID = id.Value,
             NomeProjeto = projetoSprintDesign.NomeProjeto,
             Colaboradores = MyCheckBoxList,
+            NomeSearched = nome,
             PagingInfo = pagingInfo
         });
         }
