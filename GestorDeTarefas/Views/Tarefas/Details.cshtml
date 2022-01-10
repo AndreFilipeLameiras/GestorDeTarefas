@@ -39,7 +39,15 @@
                 @Html.DisplayNameFor(model => model.DataDefinitivaFim)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.DataDefinitivaFim)
+                @if (Model.DataDefinitivaFim == null)
+                {
+                  <h6 class="text-info">Por definir</h6>
+                }
+                @if (Model.DataDefinitivaFim != null)
+                {
+                   @Html.DisplayFor(model => model.DataDefinitivaFim)
+                }
+
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.EstadoTarefa)
