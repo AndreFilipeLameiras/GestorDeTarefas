@@ -241,7 +241,10 @@ namespace GestorDeTarefas.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
 
-                    b.Property<int>("ProjetoSprintDesignID")
+                    b.Property<int?>("ProjetoSprintDesignID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SistemaProdutividadeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -249,6 +252,8 @@ namespace GestorDeTarefas.Migrations
                     b.HasIndex("ColaboradorId");
 
                     b.HasIndex("ProjetoSprintDesignID");
+
+                    b.HasIndex("SistemaProdutividadeId");
 
                     b.ToTable("Tarefas");
                 });
@@ -331,13 +336,17 @@ namespace GestorDeTarefas.Migrations
 
                     b.HasOne("GestorDeTarefas.Models.ProjetoSprintDesign", "ProjetoSprintDesign")
                         .WithMany("Tarefas")
-                        .HasForeignKey("ProjetoSprintDesignID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ProjetoSprintDesignID");
+
+                    b.HasOne("GestorDeTarefas.Models.SistemaProdutividade", "SistemaProdutividade")
+                        .WithMany("Tarefas")
+                        .HasForeignKey("SistemaProdutividadeId");
 
                     b.Navigation("Colaborador");
 
                     b.Navigation("ProjetoSprintDesign");
+
+                    b.Navigation("SistemaProdutividade");
                 });
 
             modelBuilder.Entity("GestorDeTarefas.Models.Cargo", b =>
@@ -371,6 +380,8 @@ namespace GestorDeTarefas.Migrations
             modelBuilder.Entity("GestorDeTarefas.Models.SistemaProdutividade", b =>
                 {
                     b.Navigation("ProdutividadeColaborador");
+
+                    b.Navigation("Tarefas");
                 });
 #pragma warning restore 612, 618
         }
