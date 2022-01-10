@@ -448,14 +448,14 @@ namespace GestorDeTarefas.Controllers
                           };
 
             var ResultadoSearch2 = from b in _context.Colaborador
-                          select new
+                                   .Where(b => b.Name.Contains(nome))
+                                   select new
                           {
                               b.ColaboradorId,
                               b.Name,
                               Checked = ((from ab in _context.ColaboradorProjetoSprint
                                           where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
-                                          select ab)
-                                          .Where(ab => ab.Colaborador.Name.Contains(nome))
+                                          select ab)                                         
                                           .Count() > 0)
                           };
 
