@@ -45,7 +45,25 @@
             @Html.DisplayNameFor(model => model.EstadoProjeto)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EstadoProjeto)
+            @if (Model.EstadoProjeto.Equals("Em atraso"))
+            {
+                <h6 class="text-danger">
+                    @Html.DisplayFor(model => model.EstadoProjeto)
+                </h6>
+            }
+            @if (Model.EstadoProjeto.Equals("Dentro do prazo"))
+            {
+                <h6 class="text-warning">
+                    @Html.DisplayFor(model => model.EstadoProjeto)
+                </h6>}
+            @if (Model.EstadoProjeto.Equals("Concluído"))
+            {
+                <h6 class="text-success">
+                    @Html.DisplayFor(model => model.EstadoProjeto)
+                </h6>
+            }
+
+
         </dd>
 
         <dt class="col-sm-2">

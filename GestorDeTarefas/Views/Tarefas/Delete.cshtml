@@ -46,7 +46,24 @@
             @Html.DisplayNameFor(model => model.EstadoTarefa)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EstadoTarefa)
+            @if (Model.EstadoTarefa.Equals("Em atraso"))
+            {
+                <h6 class="text-danger">
+                    @Html.DisplayFor(model => model.EstadoTarefa)
+                </h6>
+            }
+            @if (Model.EstadoTarefa.Equals("Dentro do prazo"))
+            {
+                <h6 class="text-warning">
+                    @Html.DisplayFor(model => model.EstadoTarefa)
+                </h6>
+            }
+            @if (Model.EstadoTarefa.Equals("Concluído"))
+            {
+                <h6 class="text-success">
+                    @Html.DisplayFor(model => model.EstadoTarefa)
+                </h6>
+            }
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Colaborador)

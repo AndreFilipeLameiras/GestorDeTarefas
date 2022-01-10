@@ -18,6 +18,8 @@ namespace GestorDeTarefas.ViewModels
 
         public List<CheckBoxViewModel>Colaboradores { get; set; }
 
-        
+        public List<Tarefas> Tarefas { get; set; }
+
+
     }
 }
