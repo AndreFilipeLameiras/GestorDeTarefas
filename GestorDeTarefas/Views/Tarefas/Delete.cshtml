@@ -71,12 +71,26 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Colaborador.Name)
         </dd>
-        <dt class="col-sm-2"> 
-            @Html.DisplayNameFor(model => model.ProjetoSprintDesign)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProjetoSprintDesign.NomeProjeto)
-        </dd>
+        @if (Model.ProjetoSprintDesignID != null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ProjetoSprintDesign)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ProjetoSprintDesign.NomeProjeto)
+            </dd>
+        }
+
+        @if (Model.SistemaProdutividadeId != null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SistemaProdutividade)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SistemaProdutividade.NomeProjeto)
+            </dd>
+        }
+
 
     </dl>
 

@@ -31,46 +31,59 @@
    
     <div class="card mt-3">
         <div class="card-body">
-            <h5 class="card-title">Tarefa: @tarefa.Nome</h5>            
+            <h5 class="card-title">Tarefa: @tarefa.Nome</h5>
             <div style="display:flex">
                 <h5 style="margin-right:4px">Colaborador:</h5>
                 <h5 class="card-text lead">@tarefa.Colaborador.Name</h5>
             </div>
-            <div style="display:flex">
-                <h5 style="margin-right:4px">Projeto Sprint:</h5>
-                <h5 class="card-text lead">@tarefa.ProjetoSprintDesign.NomeProjeto</h5>
-            </div>
-                @if (tarefa.EstadoTarefa.Equals("Em atraso"))
-                {
-                    <div style="display:flex">
-                        <h5 style="margin-right:4px">Estado da tarefa:</h5>
-                        <h5 class=" text-danger">@tarefa.EstadoTarefa</h5>
-                    </div>
-                }
-                @if (tarefa.EstadoTarefa.Equals("Dentro do prazo"))
-                {
-                    <div style="display:flex">
-                        <h5 style="margin-right:4px">Estado da tarefa:</h5>
-                        <h5 class=" text-warning">@tarefa.EstadoTarefa</h5>
-                    </div>
-                }
-                @if (tarefa.EstadoTarefa.Equals("Concluído"))
-                {
-                    <div style="display:flex">
-                        <h5 style="margin-right:4px">Estado da tarefa:</h5>
-                        <h5 class=" text-success">@tarefa.EstadoTarefa</h5>
-                    </div>
-                }
+            @if (tarefa.ProjetoSprintDesignID != null)
+            {
+                <div style="display:flex">
+                    <h5 style="margin-right:4px">Projeto Sprint:</h5>
+                    <h5 class="card-text lead">@tarefa.ProjetoSprintDesign.NomeProjeto</h5>
+                </div>
+
+            }
+
+            @if (tarefa.SistemaProdutividadeId != null)
+            {
+        <div style="display:flex">
+            <h5 style="margin-right:4px">Projeto Produtividade:</h5>
+            <h5 class="card-text lead">@tarefa.SistemaProdutividade.NomeProjeto</h5>
+        </div>
+            }
+
+            @if (tarefa.EstadoTarefa.Equals("Em atraso"))
+            {
+                <div style="display:flex">
+                    <h5 style="margin-right:4px">Estado da tarefa:</h5>
+                    <h5 class=" text-danger">@tarefa.EstadoTarefa</h5>
+                </div>
+            }
+            @if (tarefa.EstadoTarefa.Equals("Dentro do prazo"))
+            {
+                <div style="display:flex">
+                    <h5 style="margin-right:4px">Estado da tarefa:</h5>
+                    <h5 class=" text-warning">@tarefa.EstadoTarefa</h5>
+                </div>
+            }
+            @if (tarefa.EstadoTarefa.Equals("Concluído"))
+            {
+                <div style="display:flex">
+                    <h5 style="margin-right:4px">Estado da tarefa:</h5>
+                    <h5 class=" text-success">@tarefa.EstadoTarefa</h5>
+                </div>
+            }
 
 
 
-                <a asp-action="Details" asp-route-id="@tarefa.Id" class="btn btn-info">Detalhes</a>
-                @if (User.IsInRole("product_manager"))
-                {
-                    <a asp-action="Edit" asp-route-id="@tarefa.Id" class="btn btn-warning">Editar</a>
-                    <a asp-action="Delete" asp-route-id="@tarefa.Id" class="btn btn-danger">Apagar</a>
-                }
-            </div>
+            <a asp-action="Details" asp-route-id="@tarefa.Id" class="btn btn-info">Detalhes</a>
+            @if (User.IsInRole("product_manager"))
+            {
+                <a asp-action="Edit" asp-route-id="@tarefa.Id" class="btn btn-warning">Editar</a>
+                <a asp-action="Delete" asp-route-id="@tarefa.Id" class="btn btn-danger">Apagar</a>
+            }
+        </div>
         </div>
 }
 
