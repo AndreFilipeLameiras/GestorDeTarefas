@@ -326,7 +326,7 @@ namespace GestorDeTarefas.Controllers
         }
 
 
-        public async Task<IActionResult> RemoverColaboradores(int? id)
+        public async Task<IActionResult> RemoverColaboradores(string nome, int? id, int page = 1)
         {
             if (id == null)
             {
@@ -340,33 +340,72 @@ namespace GestorDeTarefas.Controllers
                 return NotFound();
             }
 
-            var Results = from b in _context.Colaborador
-                          select new
-                          {
-                              b.ColaboradorId,
-                              b.Name,
-                              Checked = ((from ab in _context.ColaboradorProjetoSprint
-                                          where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
-                                          select ab).Count() > 0)
-                          };
+            var ResultadoSearch = from b in _context.ColaboradorProjetoSprint
+                                  select new
+                                  {
+                                      b.ColaboradorId,
+                                      b.Colaborador.Name,
+                                      b.DataInicio,
+                                      b.DataFim,
+                                      Checked = ((from ab in _context.ColaboradorProjetoSprint
 
-            var Resultado = from b in _context.ColaboradorProjetoSprint
-                            select new
-                            {
-                                b.ColaboradorId,
-                                b.Colaborador.Name,
-                                b.DataInicio,
-                                b.DataFim,
-                                Checked = ((from ab in _context.ColaboradorProjetoSprint
-                                            where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
-                                            select ab).Count() > 0)
-                            };
+                                                  where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                                  select ab)
+                                                  .Where(ab => ab.Colaborador.Name.Contains(nome))
+                                                  .Count() > 0)
+                                  };
 
+
+            var ResultadoSearch2 = from b in _context.ColaboradorProjetoSprint
+                                   select new
+                                   {
+                                       b.ColaboradorId,
+                                       b.Colaborador.Name,
+                                       b.DataInicio,
+                                       b.DataFim,
+                                       Checked = ((from ab in _context.ColaboradorProjetoSprint
+
+                                                   where (ab.ProjetoSprintDesignID == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                                   select ab)
+                                                    .Count() > 0)
+                                   };
+
+
+
+            var pagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                TotalItems = ResultadoSearch.Count()
+            };
+
+            if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
+            {
+                pagingInfo.CurrentPage = pagingInfo.TotalPages;
+            }
+
+            if (pagingInfo.CurrentPage < 1)
+
+            {
+                pagingInfo.CurrentPage = 1;
+            }
+
+
+
+            var Resultado = await ResultadoSearch2
+                            .OrderBy(b => b.Name)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+            if (nome != null)
+            {
+                Resultado = await ResultadoSearch
+                            .OrderBy(b => b.Name)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+            }
 
             var MyViewModel = new ProjetoSprintListViewModel();
-            MyViewModel.ProjetoSprintDesignID = id.Value;
-            MyViewModel.NomeProjeto = projetoSprintDesign.NomeProjeto;
-
             var MyCheckBoxList = new List<CheckBoxViewModel>();
 
             foreach (var item in Resultado)
@@ -382,7 +421,15 @@ namespace GestorDeTarefas.Controllers
 
                 MyViewModel.Colaboradores = MyCheckBoxList;
             }
-            return View(MyViewModel);
+
+            return View(new ProjetoSprintListViewModel
+            {
+                ProjetoSprintDesignID = id.Value,
+                NomeProjeto = projetoSprintDesign.NomeProjeto,
+                Colaboradores = MyCheckBoxList,
+                NomeSearched = nome,
+                PagingInfo = pagingInfo
+            });
         }
 
 
