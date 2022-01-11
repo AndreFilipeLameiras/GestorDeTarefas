@@ -17,7 +17,7 @@
     <link href="~/css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/css/site.css" rel="stylesheet" />
-
+  
 
 </head>
 <body id="page-top">
@@ -53,7 +53,7 @@
 </nav>
     </header>
 
-    <div class="container">
+    <div class="container" style="min-height:calc(100vh - 211px - 58px)">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -150,7 +150,7 @@
 
         <div class="copyrightText">
             <div class="siteFooter_secondary_col-wrapper">
-                <div class="siteFooter__secondary__col">© <!-- -->2021<!-- --> Gestor de Projetos, Inc. Todos os direitos reservados.</div>
+                <div class="siteFooter__secondary__col">&copy;<!-- -->@DateTime.Now.Year<!-- --> Gestor de Projetos, Inc. Todos os direitos reservados.</div>
                     <div>
                         <a class="btn btn-outline-light btn-social mx-1" href="https://www.facebook.com/"><i class="fab fa-fw fa-facebook-f"></i></a>
                         <a class="btn btn-outline-light btn-social mx-1" href="https://twitter.com/"><i class="fab fa-fw fa-twitter"></i></a>
@@ -172,6 +172,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
 
