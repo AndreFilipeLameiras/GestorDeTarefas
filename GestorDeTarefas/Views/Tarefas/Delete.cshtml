@@ -22,25 +22,32 @@
             @Html.DisplayNameFor(model => model.DataPrevistaInicio)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataPrevistaInicio)
+            @Model.DataPrevistaInicio.ToString("dd/MM/yyyy")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DataDefinitivaInicio)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataDefinitivaInicio)
+            @Model.DataDefinitivaInicio.ToString("dd/MM/yyyy")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DataPrevistaFim)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataPrevistaFim)
+            @Model.DataPrevistaFim.ToString("dd/MM/yyyy")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DataDefinitivaFim)
         </dt>
         <dd class="col-sm-10">
-            
+            @if (Model.DataDefinitivaFim == null)
+            {
+                <h6 class="text-info">Por definir</h6>
+            }
+            @if (Model.DataDefinitivaFim != null)
+            {
+                @Html.DisplayFor(model => model.DataDefinitivaFim)
+            }
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EstadoTarefa)
