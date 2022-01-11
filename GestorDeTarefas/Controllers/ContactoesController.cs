@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
+using GestorDeTarefas.ViewModels;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -20,9 +21,41 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Contactoes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string nome, int page = 1)
         {
-            return View(await _context.Contacto.ToListAsync());
+            var contactoSearch = _context.Contacto
+                .Where(b => nome == null || b.Nome.Contains(nome) || b.Sobrenome.Contains(nome)
+                || b.Email.Contains(nome));
+            var pagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                TotalItems = contactoSearch.Count()
+            };
+
+            if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
+            {
+                pagingInfo.CurrentPage = pagingInfo.TotalPages;
+            }
+
+            if (pagingInfo.CurrentPage < 1)
+            {
+                pagingInfo.CurrentPage = 1;
+            }
+
+            var contacto = await contactoSearch                      
+                            .OrderBy(b => b.Nome)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+
+            return View(
+                new ContactoListViewModel
+                {
+                    Contacto = contacto,
+                    PagingInfo = pagingInfo,
+                    NomeSearched = nome
+                }
+            );
         }
 
         // GET: Contactoes/Details/5
