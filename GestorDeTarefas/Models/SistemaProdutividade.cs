@@ -52,6 +52,7 @@ namespace GestorDeTarefas.Models
 
 
         public ICollection<ColaboradorProdutividade> ProdutividadeColaborador { get; set; }
+        public ICollection<Tarefas> Tarefas { get; set; }
 
 
     }

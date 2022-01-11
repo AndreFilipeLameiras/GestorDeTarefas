@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GestorDeTarefas.Migrations
 {
-    public partial class tarefa : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,7 +44,8 @@ namespace GestorDeTarefas.Migrations
                     DataDefinitivaInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataPrevistaFim = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataDefinitivaFim = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EstadoProjeto = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true)
+                    EstadoProjeto = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    ImagemProjeto = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -61,7 +62,8 @@ namespace GestorDeTarefas.Migrations
                     DataPrevistaInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataDefinitivaInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataPrevistaFim = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataDefinitivaFim = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DataDefinitivaFim = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EstadoProjeto = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -119,7 +121,9 @@ namespace GestorDeTarefas.Migrations
                 columns: table => new
                 {
                     ColaboradorId = table.Column<int>(type: "int", nullable: false),
-                    SistemaProdutividadeId = table.Column<int>(type: "int", nullable: false)
+                    SistemaProdutividadeId = table.Column<int>(type: "int", nullable: false),
+                    DataInicio = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DataFim = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -144,8 +148,8 @@ namespace GestorDeTarefas.Migrations
                 {
                     ProjetoSprintDesignID = table.Column<int>(type: "int", nullable: false),
                     ColaboradorId = table.Column<int>(type: "int", nullable: false),
-                    DataInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataFim = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DataInicio = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DataFim = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -177,7 +181,8 @@ namespace GestorDeTarefas.Migrations
                     DataDefinitivaFim = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EstadoTarefa = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     ColaboradorId = table.Column<int>(type: "int", nullable: false),
-                    ProjetoSprintDesignID = table.Column<int>(type: "int", nullable: false)
+                    ProjetoSprintDesignID = table.Column<int>(type: "int", nullable: true),
+                    SistemaProdutividadeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -193,6 +198,12 @@ namespace GestorDeTarefas.Migrations
                         column: x => x.ProjetoSprintDesignID,
                         principalTable: "ProjetoSprintDesign",
                         principalColumn: "ProjetoSprintDesignID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tarefas_SistemaProdutividade_SistemaProdutividadeId",
+                        column: x => x.SistemaProdutividadeId,
+                        principalTable: "SistemaProdutividade",
+                        principalColumn: "SistemaProdutividadeId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -225,6 +236,11 @@ namespace GestorDeTarefas.Migrations
                 name: "IX_Tarefas_ProjetoSprintDesignID",
                 table: "Tarefas",
                 column: "ProjetoSprintDesignID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tarefas_SistemaProdutividadeId",
+                table: "Tarefas",
+                column: "SistemaProdutividadeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -245,13 +261,13 @@ namespace GestorDeTarefas.Migrations
                 name: "Idioma");
 
             migrationBuilder.DropTable(
-                name: "SistemaProdutividade");
-
-            migrationBuilder.DropTable(
                 name: "Colaborador");
 
             migrationBuilder.DropTable(
                 name: "ProjetoSprintDesign");
+
+            migrationBuilder.DropTable(
+                name: "SistemaProdutividade");
 
             migrationBuilder.DropTable(
                 name: "Cargo");

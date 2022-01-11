@@ -49,15 +49,22 @@
                 <select asp-for="ProjetoSprintDesignID" class="form-control" asp-items="ViewBag.ProjetoSprintDesignID">
                     <option value="">-- Escolha opção --</option>
                 </select>
-                <span asp-validation-for="ProjetoSprintDesignID" class="text-danger"></span> 
+                <span asp-validation-for="ProjetoSprintDesignID" class="text-danger"></span>
             </div>
-            
             <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-            </div>
-        </form>
+            <label asp-for="SistemaProdutividadeId" class="control-label">Projetos Produtividade</label>
+            <select asp-for="SistemaProdutividadeId" class="form-control" asp-items="ViewBag.SistemaProdutividadeId">
+                <option value="">-- Escolha opção --</option>
+            </select>
+            <span asp-validation-for="SistemaProdutividadeId" class="text-danger"></span>
     </div>
+
+    <div class="form-group">
+        <input type="submit" value="Guardar" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </div>
+    </form>
+</div>
 </div>
 
 
