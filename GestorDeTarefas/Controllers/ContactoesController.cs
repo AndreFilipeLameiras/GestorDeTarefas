@@ -60,7 +60,15 @@ namespace GestorDeTarefas.Controllers
             {
                 _context.Add(contacto);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                ViewBag.Title = "Mensagem enviada com sucesso!!";
+                ViewBag.type = "alert-success";
+                ViewBag.Message = "Em breve entraremos em Contacto!";
+                ViewBag.redirect = "/Contactoes/Create";
+               
+                return View("Success");
+            
+               // return RedirectToAction(nameof(Index));
             }
             return View(contacto);
         }
