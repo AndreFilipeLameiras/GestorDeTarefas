@@ -33,5 +33,10 @@ namespace GestorDeTarefas.Models
         [Required(ErrorMessage = "Por favor, escreva a mensagem")]
         [StringLength(1000, MinimumLength = 2, ErrorMessage = "Mensagem deve ter pelo menos 2 caracteres e um máximo de 1000")]
         public string Mensagem { get; set; }
+
+        public bool Verificado { get; set; }
+
+        [Display(Name = "Resposta")]
+        public string Resposta { get; set; }
     }
 }
