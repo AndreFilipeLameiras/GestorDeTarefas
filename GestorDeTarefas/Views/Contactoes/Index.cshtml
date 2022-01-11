@@ -1,0 +1,56 @@
+﻿@model ContactoListViewModel
+
+@{
+    ViewData["Title"] = "Lista dos contactos";
+}
+
+<div class="row">
+    <h4 class="alert-light"></h4>
+    <hr />
+</div>
+<div class="row">
+    <fieldset class="border p-4 ">
+        <legend class="w-auto text-center"></legend>
+      
+
+        <table class="table text-lg-center">
+            <thead>
+                <tr>
+                    <th>
+                       Nome
+                    </th>
+                    <th>
+                       Verificado
+
+                    </th>
+                    <th>
+                       Assunto
+
+                    </th>
+                    <th>
+                      Opções
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="text-justify">
+                @foreach (var item in Model.Contacto)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nome)
+                        </td>
+                        
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Assunto)
+                        </td>
+                        <td class="m-5">
+                            <a class="btn btn-info" asp-action="Details" asp-route-id="@item.ContactoId">Detalhes</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </fieldset>
+</div>
