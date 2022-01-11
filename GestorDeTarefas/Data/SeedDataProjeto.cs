@@ -189,7 +189,7 @@ namespace GestorDeTarefas.Data
                 },
                 new Tarefas
                 {
-                    Nome = "Limpeza",
+                    Nome = "Arumar materiais",
                     ColaboradorId = 1,
                     ProjetoSprintDesignID = 3,
                     DataPrevistaInicio = DateTime.Parse("20/09/2021"),
