@@ -18,14 +18,14 @@ namespace GestorDeTarefas.Controllers {
         }
 
         // GET: Gestors
-        [Authorize(Roles = "gestor")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Gestor.ToListAsync());
         }
 
         // GET: Gestors/Details/5
-        [Authorize(Roles = "gestor")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -119,7 +119,7 @@ namespace GestorDeTarefas.Controllers {
         }
 
         // GET: Gestors/Delete/5
-        [Authorize(Roles = "gestor")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -140,7 +140,7 @@ namespace GestorDeTarefas.Controllers {
         // POST: Gestors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "gestor")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var gestor = await _context.Gestor.FindAsync(id);
