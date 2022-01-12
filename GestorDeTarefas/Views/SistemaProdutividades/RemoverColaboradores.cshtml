@@ -82,21 +82,7 @@
 
 
                                 </td>
-                                <td>
-                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
-                                    {
-
-                                        <dd>
-                                            <div class="form-group">
-                                                <input type="submit" value="Remover" style="color:red" />
-
-                                            </div>
-
-                                        </dd>
-                                    }
-
-
-                                </td>
+                               
                             }
                         </tr>
                     </tbody>
@@ -104,7 +90,7 @@
 
 
                 <div class="form-group">
-                    @*<input type="submit" value="Guardar" class="btn btn-primary" />*@
+                    <input type="submit" value="Remover" class="btn btn-primary" />
                     <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
                 </div>
             </form>
