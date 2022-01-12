@@ -27,7 +27,7 @@
                 <input asp-for="DataDefinitivaInicio" class="form-control" />
                 <span asp-validation-for="DataDefinitivaInicio" class="text-danger"></span>
             </div>
-           
+
             <div class="form-group">
                 <label asp-for="DataPrevistaFim" class="control-label"></label>
                 <input asp-for="DataPrevistaFim" class="form-control" />
@@ -47,8 +47,16 @@
                     <option value="">-- Escolha opção --</option>
                 </select>
                 <span asp-validation-for="ProjetoSprintDesignID" class="text-danger"></span>
-            </div> 
-           
+            </div>
+            <div class="form-group">
+                <label asp-for="SistemaProdutividadeId" class="control-label">Projetos Produtividade</label>
+                <select asp-for="SistemaProdutividadeId" class="form-control" asp-items="ViewBag.SistemaProdutividadeId">
+                    <option value="">-- Escolha opção --</option>
+                </select>
+                <span asp-validation-for="SistemaProdutividadeId" class="text-danger"></span>
+            </div>
+
+
             <div class="form-group">
                 <input type="submit" value="Criar" class="btn btn-primary" />
                 <a asp-action="Index" class="btn btn-secondary">Voltar a lista</a>

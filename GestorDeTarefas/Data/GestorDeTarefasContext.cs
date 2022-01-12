@@ -116,8 +116,8 @@ namespace GestorDeTarefas.Data
         public DbSet<GestorDeTarefas.Models.Idioma> Idioma { get; set; }
 
         public DbSet<GestorDeTarefas.Models.ColaboradorIdioma> ColaboradorIdioma { get; set; }
+        public DbSet<GestorDeTarefas.Models.Contacto> Contacto { get; set; }
 
         public DbSet<GestorDeTarefas.Models.Cliente> Cliente { get; set; }
-       
     }
 }

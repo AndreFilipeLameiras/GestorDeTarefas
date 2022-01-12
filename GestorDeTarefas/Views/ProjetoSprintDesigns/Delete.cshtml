@@ -7,7 +7,7 @@
 <h1 class="text-danger" >Apagar Projeto Sprint Design</h1>
 
 <h3 class="text-danger">Tem certeza que quer apagar isto?</h3>
-<div style="margin-bottom:175px">
+<div>
     
     <hr />
     <dl class="row">
@@ -21,31 +21,56 @@
             @Html.DisplayNameFor(model => model.DataPrevistaInicio)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataPrevistaInicio)
+            @Model.DataPrevistaInicio.ToString("dd/MM/yyyy")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DataDefinitivaInicio)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataDefinitivaInicio)
+            @Model.DataDefinitivaInicio.ToString("dd/MM/yyyy")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DataPrevistaFim)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataPrevistaFim)
+            @Model.DataPrevistaFim.ToString("dd/MM/yyyy")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DataDefinitivaFim)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataDefinitivaFim)
+            @if (Model.DataDefinitivaFim == null)
+            {
+                <h6 class="text-info">Por definir</h6>
+            }
+            @if (Model.DataDefinitivaFim != null)
+            {
+                @Html.DisplayFor(model => model.DataDefinitivaFim)
+            }
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EstadoProjeto)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EstadoProjeto)
+            @if (Model.EstadoProjeto.Equals("Em atraso"))
+            {
+                <h6 class="text-danger">
+                    @Html.DisplayFor(model => model.EstadoProjeto)
+                </h6>
+            }
+            @if (Model.EstadoProjeto.Equals("Dentro do prazo"))
+            {
+                <h6 class="text-warning">
+                    @Html.DisplayFor(model => model.EstadoProjeto)
+                </h6>}
+            @if (Model.EstadoProjeto.Equals("Concluído"))
+            {
+                <h6 class="text-success">
+                    @Html.DisplayFor(model => model.EstadoProjeto)
+                </h6>
+            }
+
+
         </dd>
 
         <dt class="col-sm-2">

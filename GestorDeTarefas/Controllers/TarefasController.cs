@@ -26,7 +26,8 @@ namespace GestorDeTarefas.Controllers
         {
             var tarefaSearch = _context.Tarefas
                .Where(b => nome == null || b.Nome.Contains(nome) || b.EstadoTarefa.Contains(nome)
-               || b.Colaborador.Name.Contains(nome) || b.ProjetoSprintDesign.NomeProjeto.Contains(nome));
+               || b.Colaborador.Name.Contains(nome) || b.ProjetoSprintDesign.NomeProjeto.Contains(nome) ||
+               b.SistemaProdutividade.NomeProjeto.Contains(nome));
             var pagingInfo = new PagingInfo
             {
                 CurrentPage = page,
@@ -46,6 +47,7 @@ namespace GestorDeTarefas.Controllers
             var tarefa = await tarefaSearch
                             .Include(b => b.Colaborador)
                             .Include(b => b.ProjetoSprintDesign)
+                            .Include(b=> b.SistemaProdutividade)
                             .OrderBy(b => b.Nome)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
                             .Take(pagingInfo.PageSize)
@@ -72,6 +74,7 @@ namespace GestorDeTarefas.Controllers
             var tarefas = await _context.Tarefas
                 .Include(t => t.Colaborador)
                 .Include(t => t.ProjetoSprintDesign)
+                .Include(t => t.SistemaProdutividade)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (tarefas == null)
             {
@@ -87,7 +90,8 @@ namespace GestorDeTarefas.Controllers
         {
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
             ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto");
-         
+            ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto");
+
             return View();
         }
 
@@ -96,7 +100,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id, Nome, DataPrevistaInicio, DataDefinitivaInicio, DataPrevistaFim, DataDefinitivaFim, ColaboradorId,ProjetoSprintDesignID")] Tarefas tarefas)
+        public async Task<IActionResult> Create([Bind("Id, Nome, DataPrevistaInicio, DataDefinitivaInicio, DataPrevistaFim, DataDefinitivaFim, ColaboradorId,ProjetoSprintDesignID,SistemaProdutividadeId")] Tarefas tarefas)
         {
 
             if (tarefas.DataPrevistaFim < tarefas.DataDefinitivaInicio || tarefas.DataPrevistaFim < tarefas.DataPrevistaInicio)
@@ -104,6 +108,11 @@ namespace GestorDeTarefas.Controllers
                 ModelState.AddModelError("DataPrevistaFim", "Data prevista de fim não deve ser " +
                     "menor do que a data prevista ou efetiva de inicio");
             }
+            if(tarefas.SistemaProdutividadeId == null && tarefas.ProjetoSprintDesignID == null)
+            {
+                ModelState.AddModelError("","Por favor adicione a tarefa a pelo menos um projeto!!");
+            }
+
             if (ModelState.IsValid)
             {
                 if(tarefas.DataPrevistaInicio < tarefas.DataDefinitivaInicio)
@@ -124,7 +133,8 @@ namespace GestorDeTarefas.Controllers
             }
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", tarefas.ColaboradorId);
             ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto", tarefas.ProjetoSprintDesignID);
-          
+            ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto", tarefas.SistemaProdutividadeId);
+
             return View(tarefas);
 
             
@@ -145,7 +155,7 @@ namespace GestorDeTarefas.Controllers
             }
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", tarefas.ColaboradorId);
             ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto", tarefas.ProjetoSprintDesignID);
-          
+            ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto", tarefas.SistemaProdutividadeId);
             return View(tarefas);
         }
 
@@ -154,7 +164,8 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim,ColaboradorId,ProjetoSprintDesignID")] Tarefas tarefas)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataPrevistaInicio,DataDefinitivaInicio," +
+            "DataPrevistaFim,DataDefinitivaFim,ColaboradorId,ProjetoSprintDesignID,SistemaProdutividadeId")] Tarefas tarefas)
         {
             if (id != tarefas.Id)
             {
@@ -171,6 +182,10 @@ namespace GestorDeTarefas.Controllers
             {
                 ModelState.AddModelError("DataDefinitivaFim", "Data Efetiva de fim não deve ser " +
                     "menor do que a data efetiva de inicio");
+            }
+            if (tarefas.SistemaProdutividadeId == null && tarefas.ProjetoSprintDesignID == null)
+            {
+                ModelState.AddModelError("", "Por favor adicione a tarefa a pelo menos um projeto!!");
             }
 
             if (ModelState.IsValid)
@@ -213,6 +228,7 @@ namespace GestorDeTarefas.Controllers
             }
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", tarefas.ColaboradorId);
             ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto", tarefas.ProjetoSprintDesignID);
+            ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto", tarefas.SistemaProdutividadeId);
            
             return View(tarefas);
         }
@@ -229,7 +245,8 @@ namespace GestorDeTarefas.Controllers
             {
                 var tarefas = await _context.Tarefas
                 .Include(t => t.Colaborador)
-               // .Include(t => t.ProjetoSprintDesign)
+                .Include(t => t.ProjetoSprintDesign)
+                .Include(t => t.SistemaProdutividade)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tarefas == null)
             {

@@ -53,9 +53,13 @@ namespace GestorDeTarefas.Models
         public int ColaboradorId { get; set; }
         public Colaborador Colaborador { get; set; }
 
-        [Required(ErrorMessage = "Por favor, escolha opção")]       
-        public int ProjetoSprintDesignID { get; set; } 
+               
+        public int? ProjetoSprintDesignID { get; set; } 
         public ProjetoSprintDesign ProjetoSprintDesign { get; set; }
+
+        public int? SistemaProdutividadeId { get; set; }
+        public SistemaProdutividade SistemaProdutividade { get; set; }
+
 
     }
 }
