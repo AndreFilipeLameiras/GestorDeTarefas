@@ -53,7 +53,7 @@ namespace GestorDeTarefas.Controllers
                 {
                     Colaboradors = colaboradors,
                     PagingInfo = pagingInfo,
-                    NomeSearched = nome,
+                    NomeSearched = nome
                 }
             );
         }
