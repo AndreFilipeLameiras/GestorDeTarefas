@@ -10,7 +10,7 @@
 
 
 
-@if (User.IsInRole("product_manager"))
+@if (User.IsInRole("gestor"))
 {
     <p>
         <a asp-action="Create" class="btn btn-dark">Criar Novo</a>
@@ -41,7 +41,7 @@
 
 
                 @*<a asp-action="Details" asp-route-id="@idioma.IdiomaId" class="btn btn-info">Detalhes</a>*@
-                @if (User.IsInRole("product_manager"))
+                @if (User.IsInRole("gestor"))
                 {
                     <a asp-action="Edit" asp-route-id="@idioma.IdiomaId" class="btn btn-warning">Editar</a>
                     <a asp-action="Delete" asp-route-id="@idioma.IdiomaId" class="btn btn-danger">Eliminar</a>

@@ -7,7 +7,7 @@
 <h1>Cargo</h1>
 <p>Há um total de @Model.PagingInfo.TotalItems cargos</p>
 
-@if (User.IsInRole("product_manager"))
+@if (User.IsInRole("gestor"))
 {
     <p>
         <a asp-action="Create" class="btn btn-dark">Criar Novo</a>
@@ -36,7 +36,7 @@
 
 
                 @*<a asp-action="Details" asp-route-id="@cargo.CargoId" class="btn btn-info">Detalhes</a>*@
-                @if (User.IsInRole("product_manager"))
+                @if (User.IsInRole("gestor"))
                 {
                     <a asp-action="Edit" asp-route-id="@cargo.CargoId" class="btn btn-warning">Editar</a>
                     <a asp-action="Delete" asp-route-id="@cargo.CargoId" class="btn btn-danger">Apagar</a>
