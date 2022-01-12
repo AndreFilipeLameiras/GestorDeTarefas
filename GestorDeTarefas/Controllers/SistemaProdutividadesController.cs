@@ -24,7 +24,7 @@ namespace GestorDeTarefas.Controllers
         public async Task<IActionResult> Index(string nome, int page = 1)
         {
             var projetoSearch = _context.SistemaProdutividade
-               .Where(b => nome == null || b.NomeProjeto.Contains(nome));
+               .Where(b => nome == null || b.NomeProjeto.Contains(nome) || b.EstadoProjeto.Contains(nome));
 
             var pagingInfo = new PagingInfo
             {

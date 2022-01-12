@@ -17,10 +17,8 @@
     <div class="card-body">
         <h5 class="card-title">Pesquisar</h5>
         <form asp-action="Index" method="get">
-            <label for="nome" class="control-label">Nome</label>
-            <input name="nome" type="search" class="form-control" value="@Model.NomeSearched" />
-            <label for="nome" class="control-label">Estado</label>
-            <input name="nome" type="search" class="form-control" value="@Model.NomeSearched" />
+            <label for="nome" class="control-label">Nome do Projeto ou Estado do Projeto</label>
+            <input name="nome" type="search" class="form-control" value="@Model.NomeSearched" />            
             <div class="mt-3">
                 <input type="submit" value="Pesquisar" class="btn btn-info" />
                 <a asp-action="Index" class="btn btn-secondary">Limpar</a>
