@@ -225,6 +225,7 @@ namespace GestorDeTarefas.Controllers
                     projetoSprintDesign.EstadoProjeto = "Dentro do prazo";
                 }
 
+              // projetoSprintDesign.CarregarImagemProjeto.
                 //Guardar imagem no wwwroot/imagens
                 string wwwRootPath = _hostEnvironment.WebRootPath;
                 string fileName = Path.GetFileNameWithoutExtension(projetoSprintDesign.CarregarImagemProjeto.FileName);
