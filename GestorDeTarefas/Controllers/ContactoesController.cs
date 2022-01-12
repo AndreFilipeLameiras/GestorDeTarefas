@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
 using GestorDeTarefas.ViewModels;
+using System.Net.Mail;
+using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -126,8 +129,8 @@ namespace GestorDeTarefas.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ContactoId,Nome,Sobrenome,Email,Assunto,Mensagem")] Contacto contacto)
+        [ValidateAntiForgeryToken]      
+        public async Task<IActionResult> Edit(int id, [Bind("ContactoId,Nome,Sobrenome,Email,Assunto,Mensagem,Verificado,Resposta")] Contacto contacto)
         {
             if (id != contacto.ContactoId)
             {
@@ -138,8 +141,37 @@ namespace GestorDeTarefas.Controllers
             {
                 try
                 {
+                    Contacto ContactoVerificarDados = await _context.Contacto.FindAsync(id);
+                    ContactoVerificarDados.Verificado = true;
+                    ContactoVerificarDados.Resposta = contacto.Resposta;
+                    contacto = ContactoVerificarDados;
+
+                    using (MailMessage message = new MailMessage("gestordetarefas@gmail.com", contacto.Email))
+                    {
+                        message.Subject = contacto.Assunto;
+                        message.Body = contacto.Resposta;
+                        message.IsBodyHtml = false;
+
+                        using (SmtpClient smtp = new SmtpClient())
+                        {
+                            smtp.Host = "smtp.gmail.com";
+                            smtp.EnableSsl = true;
+                            //NetworkCredential credencial =
+                            smtp.UseDefaultCredentials = true;
+                            smtp.Credentials = new NetworkCredential("gestordetarefas@gmail.com", "Guarda@@1");
+                            smtp.Port = 587;
+                            smtp.Send(message);
+                            //Permitir aplicações menos seguras: ATIVADO
+                        }
+                    }
+                    contacto = ContactoVerificarDados;
                     _context.Update(contacto);
                     await _context.SaveChangesAsync();
+                    ViewBag.title = "Contacto Respondido Com Sucesso!";
+                    ViewBag.type = "alert-success";
+                    ViewBag.message = "Em breve entraremos em Contacto!";
+                    ViewBag.redirect = "/Contactos/Index"; // Request.Path
+                    return View("Mensagem");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
