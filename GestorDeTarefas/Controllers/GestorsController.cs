@@ -43,18 +43,18 @@ namespace GestorDeTarefas.Controllers {
             return View(gestor);
         }
 
-        // GET: Gestors/Create
-        public IActionResult Create()
+        // GET: Gestors/Registo
+        public IActionResult Registo()
         {
             return View();
         }
 
-        // POST: Gestors/Create
+        // POST: Gestors/Registo
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GestorId,Nome,Endereço,Email,Telemóvel")] Gestor gestor)
+        public async Task<IActionResult> Registo([Bind("GestorId,Nome,Endereço,Email,Telemóvel")] Gestor gestor)
         {
             if (ModelState.IsValid)
             {
