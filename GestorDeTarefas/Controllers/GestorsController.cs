@@ -7,25 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
+using Microsoft.AspNetCore.Authorization;
 
-namespace GestorDeTarefas.Controllers
-{
-    public class GestorsController : Controller
-    {
+namespace GestorDeTarefas.Controllers {
+    public class GestorsController : Controller {
         private readonly GestorDeTarefasContext _context;
 
-        public GestorsController(GestorDeTarefasContext context)
-        {
+        public GestorsController(GestorDeTarefasContext context){
             _context = context;
         }
 
         // GET: Gestors
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Gestor.ToListAsync());
         }
 
         // GET: Gestors/Details/5
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -66,6 +66,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Gestors/Edit/5
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +87,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Edit(int id, [Bind("GestorId,Nome,Endereço,Email,Telemóvel")] Gestor gestor)
         {
             if (id != gestor.GestorId)
@@ -117,6 +119,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Gestors/Delete/5
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +140,7 @@ namespace GestorDeTarefas.Controllers
         // POST: Gestors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var gestor = await _context.Gestor.FindAsync(id);
