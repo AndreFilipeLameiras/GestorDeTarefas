@@ -146,7 +146,7 @@ namespace GestorDeTarefas.Controllers
                     ContactoVerificarDados.Resposta = contacto.Resposta;
                     contacto = ContactoVerificarDados;
 
-                    using (MailMessage message = new MailMessage("gestordetarefas@gmail.com", contacto.Email))
+                    using (MailMessage message = new MailMessage("gestortarefa@gmail.com", contacto.Email))
                     {
                         message.Subject = contacto.Assunto;
                         message.Body = contacto.Resposta;
@@ -158,7 +158,7 @@ namespace GestorDeTarefas.Controllers
                             smtp.EnableSsl = true;
                             //NetworkCredential credencial =
                             smtp.UseDefaultCredentials = true;
-                            smtp.Credentials = new NetworkCredential("gestordetarefas@gmail.com", "Guarda@@1");
+                            smtp.Credentials = new NetworkCredential("gestortarefa@gmail.com", "Guarda@@1");
                             smtp.Port = 587;
                             smtp.Send(message);
                             //Permitir aplicações menos seguras: ATIVADO
@@ -170,7 +170,7 @@ namespace GestorDeTarefas.Controllers
                     ViewBag.title = "Contacto Respondido Com Sucesso!";
                     ViewBag.type = "alert-success";
                     ViewBag.message = "Em breve entraremos em Contacto!";
-                    ViewBag.redirect = "/Contactos/Index"; // Request.Path
+                    ViewBag.redirect = "//Contactoes/Index"; // Request.Path
                     return View("Mensagem");
                 }
                 catch (DbUpdateConcurrencyException)
@@ -222,5 +222,55 @@ namespace GestorDeTarefas.Controllers
         {
             return _context.Contacto.Any(e => e.ContactoId == id);
         }
+
+
+
+
+        public IActionResult Responder()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Responder(Contacto model)
+        {
+            /*using (MailAddress message = new MailAddress("gestortarefa@gmail.com", model.Email))
+            {
+                message.Subject = model.Assunto;
+            }*/
+            using (MailMessage message = new MailMessage("gestortarefa@gmail.com", model.Email))
+            {
+                message.Subject = model.Assunto;
+                message.Body = model.Mensagem;
+                message.IsBodyHtml = false;
+
+                using (SmtpClient smtp = new SmtpClient())
+                {
+                    smtp.Host = "smtp.gmail.com";
+                    smtp.EnableSsl = true;
+                    //NetworkCredential credencial =
+                    smtp.UseDefaultCredentials = true;
+                    smtp.Credentials = new NetworkCredential("gestortarefa@gmail.com", "Guarda@@1");
+                    smtp.Port = 587;
+                    smtp.Send(message);
+                    //smtp.S(message);
+                    //Permitir aplicações menos seguras: ATIVADO
+                    ViewBag.title = "Contacto Respondido Com Sucesso!";
+                    ViewBag.type = "alert-success";
+                    ViewBag.message = "Em breve entraremos em Contacto!";
+                    ViewBag.redirect = "/Contactos/Index"; // Request.Path
+                    return View("Mensagem");
+                }
+
+            }
+
+            //return View(Contacto);
+        }
+
+
+
+
+
+
     }
 }
