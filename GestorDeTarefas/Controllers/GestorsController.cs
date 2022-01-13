@@ -8,13 +8,23 @@ using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using GestorDeTarefas.ViewModels;
 
 namespace GestorDeTarefas.Controllers {
     public class GestorsController : Controller {
         private readonly GestorDeTarefasContext _context;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public GestorsController(GestorDeTarefasContext context){
+        public GestorsController(
+            GestorDeTarefasContext context,
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager
+            ){
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         // GET: Gestors
@@ -54,13 +64,28 @@ namespace GestorDeTarefas.Controllers {
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registo([Bind("GestorId,Nome,Endereço,Email,Telemóvel")] Gestor gestor)
+        public async Task<IActionResult> Registo(RegistarClienteViewModel gestor)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(gestor);
+                // Register customer (user)
+                var user = new IdentityUser { UserName = gestor.Email, Email = gestor.Email };
+                var result = await _userManager.CreateAsync(user, gestor.Password);
+
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    _context.Add(gestor);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
             return View(gestor);
         }
