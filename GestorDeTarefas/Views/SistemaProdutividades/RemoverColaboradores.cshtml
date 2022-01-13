@@ -15,7 +15,7 @@
                 <input name="nome" type="search" class="form-control" value="@Model.NomeSearched" />
                 <div class="mt-3">
                     <input type="submit" value="Pesquisar" class="btn btn-info" />
-                    <a asp-action="AdicionarColaboradores" asp-route-id="@Model.SistemaProdutividadeId" class="btn btn-secondary">Limpar</a>
+                    <a asp-action="RemoverColaboradores" asp-route-id="@Model.SistemaProdutividadeId" class="btn btn-secondary">Limpar</a>
                 </div>
             </form>
         </div>
