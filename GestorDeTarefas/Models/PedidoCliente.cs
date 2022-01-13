@@ -8,7 +8,7 @@ namespace GestorDeTarefas.Models
 {
     public class PedidoCliente
     {
-        public int PedidoClienteID { get; set; }
+        public int ID { get; set; }
 
         [Required(ErrorMessage = "Por favor, escreva a mensagem")]
         [StringLength(1000, MinimumLength = 5, ErrorMessage = "Mensagem deve ter pelo menos 5 caracteres e um máximo de 1000")]
