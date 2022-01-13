@@ -17,5 +17,12 @@ namespace GestorDeTarefas.Models
         [Display(Name = "Resposta")]
         public string Resposta { get; set; }
 
+        public int ClienteId { get; set; }
+        public Cliente Cliente { get; set; }
+
+        public int GestorId { get; set; }
+
+        public Gestor Gestor { get; set; }
+
     }
 }

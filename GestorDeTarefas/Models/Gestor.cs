@@ -25,5 +25,7 @@ namespace GestorDeTarefas.Models
 
         [Phone]
         public string Telemóvel { get; set; }
+
+        public ICollection<PedidoCliente> PedidoCliente { get; set; }
     }
 }
