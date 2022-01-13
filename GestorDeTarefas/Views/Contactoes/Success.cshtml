@@ -1,32 +1,16 @@
-﻿@{
-    ViewData["Title"] = ViewBag.title;
-}
+﻿
 
-<div class="main-panel view-html" style="width:100%;">
-    <div class="content-wrapper">
-        <div class="row">
-            <div class="col">
-
-                <div class="alert @ViewBag.type" role="alert">
-
-                    <h4 class="alert-heading">@ViewBag.title</h4>
-                    <hr>
-                    <p>@Html.Raw(ViewBag.message)</p>
-                </div>
-
-            </div>
+<div style=" text-align:center">
+    <div class="card border-success">
+        <div class="card-body">
+            <h5 class="card-title text-success">@ViewBag.Title</h5>
+            <p class="card-text lead">@ViewBag.Message</p>
+            <img src="~/Imagens/feliz.jpg" alt="Card image cap" style="width:235px; height:200px">
         </div>
+        <a class="btn btn-success" asp-action="Index">Sucesso!!!</a>
     </div>
 </div>
 
-<style>
-    .search-field,
-    button[data-toggle="minimize"],
-    #todo-task {
-        display: none;
-        visibility: hidden;
-    }
-</style>
 
 <script>
     setTimeout(function () {

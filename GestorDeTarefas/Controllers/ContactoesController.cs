@@ -80,7 +80,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Contactoes/Create
-        public IActionResult Create()
+        public IActionResult ClienteEnvia()
         {
             return View();
         }
@@ -90,17 +90,16 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ContactoId,Nome,Sobrenome,Email,Assunto,Mensagem")] Contacto contacto)
+        public async Task<IActionResult> ClienteEnvia([Bind("ContactoId,Nome,Sobrenome,Email,Assunto,Mensagem")] Contacto contacto)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(contacto);
                 await _context.SaveChangesAsync();
 
-                ViewBag.Title = "Mensagem enviada com sucesso!!";
-                ViewBag.type = "alert-success";
-                ViewBag.Message = "Em breve entraremos em Contacto!";
-                ViewBag.redirect = "/Contactoes/Create";
+                ViewBag.Title = "Email enviado!!";
+                ViewBag.Message = "O seu email foi enviado com sucesso!!!";
+                ViewBag.redirect = "/Contactoes/ClienteEnvia";
                
                 return View("Success");
             
@@ -110,7 +109,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Contactoes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> GestorResponde(int? id)
         {
             if (id == null)
             {
@@ -130,7 +129,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]      
-        public async Task<IActionResult> Edit(int id, [Bind("ContactoId,Nome,Sobrenome,Email,Assunto,Mensagem,Verificado,Resposta")] Contacto contacto)
+        public async Task<IActionResult> GestorResponde(int id, [Bind("ContactoId,Nome,Sobrenome,Email,Assunto,Mensagem,Verificado,Resposta")] Contacto contacto)
         {
             if (id != contacto.ContactoId)
             {
@@ -145,33 +144,39 @@ namespace GestorDeTarefas.Controllers
                     ContactoVerificarDados.Verificado = true;
                     ContactoVerificarDados.Resposta = contacto.Resposta;
                     contacto = ContactoVerificarDados;
-
-                    using (MailMessage message = new MailMessage("gestortarefa@gmail.com", contacto.Email))
+                    try
                     {
-                        message.Subject = contacto.Assunto;
-                        message.Body = contacto.Resposta;
-                        message.IsBodyHtml = false;
-
-                        using (SmtpClient smtp = new SmtpClient())
+                        using (MailMessage message = new MailMessage("gestordetarefasgrupo4@gmail.com", contacto.Email))
                         {
-                            smtp.Host = "smtp.gmail.com";
-                            smtp.EnableSsl = true;
-                            //NetworkCredential credencial =
-                            smtp.UseDefaultCredentials = true;
-                            smtp.Credentials = new NetworkCredential("gestortarefa@gmail.com", "Guarda@@1");
-                            smtp.Port = 587;
-                            smtp.Send(message);
-                            //Permitir aplicações menos seguras: ATIVADO
+                            message.Subject = contacto.Assunto;
+                            message.Body = contacto.Resposta;
+                            message.IsBodyHtml = false;
+
+                            using (SmtpClient smtp = new SmtpClient())
+                            {
+                                smtp.Host = "smtp.gmail.com";
+                                smtp.EnableSsl = true;
+                                //NetworkCredential credencial =
+                                smtp.UseDefaultCredentials = false;
+                                smtp.Credentials = new NetworkCredential("gestordetarefasgrupo4@gmail.com", "Grupo1234$");
+                                smtp.Port = 587;
+                                smtp.Send(message);
+                                //Permitir aplicações menos seguras: ATIVADO
+                            }
                         }
+                        contacto = ContactoVerificarDados;
+                        _context.Update(contacto);
+                        await _context.SaveChangesAsync();
+                        ViewBag.Title = "A sua resposta foi enviada!!";
+                        ViewBag.Message = "Resposta enviada com sucesso!!!";
+                        ViewBag.redirect = "//Contactoes/Index"; // Request.Path
+                        return View("Success");
+                    }catch(Exception e)
+                    {
+                        ViewBag.Title = "Ups! Erro ocorrido!!";
+                        ViewBag.Message = "Por favor, certifique os campos!!!";
+                        return View("MensagemErro");
                     }
-                    contacto = ContactoVerificarDados;
-                    _context.Update(contacto);
-                    await _context.SaveChangesAsync();
-                    ViewBag.title = "Contacto Respondido Com Sucesso!";
-                    ViewBag.type = "alert-success";
-                    ViewBag.message = "Em breve entraremos em Contacto!";
-                    ViewBag.redirect = "//Contactoes/Index"; // Request.Path
-                    return View("Mensagem");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -184,7 +189,7 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                
             }
             return View(contacto);
         }
@@ -215,7 +220,12 @@ namespace GestorDeTarefas.Controllers
             var contacto = await _context.Contacto.FindAsync(id);
             _context.Contacto.Remove(contacto);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            ViewBag.Title = "Email apagado!!";
+            ViewBag.Message = "O seu email foi apagado com sucesso!!!";
+            ViewBag.redirect = "/Contactoes/Index";
+
+            return View("Success");
+
         }
 
         private bool ContactoExists(int id)
@@ -226,19 +236,20 @@ namespace GestorDeTarefas.Controllers
 
 
 
-        public IActionResult Responder()
+        public IActionResult GestorEnvia()
         {
 
             return View();
         }
         [HttpPost]
-        public IActionResult Responder(Contacto model)
+        public IActionResult GestorEnvia(Contacto model)
         {
             /*using (MailAddress message = new MailAddress("gestortarefa@gmail.com", model.Email))
             {
                 message.Subject = model.Assunto;
             }*/
-            using (MailMessage message = new MailMessage("gestortarefa@gmail.com", model.Email))
+            try { 
+            using (MailMessage message = new MailMessage("gestordetarefasgrupo4@gmail.com", model.Email))
             {
                 message.Subject = model.Assunto;
                 message.Body = model.Mensagem;
@@ -249,22 +260,27 @@ namespace GestorDeTarefas.Controllers
                     smtp.Host = "smtp.gmail.com";
                     smtp.EnableSsl = true;
                     //NetworkCredential credencial =
-                    smtp.UseDefaultCredentials = true;
-                    smtp.Credentials = new NetworkCredential("gestortarefa@gmail.com", "Guarda@@1");
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = new NetworkCredential("gestordetarefasgrupo4@gmail.com", "Grupo1234$");
                     smtp.Port = 587;
+                    message.From= new MailAddress("gestordetarefasgrupo4@gmail.com", "Sou eu");
                     smtp.Send(message);
-                    //smtp.S(message);
-                    //Permitir aplicações menos seguras: ATIVADO
-                    ViewBag.title = "Contacto Respondido Com Sucesso!";
-                    ViewBag.type = "alert-success";
-                    ViewBag.message = "Em breve entraremos em Contacto!";
-                    ViewBag.redirect = "/Contactos/Index"; // Request.Path
-                    return View("Mensagem");
+                        //smtp.S(message);
+                        //Permitir aplicações menos seguras: ATIVADO
+                        ViewBag.Title = "O seu email foi enviado";
+                        ViewBag.Message = "Email enviado com sucesso!!!";
+                        ViewBag.redirect = "/Contactoes/Index"; // Request.Path
+                    return View("Success");
                 }
 
             }
 
-            //return View(Contacto);
+            }catch(Exception e)
+            {
+                ViewBag.Title = "Ups! Erro ocorrido!!";
+                ViewBag.Message = "Por favor, certifique os campos!!!";
+                return View("MensagemErro");
+            }
         }
 
 

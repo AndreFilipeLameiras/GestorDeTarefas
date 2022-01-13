@@ -8,7 +8,7 @@
 
 <p>Há um total de @Model.PagingInfo.TotalItems colaboradores</p>
 
-@if (User.IsInRole("product_manager"))
+@if (User.IsInRole("gestor"))
 {
     <p>
         <a asp-action="Create" class="btn btn-dark">Criar Novo</a>
@@ -20,6 +20,8 @@
             <h5 class="card-title">Procurar</h5>
             <form asp-action="Index" method="get">
                 <label for="nome" class="control-label">Nome</label>
+                <input name="nome" type="search" class="form-control" value="@Model.NomeSearched" />
+                <label for="nome" class="control-label">Cargo</label>
                 <input name="nome" type="search" class="form-control" value="@Model.NomeSearched" />
                 <div class="mt-3">
                     <input type="submit" value="Procurar" class="btn btn-info" />
@@ -40,7 +42,7 @@
                 <p class="card-text">@colaborador.Cargo.Nome_Cargo</p>
 
                 <a asp-action="Details" asp-route-id="@colaborador.ColaboradorId" class="btn btn-info">Detalhes</a>
-                @if (User.IsInRole("product_manager"))
+                @if (User.IsInRole("gestor"))
                 {
                     <a asp-action="Edit" asp-route-id="@colaborador.ColaboradorId" class="btn btn-warning">Editar</a>
                     <a asp-action="Delete" asp-route-id="@colaborador.ColaboradorId" class="btn btn-danger">Apagar</a>

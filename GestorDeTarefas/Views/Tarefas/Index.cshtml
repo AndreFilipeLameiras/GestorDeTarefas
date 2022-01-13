@@ -6,7 +6,7 @@
 
 <h1>Lista de Tarefas</h1>
 
-@if (User.IsInRole("product_manager"))
+@if (User.IsInRole("gestor"))
 {
     <p>
         <a asp-action="Create" class="btn btn-dark">Criar Nova</a>
@@ -78,7 +78,7 @@
 
 
             <a asp-action="Details" asp-route-id="@tarefa.Id" class="btn btn-info">Detalhes</a>
-            @if (User.IsInRole("product_manager"))
+            @if (User.IsInRole("gestor"))
             {
                 <a asp-action="Edit" asp-route-id="@tarefa.Id" class="btn btn-warning">Editar</a>
                 <a asp-action="Delete" asp-route-id="@tarefa.Id" class="btn btn-danger">Apagar</a>
