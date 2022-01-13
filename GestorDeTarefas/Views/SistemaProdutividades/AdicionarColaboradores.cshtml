@@ -23,91 +23,87 @@
     </div>
 
 
-    <div class="row">
-        <div class="col">
-            <form asp-action="AdicionarColaboradores">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="SistemaProdutividadeId" />
-                <table class="table ">
-                    <thead>
-                        <tr>
-                            <th scope="col">
-                                <label asp-for="NomeProjeto" class="control-label">Nome do Projeto</label>
-                            </th>
-                            <th scope="col">Colaboradores</th>
-                            <th scope="col">Data de inicio</th>
-                            <th scope="col">Data de fim</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="form-group">
-                                    <input asp-for="NomeProjeto" class="form-control-plaintext" />
-                                    <span asp-validation-for="NomeProjeto" class="text-danger"></span>
-                                </div>
+    <div class=" table-responsive">
+
+        <form asp-action="AdicionarColaboradores">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SistemaProdutividadeId" />
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <label asp-for="NomeProjeto" class="control-label">Nome do Projeto</label>
+                        </th>
+                        <th scope="col">Colaboradores</th>
+                        <th scope="col">Data de inicio</th>
+                        <th scope="col">Data de fim</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="form-group">
+                                <input asp-for="NomeProjeto" class="form-control-plaintext" />
+                                <span asp-validation-for="NomeProjeto" class="text-danger"></span>
+                            </div>
+                        </td>
+
+
+                        @if (Model.Colaboradores != null)
+                        {
+                            <td>
+                                @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                {
+                                    <dd style="margin-bottom:13px">
+
+
+                                        @Html.EditorFor(m => Model.Colaboradores[i].Checked)
+                                        @Html.DisplayFor(m => Model.Colaboradores[i].Name)
+                                        @Html.HiddenFor(m => Model.Colaboradores[i].Name)
+                                        @Html.HiddenFor(m => Model.Colaboradores[i].Id)
+                                    </dd>
+
+
+
+                                }
+
+
                             </td>
+                            <td>
+                                @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                {
 
 
-                            @if (Model.Colaboradores != null)
-                            {
-                                <td>
-                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
-                                    {
-                                        <dd>
+                                    <dd>
+                                        @Html.EditorFor(m => Model.Colaboradores[i].ColaboradorProjetoProd.DataInicio)
+                                    </dd>
+
+                                }
+
+                            </td>
+                            <td>
+                                @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                {
+
+                                    <dd>
+                                        @Html.EditorFor(m => Model.Colaboradores[i].ColaboradorProjetoProd.DataFim)
+
+                                    </dd>
+                                }
 
 
-                                            @Html.EditorFor(m => Model.Colaboradores[i].Checked)
-                                            @Html.DisplayFor(m => Model.Colaboradores[i].Name)
-                                            @Html.HiddenFor(m => Model.Colaboradores[i].Name)
-                                            @Html.HiddenFor(m => Model.Colaboradores[i].Id)
+                            </td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
 
-                                        </dd>
-
-
-
-                                    }
-
-
-                                </td>
-                                <td>
-                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
-                                    {
-
-
-                                        <dd>
-                                            @Html.EditorFor(m => Model.Colaboradores[i].ColaboradorProjetoProd.DataInicio)
-                                        </dd>
-
-                                    }
-
-                                </td>
-                                <td>
-                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
-                                    {
-
-                                        <dd>
-                                            @Html.EditorFor(m => Model.Colaboradores[i].ColaboradorProjetoProd.DataFim)
-
-                                        </dd>
-                                    }
-
-
-                                </td>
-
-
-                            }
-                        </tr>
-                    </tbody>
-                </table>
-
-
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="Guardar" />
-                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-                </div>
-            </form>
-        </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Guardar" />
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
     </div>
 
 
