@@ -80,7 +80,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Contactoes/Create
-        public IActionResult Create()
+        public IActionResult ClienteEnvia()
         {
             return View();
         }
@@ -90,7 +90,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ContactoId,Nome,Sobrenome,Email,Assunto,Mensagem")] Contacto contacto)
+        public async Task<IActionResult> ClienteEnvia([Bind("ContactoId,Nome,Sobrenome,Email,Assunto,Mensagem")] Contacto contacto)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace GestorDeTarefas.Controllers
 
                 ViewBag.Title = "Email enviado!!";
                 ViewBag.Message = "O seu email foi enviado com sucesso!!!";
-                ViewBag.redirect = "/Contactoes/Create";
+                ViewBag.redirect = "/Contactoes/ClienteEnvia";
                
                 return View("Success");
             
@@ -109,7 +109,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Contactoes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> GestorResponde(int? id)
         {
             if (id == null)
             {
@@ -129,7 +129,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]      
-        public async Task<IActionResult> Edit(int id, [Bind("ContactoId,Nome,Sobrenome,Email,Assunto,Mensagem,Verificado,Resposta")] Contacto contacto)
+        public async Task<IActionResult> GestorResponde(int id, [Bind("ContactoId,Nome,Sobrenome,Email,Assunto,Mensagem,Verificado,Resposta")] Contacto contacto)
         {
             if (id != contacto.ContactoId)
             {
@@ -189,7 +189,7 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                
             }
             return View(contacto);
         }
@@ -236,13 +236,13 @@ namespace GestorDeTarefas.Controllers
 
 
 
-        public IActionResult Responder()
+        public IActionResult GestorEnvia()
         {
 
             return View();
         }
         [HttpPost]
-        public IActionResult Responder(Contacto model)
+        public IActionResult GestorEnvia(Contacto model)
         {
             /*using (MailAddress message = new MailAddress("gestortarefa@gmail.com", model.Email))
             {

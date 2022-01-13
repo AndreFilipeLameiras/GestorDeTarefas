@@ -29,12 +29,12 @@
                     <th scope="col">Opções</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="text-justify">
                 <tr>                   
                     <td>
                         @foreach (var item in Model.Contacto)
                         {
-                            <dd>
+                            <dd style="margin-bottom:17px">
                                 @Html.DisplayFor(m => item.Nome)
                             </dd>
                         }
@@ -42,7 +42,7 @@
                     <td>
                         @foreach (var item in Model.Contacto)
                         {
-                            <dd>
+                            <dd style="margin-bottom:17px">
                                 @Html.DisplayFor(m => item.Verificado)
                             </dd>
                         }
@@ -50,7 +50,7 @@
                     <td>
                         @foreach (var item in Model.Contacto)
                         {
-                            <dd>
+                            <dd style="margin-bottom:17px">
                                 @Html.DisplayFor(m => item.Assunto)
                             </dd>
                         }
@@ -58,8 +58,8 @@
                     <td>
                         @foreach (var item in Model.Contacto)
                         {
-                            <dd class="m-5">
-                                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.ContactoId">Detalhes</a>
+                            <dd>
+                                <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.ContactoId">Detalhes</a>
                             </dd>
                         }
                         </td>
