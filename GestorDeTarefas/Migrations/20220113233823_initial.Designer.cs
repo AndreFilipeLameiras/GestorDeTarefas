@@ -4,14 +4,16 @@ using GestorDeTarefas.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GestorDeTarefas.Migrations
 {
     [DbContext(typeof(GestorDeTarefasContext))]
-    partial class GestorDeTarefasContextModelSnapshot : ModelSnapshot
+    [Migration("20220113233823_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -280,9 +282,6 @@ namespace GestorDeTarefas.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DataDefinitivaFim")
                         .HasColumnType("datetime2");
 
@@ -299,9 +298,6 @@ namespace GestorDeTarefas.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("GestorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ImagemProjeto")
                         .HasColumnType("nvarchar(max)");
 
@@ -311,10 +307,6 @@ namespace GestorDeTarefas.Migrations
                         .HasColumnType("nvarchar(60)");
 
                     b.HasKey("ProjetoSprintDesignID");
-
-                    b.HasIndex("ClienteId");
-
-                    b.HasIndex("GestorId");
 
                     b.ToTable("ProjetoSprintDesign");
                 });
@@ -487,25 +479,6 @@ namespace GestorDeTarefas.Migrations
                     b.Navigation("Gestor");
                 });
 
-            modelBuilder.Entity("GestorDeTarefas.Models.ProjetoSprintDesign", b =>
-                {
-                    b.HasOne("GestorDeTarefas.Models.Cliente", "Cliente")
-                        .WithMany("ProjetoSprintDesign")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("GestorDeTarefas.Models.Gestor", "Gestor")
-                        .WithMany("ProjetoSprintDesign")
-                        .HasForeignKey("GestorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Cliente");
-
-                    b.Navigation("Gestor");
-                });
-
             modelBuilder.Entity("GestorDeTarefas.Models.Tarefas", b =>
                 {
                     b.HasOne("GestorDeTarefas.Models.Colaborador", "Colaborador")
@@ -537,8 +510,6 @@ namespace GestorDeTarefas.Migrations
             modelBuilder.Entity("GestorDeTarefas.Models.Cliente", b =>
                 {
                     b.Navigation("PedidoCliente");
-
-                    b.Navigation("ProjetoSprintDesign");
                 });
 
             modelBuilder.Entity("GestorDeTarefas.Models.Colaborador", b =>
@@ -555,8 +526,6 @@ namespace GestorDeTarefas.Migrations
             modelBuilder.Entity("GestorDeTarefas.Models.Gestor", b =>
                 {
                     b.Navigation("PedidoCliente");
-
-                    b.Navigation("ProjetoSprintDesign");
                 });
 
             modelBuilder.Entity("GestorDeTarefas.Models.Idioma", b =>
