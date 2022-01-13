@@ -5,112 +5,166 @@
 
 <div style="margin-bottom:379px;">
     <h1>Remover Colaboradores no Projeto Sprint Design</h1>
+    <p>Há um total de @Model.PagingInfo.TotalItems colaboradores no projeto</p>
 
-    <div class="row">
-        <div class="col">
-            <form asp-action="RemoverColaboradores">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="SistemaProdutividadeId" />
-                <table class="table ">
-                    <thead>
-                        <tr>
-                            <th scope="col">
-                                <label asp-for="NomeProjeto" class="control-label">Nome do Projeto</label>
-                            </th>
-                            <th scope="col">Colaboradores</th>
-                            <th scope="col">Data de inicio</th>
-                            <th scope="col">Data de fim</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="form-group">
-                                    <input asp-for="NomeProjeto" class="form-control-plaintext" />
-                                    <span asp-validation-for="NomeProjeto" class="text-danger"></span>
-                                </div>
-                            </td>
-
-
-                            @if (Model.Colaboradores != null)
-                            {
-                                <td>
-                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
-                                    {
-                                        if (Model.Colaboradores[i].Checked)
-                                        {
-                                            <dd>
-
-
-                                                @Html.EditorFor(m => Model.Colaboradores[i].Checked)
-                                                @Html.DisplayFor(m => Model.Colaboradores[i].Name)
-                                                @Html.HiddenFor(m => Model.Colaboradores[i].Name)
-                                                @Html.HiddenFor(m => Model.Colaboradores[i].Id)
-                                            </dd>
-                                        }
-
-
-                                    }
-
-
-                                </td>
-                                <td>
-                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
-                                    {
-                                        if (Model.Colaboradores[i].Checked)
-                                        {
-
-                                            <dd>
-                                                @Html.DisplayFor(m => Model.Colaboradores[i].DataInicio)
-                                            </dd>
-                                        }
-                                    }
-
-                                </td>
-                                <td>
-                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
-                                    {
-                                        if (Model.Colaboradores[i].Checked)
-                                        {
-
-                                            <dd>
-                                                @Html.DisplayFor(m => Model.Colaboradores[i].DataFim)
-
-                                            </dd>
-                                        }
-                                    }
-
-
-                                </td>
-                                <td>
-                                    @for (int i = 0; i < Model.Colaboradores.Count(); i++)
-                                    {
-
-                                        <dd>
-                                            <div class="form-group">
-                                                <input type="submit" value="Remover" style="color:red" />
-
-                                            </div>
-
-                                        </dd>
-                                    }
-
-
-                                </td>
-                            }
-                        </tr>
-                    </tbody>
-                </table>
-
-
-                <div class="form-group">
-                    @*<input type="submit" value="Guardar" class="btn btn-primary" />*@
-                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Pesquisar</h5>
+            <form asp-action="AdicionarColaboradores" asp-route-id="@Model.SistemaProdutividadeId" method="get">
+                <label for="nome" class="control-label">Nome</label>
+                <input name="nome" type="search" class="form-control" value="@Model.NomeSearched" />
+                <div class="mt-3">
+                    <input type="submit" value="Pesquisar" class="btn btn-info" />
+                    <a asp-action="RemoverColaboradores" asp-route-id="@Model.SistemaProdutividadeId" class="btn btn-secondary">Limpar</a>
                 </div>
             </form>
         </div>
     </div>
 
+    <div class="table-responsive">
+
+        <form asp-action="RemoverColaboradores">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SistemaProdutividadeId" />
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <label asp-for="NomeProjeto" class="control-label">Nome do Projeto</label>
+                        </th>
+                        <th scope="col">Colaboradores</th>
+                        <th scope="col">Data de inicio</th>
+                        <th scope="col">Data de fim</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="form-group">
+                                <input asp-for="NomeProjeto" class="form-control-plaintext" />
+                                <span asp-validation-for="NomeProjeto" class="text-danger"></span>
+                            </div>
+                        </td>
+
+
+                        @if (Model.Colaboradores != null)
+                        {
+                            <td>
+                                @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                {
+                                    if (Model.Colaboradores[i].Checked)
+                                    {
+                                        <dd style="margin-bottom:5px">
+
+
+                                            @Html.EditorFor(m => Model.Colaboradores[i].Checked)
+                                            @Html.DisplayFor(m => Model.Colaboradores[i].Name)
+                                            @Html.HiddenFor(m => Model.Colaboradores[i].Name)
+                                            @Html.HiddenFor(m => Model.Colaboradores[i].Id)
+                                        </dd>
+                                    }
+
+
+                                }
+
+
+                            </td>
+                            <td>
+                                @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                {
+                                    if (Model.Colaboradores[i].Checked)
+                                    {
+
+                                        <dd>
+                                            @Html.DisplayFor(m => Model.Colaboradores[i].DataInicio)
+                                        </dd>
+                                    }
+                                }
+
+                            </td>
+                            <td>
+                                @for (int i = 0; i < Model.Colaboradores.Count(); i++)
+                                {
+                                    if (Model.Colaboradores[i].Checked)
+                                    {
+
+                                        <dd>
+                                            @Html.DisplayFor(m => Model.Colaboradores[i].DataFim)
+
+                                        </dd>
+                                    }
+                                }
+
+
+                            </td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <div class="form-group">
+                <input type="submit" value="Remover" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+    </div>
+
+
+    <nav class="mt-3">
+        <ul class="pagination">
+            @{
+                if (Model.PagingInfo.CurrentPage == 1)
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Primeiro</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-action="RemoverColaboradores" asp-route-id="@Model.SistemaProdutividadeId" asp-route-page="1">Primeiro</a>
+                    </li>
+                }
+
+                int firstPage = Model.PagingInfo.CurrentPage - PagingInfo.NUMBER_PAGES_SHOW_BEFORE_AFTER;
+                if (firstPage < 1) firstPage = 1;
+
+                int lastPage = Model.PagingInfo.CurrentPage + PagingInfo.NUMBER_PAGES_SHOW_BEFORE_AFTER;
+                if (lastPage > Model.PagingInfo.TotalPages) lastPage = Model.PagingInfo.TotalPages;
+
+                for (int p = firstPage; p <= lastPage; p++)
+                {
+                    if (p == Model.PagingInfo.CurrentPage)
+                    {
+                        <li class="page-item active">
+                            <a class="page-link" href="#">@p <span class="sr-only">(current)</span></a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-action="RemoverColaboradores" asp-route-id="@Model.SistemaProdutividadeId" asp-route-page="@p">@p</a>
+                        </li>
+                    }
+                }
+
+                if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Ultimo</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-action="RemoverColaboradores" asp-route-id="@Model.SistemaProdutividadeId" asp-route-page="@Model.PagingInfo.TotalPages">Ultimo</a>
+                    </li>
+                }
+            }
+        </ul>
+    </nav>
 
 
 </div>

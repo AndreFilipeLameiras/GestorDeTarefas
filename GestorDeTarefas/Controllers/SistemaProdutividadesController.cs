@@ -24,7 +24,7 @@ namespace GestorDeTarefas.Controllers
         public async Task<IActionResult> Index(string nome, int page = 1)
         {
             var projetoSearch = _context.SistemaProdutividade
-               .Where(b => nome == null || b.NomeProjeto.Contains(nome));
+               .Where(b => nome == null || b.NomeProjeto.Contains(nome) || b.EstadoProjeto.Contains(nome));
 
             var pagingInfo = new PagingInfo
             {
@@ -92,7 +92,7 @@ namespace GestorDeTarefas.Controllers
         }
 
 
-        public async Task<IActionResult> DetailsColaboradorProjeto(int? id)
+        public async Task<IActionResult> DetailsColaboradorProjeto(string nome, int? id, int page = 1)
         {
             if (id == null)
             {
@@ -107,7 +107,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             
-            var Resultado = from b in _context.ColaboradorProdutividade
+            var ResultadoSearch = from b in _context.ColaboradorProdutividade
                             select new
                             {
                                 b.ColaboradorId,
@@ -116,31 +116,83 @@ namespace GestorDeTarefas.Controllers
                                 b.DataFim,
                                 Checked = ((from ab in _context.ColaboradorProdutividade
                                             where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
-                                            select ab).Count() > 0)
+                                            select ab)
+                                            .Where(ab => ab.Colaborador.Name.Contains(nome))
+                                            .Count() > 0)
                             };
 
-            var MyViewModel = new SistemProdListViewmodel();
-            MyViewModel.SistemaProdutividadeId = id.Value;
-            MyViewModel.NomeProjeto = sistemaProdutividade.NomeProjeto;
 
+            var ResultadoSearch2 = from b in _context.ColaboradorProdutividade
+                                   select new
+                                   {
+                                       b.ColaboradorId,
+                                       b.Colaborador.Name,
+                                       b.DataInicio,
+                                       b.DataFim,
+                                       Checked = ((from ab in _context.ColaboradorProdutividade
+
+                                                   where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                                   select ab)
+                                                    .Count() > 0)
+                                   };
+            var pagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                TotalItems = ResultadoSearch.Count()
+            };
+
+            if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
+            {
+                pagingInfo.CurrentPage = pagingInfo.TotalPages;
+            }
+
+            if (pagingInfo.CurrentPage < 1)
+
+            {
+                pagingInfo.CurrentPage = 1;
+            }
+
+
+            var Resultado = await ResultadoSearch2
+                           .OrderBy(b => b.Name)
+                           .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                           .Take(pagingInfo.PageSize)
+                           .ToListAsync();
+            if (nome != null)
+            {
+                Resultado = await ResultadoSearch
+                            .OrderBy(b => b.Name)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+            }
+
+            var MyViewModel = new SistemProdListViewmodel();
             var MyCheckBoxList = new List<CheckBoxViewModelProdutividade>();
 
             foreach (var item in Resultado)
             {
                 MyCheckBoxList.Add(new CheckBoxViewModelProdutividade
-                { Id = item.ColaboradorId, Name = item.Name, Checked = item.Checked,
-                DataInicio = item.DataInicio, DataFim = item.DataFim});
+                {
+                    Id = item.ColaboradorId,
+                    Name = item.Name,
+                    Checked = item.Checked,
+                    DataInicio = item.DataInicio,
+                    DataFim = item.DataFim
+                });
 
                 MyViewModel.Colaboradores = MyCheckBoxList;
             }
-            return View(MyViewModel);
+
+            return View(new SistemProdListViewmodel
+            {
+                SistemaProdutividadeId = id.Value,
+                NomeProjeto = sistemaProdutividade.NomeProjeto,
+                Colaboradores = MyCheckBoxList,
+                NomeSearched = nome,
+                PagingInfo = pagingInfo
+            });
         }
-
-
-
-
-
-
 
 
 
@@ -263,7 +315,10 @@ namespace GestorDeTarefas.Controllers
         }
 
 
-        public async Task<IActionResult> RemoverColaboradores(int? id)
+
+
+
+        public async Task<IActionResult> RemoverColaboradores(string nome, int? id, int page = 1)
         {
             if (id == null)
             {
@@ -277,24 +332,73 @@ namespace GestorDeTarefas.Controllers
                 return NotFound();
             }
 
-           
-            var Resultado = from b in _context.ColaboradorProdutividade
-                            select new
-                            {
-                                b.ColaboradorId,
-                                b.Colaborador.Name,
-                                b.DataInicio,
-                                b.DataFim,
-                                Checked = ((from ab in _context.ColaboradorProdutividade
-                                            where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
-                                            select ab).Count() > 0)
-                            };
 
+            var ResultadoSearch = from b in _context.ColaboradorProdutividade
+                                  select new
+                                  {                                      
+                                      b.ColaboradorId,
+                                      b.Colaborador.Name,
+                                      b.DataInicio,
+                                      b.DataFim,
+                                      Checked = ((from ab in _context.ColaboradorProdutividade
+
+                                                  where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                                  select ab)
+                                                  .Where(ab => ab.Colaborador.Name.Contains(nome))
+                                                  .Count() > 0)
+                                  };
+
+
+            var ResultadoSearch2 = from b in _context.ColaboradorProdutividade
+                                   select new
+                                   {
+                                       b.ColaboradorId,
+                                       b.Colaborador.Name,
+                                       b.DataInicio,
+                                       b.DataFim,
+                                       Checked = ((from ab in _context.ColaboradorProdutividade
+
+                                                   where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                                   select ab)
+                                                    .Count() > 0)
+                                   };
+
+
+
+            var pagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                TotalItems = ResultadoSearch.Count()
+            };
+
+            if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
+            {
+                pagingInfo.CurrentPage = pagingInfo.TotalPages;
+            }
+
+            if (pagingInfo.CurrentPage < 1)
+
+            {
+                pagingInfo.CurrentPage = 1;
+            }
+
+
+
+            var Resultado = await ResultadoSearch2
+                            .OrderBy(b => b.Name)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+            if (nome != null)
+            {
+                Resultado = await ResultadoSearch
+                            .OrderBy(b => b.Name)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+            }
 
             var MyViewModel = new SistemProdListViewmodel();
-            MyViewModel.SistemaProdutividadeId = id.Value;
-            MyViewModel.NomeProjeto = projetoProdutividade.NomeProjeto;
-
             var MyCheckBoxList = new List<CheckBoxViewModelProdutividade>();
 
             foreach (var item in Resultado)
@@ -310,10 +414,16 @@ namespace GestorDeTarefas.Controllers
 
                 MyViewModel.Colaboradores = MyCheckBoxList;
             }
-            return View(MyViewModel);
+
+            return View(new SistemProdListViewmodel
+            {
+                SistemaProdutividadeId = id.Value,
+                NomeProjeto = projetoProdutividade.NomeProjeto,
+                Colaboradores = MyCheckBoxList,
+                NomeSearched = nome,
+                PagingInfo = pagingInfo
+            });
         }
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoverColaboradores(SistemProdListViewmodel projetoProdutividade)
@@ -348,7 +458,7 @@ namespace GestorDeTarefas.Controllers
             
         }
 
-        public async Task<IActionResult> AdicionarColaboradores(int? id)
+        public async Task<IActionResult> AdicionarColaboradores(string nome, int? id, int page = 1)
         {
 
             if (id == null)
@@ -358,31 +468,77 @@ namespace GestorDeTarefas.Controllers
 
             SistemaProdutividade SistemaProdutividade = _context.SistemaProdutividade.Find(id);
 
-         
+
             if (SistemaProdutividade == null)
             {
                 return NotFound();
             }
 
-            var Results = from b in _context.Colaborador
-                          select new
-                          {
-                              b.ColaboradorId,
-                              b.Name,
-                              Checked = ((from ab in _context.ColaboradorProdutividade
-                                          where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
-                                          select ab).Count() > 0)
-                          };
+            var ResultadoSearch1 = from b in _context.Colaborador
+                                   select new
+                                   {
+                                       b.ColaboradorId,
+                                       b.Name,
+                                       Checked = ((from ab in _context.ColaboradorProdutividade
+                                                   where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                                   select ab).Count() > 0)
+                                   };
+
+            var ResultadoSearch2 = from b in _context.Colaborador
+                                   .Where(b => b.Name.Contains(nome))
+                                   select new
+                                   {
+                                       b.ColaboradorId,
+                                       b.Name,
+                                       Checked = ((from ab in _context.ColaboradorProdutividade
+                                                   where (ab.SistemaProdutividadeId == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                                   select ab)
+                                          .Count() > 0)
+                                   };
 
 
 
+            var pagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                TotalItems = ResultadoSearch1
+                .Where(b => b.Checked == false).Count()
+            };
+
+            if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
+            {
+                pagingInfo.CurrentPage = pagingInfo.TotalPages;
+            }
+
+            if (pagingInfo.CurrentPage < 1)
+
+            {
+                pagingInfo.CurrentPage = 1;
+            }
+
+
+
+
+            var Resultado = await ResultadoSearch1
+                            .OrderBy(b => b.Name)
+                            .Where(b => b.Checked == false)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+            if (nome != null)
+            {
+                Resultado = await ResultadoSearch2
+                            .OrderBy(b => b.Name)
+                            .Where(b => b.Checked == false)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+            }
 
             var MyViewModel = new SistemProdListViewmodel();
-            MyViewModel.SistemaProdutividadeId = id.Value;
-            MyViewModel.NomeProjeto = SistemaProdutividade.NomeProjeto;
 
             var MyCheckBoxList = new List<CheckBoxViewModelProdutividade>();
-            foreach (var colaborador in Results)
+            foreach (var colaborador in Resultado)
             {
                 if (colaborador.Checked == false)
                 {
@@ -395,13 +551,18 @@ namespace GestorDeTarefas.Controllers
 
                     });
 
-
-
                     MyViewModel.Colaboradores = MyCheckBoxList;
                 }
             }
 
-            return View(MyViewModel);
+            return View(new SistemProdListViewmodel
+            {
+                SistemaProdutividadeId = id.Value,
+                NomeProjeto = SistemaProdutividade.NomeProjeto,
+                Colaboradores = MyCheckBoxList,
+                NomeSearched = nome,
+                PagingInfo = pagingInfo
+            });
 
         }
 
