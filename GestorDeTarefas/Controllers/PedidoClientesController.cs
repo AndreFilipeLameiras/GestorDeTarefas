@@ -34,7 +34,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             var pedidoCliente = await _context.PedidoCliente
-                .FirstOrDefaultAsync(m => m.PedidoClienteID == id);
+                .FirstOrDefaultAsync(m => m.ID == id);
             if (pedidoCliente == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResponderPedido(int id, [Bind("PedidoClienteID,Mensagem,Resposta")] PedidoCliente pedidoCliente)
         {
-            if (id != pedidoCliente.PedidoClienteID)
+            if (id != pedidoCliente.ID)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace GestorDeTarefas.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PedidoClienteExists(pedidoCliente.PedidoClienteID))
+                    if (!PedidoClienteExists(pedidoCliente.ID))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             var pedidoCliente = await _context.PedidoCliente
-                .FirstOrDefaultAsync(m => m.PedidoClienteID == id);
+                .FirstOrDefaultAsync(m => m.ID == id);
             if (pedidoCliente == null)
             {
                 return NotFound();
@@ -147,7 +147,7 @@ namespace GestorDeTarefas.Controllers
 
         private bool PedidoClienteExists(int id)
         {
-            return _context.PedidoCliente.Any(e => e.PedidoClienteID == id);
+            return _context.PedidoCliente.Any(e => e.ID == id);
         }
     }
 }
