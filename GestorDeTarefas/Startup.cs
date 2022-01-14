@@ -57,7 +57,8 @@ namespace GestorDeTarefas
                     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                     options.Lockout.MaxFailedAccessAttempts = 5;
 
-                }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultUI();
+                }).AddEntityFrameworkStores<ApplicationDbContext>();
+                //.AddDefaultUI();
 
              
             services.AddControllersWithViews();
@@ -65,7 +66,7 @@ namespace GestorDeTarefas
             services.AddDbContext<GestorDeTarefasContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("GestorDeTarefasContext")));
 
-
+            services.AddRazorPages();
 
         }
 
@@ -104,8 +105,7 @@ namespace GestorDeTarefas
             SeedData.CreateRoles(roleManager); 
             SeedData.CreateDefaultAdmin(userManager);
 
-            if (env.IsDevelopment())
-            {
+            if (env.IsDevelopment()){
                 SeedData.PopulateUsers(userManager);
                 SeedData.Populate(gestorDeTarefasContext);
                 SeedDataProjeto.Populate(gestorDeTarefasContext);
