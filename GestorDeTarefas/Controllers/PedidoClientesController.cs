@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
+using GestorDeTarefas.ViewModels;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -34,6 +35,8 @@ namespace GestorDeTarefas.Controllers
             }
 
             var pedidoCliente = await _context.PedidoCliente
+                .Include(p => p.Cliente)
+                .Include(p => p.Gestor)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (pedidoCliente == null)
             {
@@ -44,9 +47,35 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: PedidoClientes/Create
-        public IActionResult EnviarPedido()
+        public IActionResult EnviarPedido(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Cliente cliente = _context.Cliente.Find(id);
+            PedidoCliente pedidoCliente = new PedidoCliente();
+
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+
+            var MyViewModel = new PedidoClienteListViewModel();
+
+            return View(new PedidoClienteListViewModel
+            {
+                
+                ClienteId = id.Value,
+                Nome = cliente.Nome,
+                Email = cliente.Email,
+                Cidade = cliente.Cidade,
+                Telefone = cliente.Phone,
+                Mensagem = pedidoCliente.Mensagem
+            }
+                
+                );
         }
 
         // POST: PedidoClientes/Create
@@ -54,13 +83,24 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EnviarPedido([Bind("PedidoClienteID,Mensagem,Resposta")] PedidoCliente pedidoCliente)
+        public async Task<IActionResult> EnviarPedido(PedidoClienteListViewModel pedidoCliente)
         {
+            Cliente cliente = _context.Cliente.Find(pedidoCliente.ClienteId);
+            
+            
             if (ModelState.IsValid)
             {
-                _context.Add(pedidoCliente);
+                _context.Add(new PedidoCliente() { 
+                
+                    ClienteId = pedidoCliente.ClienteId, Mensagem = pedidoCliente.Mensagem
+                });
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Pedido enviado!!";
+                ViewBag.Message = "O seu pedido foi enviado com sucesso!!!";
+                ViewBag.redirect = "/Clientes/Index";
+
+                return View("Success");
+
             }
             return View(pedidoCliente);
         }
