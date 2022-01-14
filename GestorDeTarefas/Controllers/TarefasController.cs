@@ -88,9 +88,9 @@ namespace GestorDeTarefas.Controllers
        // [Authorize (Roles = "product_manager")]
         public IActionResult Create()
         {
-            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
-            ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto");
-            ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto");
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador.OrderBy(b=>b.Name), "ColaboradorId", "Name");
+            ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign.OrderBy(b => b.NomeProjeto), "ProjetoSprintDesignID", "NomeProjeto");
+            ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade.OrderBy(b => b.NomeProjeto), "SistemaProdutividadeId", "NomeProjeto");
 
             return View();
         }
