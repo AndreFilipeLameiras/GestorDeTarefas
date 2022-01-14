@@ -21,14 +21,18 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Colaboradors
-        public async Task<IActionResult> Index(string nome,int page = 1)
+        public async Task<IActionResult> Index(string nome, string cargo, int page = 1)
         {
             var colaboradorSearch = _context.Colaborador
-                .Where(b => nome == null || b.Name.Contains(nome) || b.Cargo.Nome_Cargo.Contains(nome));
+                .Where(b=>(nome == null || b.Name.Contains(nome))
+                &( cargo == null || b.Cargo.Nome_Cargo.Contains(cargo)));
+
+
             var pagingInfo = new PagingInfo
             {
                 CurrentPage = page,
                 TotalItems = colaboradorSearch.Count()
+
             };
 
             if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
@@ -48,12 +52,14 @@ namespace GestorDeTarefas.Controllers
                             .Take(pagingInfo.PageSize)
                             .ToListAsync();
 
+
             return View(
                 new ColaboradorListViewModel
                 {
                     Colaboradors = colaboradors,
                     PagingInfo = pagingInfo,
-                    NomeSearched = nome
+                    NomeSearched = nome,
+                    CargoSearched = cargo
                 }
             );
         }

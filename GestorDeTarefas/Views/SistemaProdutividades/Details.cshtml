@@ -4,50 +4,51 @@
     ViewData["Title"] = "Detalhes";
 }
 
-<h1>Detalhes do Projeto</h1>
+<h1>Detalhes Projeto Sistema Produtividade</h1>    
 
-<div>
-    <h4>SistemaProdutividade</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.NomeProjeto)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.NomeProjeto)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DataPrevistaInicio)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataPrevistaInicio)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DataDefinitivaInicio)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataDefinitivaInicio)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DataPrevistaFim)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataPrevistaFim)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DataDefinitivaFim)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataDefinitivaFim)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EstadoProjeto)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EstadoProjeto)
-        </dd>        
-    </dl>
-</div>
+    <div class="table-responsive">
+
+        <table class="table table-bordered" width="100%" cellspacing="0">
+            <colgroup>
+                <col span="1" style="background-color: #D6EEEE" class="col-sm-6">
+            </colgroup>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.NomeProjeto)</td>
+                <td> @Html.DisplayFor(model => model.NomeProjeto)</td>
+
+            </tr>
+
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.DataPrevistaInicio)</td>
+                <td>@Html.DisplayFor(model => model.DataPrevistaInicio)</td>
+
+            </tr>
+
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.DataDefinitivaInicio)</td>
+                <td>@Html.DisplayFor(model => model.DataDefinitivaInicio)</td>
+
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.DataPrevistaFim)</td>
+                <td>@Html.DisplayFor(model => model.DataPrevistaFim)</td>
+
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.DataDefinitivaFim)</td>
+                <td>@Html.DisplayFor(model => model.DataDefinitivaFim)</td>
+
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.EstadoProjeto)</td>
+                <td>@Html.DisplayFor(model => model.EstadoProjeto)</td>
+
+            </tr>
+
+        </table>
+        <br>
+        <br>
+    </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.SistemaProdutividadeId" class="btn btn-warning">Editar</a> |
     <a asp-action="Index" class="btn btn-secondary">Voltar a lista</a>
