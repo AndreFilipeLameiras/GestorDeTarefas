@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GestorDeTarefas.Migrations
 {
-    public partial class inicial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -125,6 +125,34 @@ namespace GestorDeTarefas.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PedidoCliente",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Mensagem = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    Resposta = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClienteId = table.Column<int>(type: "int", nullable: false),
+                    GestorId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PedidoCliente", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_PedidoCliente_Cliente_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Cliente",
+                        principalColumn: "ClienteId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PedidoCliente_Gestor_GestorId",
+                        column: x => x.GestorId,
+                        principalTable: "Gestor",
+                        principalColumn: "GestorId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProjetoSprintDesign",
                 columns: table => new
                 {
@@ -234,41 +262,6 @@ namespace GestorDeTarefas.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PedidoCliente",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Mensagem = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    Resposta = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClienteId = table.Column<int>(type: "int", nullable: false),
-                    GestorId = table.Column<int>(type: "int", nullable: true),
-                    ProjetoSprintDesignID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PedidoCliente", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_PedidoCliente_Cliente_ClienteId",
-                        column: x => x.ClienteId,
-                        principalTable: "Cliente",
-                        principalColumn: "ClienteId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PedidoCliente_Gestor_GestorId",
-                        column: x => x.GestorId,
-                        principalTable: "Gestor",
-                        principalColumn: "GestorId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PedidoCliente_ProjetoSprintDesign_ProjetoSprintDesignID",
-                        column: x => x.ProjetoSprintDesignID,
-                        principalTable: "ProjetoSprintDesign",
-                        principalColumn: "ProjetoSprintDesignID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Tarefas",
                 columns: table => new
                 {
@@ -336,11 +329,6 @@ namespace GestorDeTarefas.Migrations
                 name: "IX_PedidoCliente_GestorId",
                 table: "PedidoCliente",
                 column: "GestorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PedidoCliente_ProjetoSprintDesignID",
-                table: "PedidoCliente",
-                column: "ProjetoSprintDesignID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProjetoSprintDesign_ClienteId",
