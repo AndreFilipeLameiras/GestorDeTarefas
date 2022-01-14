@@ -4,14 +4,16 @@ using GestorDeTarefas.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GestorDeTarefas.Migrations
 {
     [DbContext(typeof(GestorDeTarefasContext))]
-    partial class GestorDeTarefasContextModelSnapshot : ModelSnapshot
+    [Migration("20220113234459_second")]
+    partial class second
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,7 +255,7 @@ namespace GestorDeTarefas.Migrations
                     b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GestorId")
+                    b.Property<int>("GestorId")
                         .HasColumnType("int");
 
                     b.Property<string>("Mensagem")
@@ -478,7 +480,9 @@ namespace GestorDeTarefas.Migrations
 
                     b.HasOne("GestorDeTarefas.Models.Gestor", "Gestor")
                         .WithMany("PedidoCliente")
-                        .HasForeignKey("GestorId");
+                        .HasForeignKey("GestorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Cliente");
 
