@@ -11,6 +11,9 @@ namespace GestorDeTarefas.Data
     {
         internal static void Populate(GestorDeTarefasContext db)
         {
+            PopulateCliente(db);
+            PopulateGestor(db);
+            PopulateProjetoProdutividade(db);
             PopulateProjetoSprint(db);
             PopulateCargo(db);
             PopulateColaborador(db);
@@ -28,28 +31,90 @@ namespace GestorDeTarefas.Data
                 DataPrevistaInicio=DateTime.Parse("20/12/2021"),
                 DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
                 DataPrevistaFim = DateTime.Parse("22/12/2021"),
-                EstadoProjeto="Dentro do prazo"
+                EstadoProjeto="Dentro do prazo",
+                ClienteId=1,
+                GestorId=2
                 
                 },
                 new ProjetoSprintDesign { NomeProjeto = "Criação de automovel",
                     DataPrevistaInicio = DateTime.Parse("20/12/2021"),
                     DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
-                    EstadoProjeto = "Dentro do prazo"
+                    EstadoProjeto = "Dentro do prazo",
+                    ClienteId = 2,
+                    GestorId = 2
                 },
                 new ProjetoSprintDesign { NomeProjeto = "Construção Civil",
                     DataPrevistaInicio = DateTime.Parse("16/12/2021"),
                     DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
-                    EstadoProjeto = "Em atraso"
+                    EstadoProjeto = "Em atraso",
+                    ClienteId = 4,
+                    GestorId = 3
                 },
                 new ProjetoSprintDesign { NomeProjeto = "Reparação de computadores",
                     DataPrevistaInicio = DateTime.Parse("20/09/2021"),
                     DataDefinitivaInicio = DateTime.Parse("18/11/2021"),
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
-                    EstadoProjeto = "Em atraso"
+                    EstadoProjeto = "Em atraso",
+                    ClienteId = 2,
+                    GestorId = 1
                 },
                 new ProjetoSprintDesign { NomeProjeto = "Manutenção de estrada",
+                    DataPrevistaInicio = DateTime.Parse("20/12/2021"),
+                    DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
+                    DataPrevistaFim = DateTime.Parse("22/12/2021"),
+                    EstadoProjeto = "Dentro do prazo",
+                    ClienteId = 2,
+                    GestorId = 4
+                }
+
+            );
+
+            db.SaveChanges();
+        }
+
+
+        private static void PopulateProjetoProdutividade(GestorDeTarefasContext db)
+        {
+            if (db.SistemaProdutividade.Any()) return;
+            db.SistemaProdutividade.AddRange(
+                new SistemaProdutividade
+                {
+                    NomeProjeto = "Produção JM",
+                    DataPrevistaInicio = DateTime.Parse("20/12/2021"),
+                    DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
+                    DataPrevistaFim = DateTime.Parse("22/12/2021"),
+                    EstadoProjeto = "Dentro do prazo"
+
+                },
+                new SistemaProdutividade
+                {
+                    NomeProjeto = "Arca Produções",
+                    DataPrevistaInicio = DateTime.Parse("20/12/2021"),
+                    DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
+                    DataPrevistaFim = DateTime.Parse("22/12/2021"),
+                    EstadoProjeto = "Dentro do prazo"
+                },
+                new SistemaProdutividade
+                {
+                    NomeProjeto = "Toneladas KL",
+                    DataPrevistaInicio = DateTime.Parse("16/12/2021"),
+                    DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
+                    DataPrevistaFim = DateTime.Parse("22/12/2021"),
+                    EstadoProjeto = "Em atraso"
+                },
+                new SistemaProdutividade
+                {
+                    NomeProjeto = "Reparação de Portas",
+                    DataPrevistaInicio = DateTime.Parse("20/09/2021"),
+                    DataDefinitivaInicio = DateTime.Parse("18/11/2021"),
+                    DataPrevistaFim = DateTime.Parse("22/12/2021"),
+                    EstadoProjeto = "Em atraso"
+                },
+                new SistemaProdutividade
+                {
+                    NomeProjeto = "Manutenção de Hotel",
                     DataPrevistaInicio = DateTime.Parse("20/12/2021"),
                     DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
@@ -59,7 +124,7 @@ namespace GestorDeTarefas.Data
             );
 
             db.SaveChanges();
-        } 
+        }
 
 
         private static void PopulateCargo(GestorDeTarefasContext db)
@@ -151,7 +216,9 @@ namespace GestorDeTarefas.Data
             db.Tarefas.AddRange(
                 new Tarefas { 
                     Nome="Limpeza",
-                    ColaboradorId=1,ProjetoSprintDesignID=3,
+                    ColaboradorId=1,
+                    ProjetoSprintDesignID=3,
+                    SistemaProdutividadeId=1,
                     DataPrevistaInicio = DateTime.Parse("20/09/2021"),
                     DataDefinitivaInicio = DateTime.Parse("18/11/2021"),
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
@@ -162,6 +229,7 @@ namespace GestorDeTarefas.Data
                     Nome = "Pintar",
                     ColaboradorId = 3,
                     ProjetoSprintDesignID = 2,
+                    SistemaProdutividadeId = 1,
                     DataPrevistaInicio = DateTime.Parse("20/12/2021"),
                     DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
@@ -192,6 +260,7 @@ namespace GestorDeTarefas.Data
                     Nome = "Arumar materiais",
                     ColaboradorId = 1,
                     ProjetoSprintDesignID = 3,
+                    SistemaProdutividadeId = 4,
                     DataPrevistaInicio = DateTime.Parse("20/09/2021"),
                     DataDefinitivaInicio = DateTime.Parse("18/11/2021"),
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
@@ -248,6 +317,131 @@ namespace GestorDeTarefas.Data
 
             db.SaveChanges();
         }
+
+
+
+        private static void PopulateCliente(GestorDeTarefasContext db)
+        {
+            if (db.Cliente.Any())
+            {
+                return;
+            }
+
+            db.Cliente.AddRange(
+                new Cliente
+                {
+                    Nome = "Jonas Paulo",
+                    Email ="jonaspaulo@gmail.com",
+                    Cidade="Lisboa",
+                    Phone="923456654"                 
+                },
+               new Cliente
+               {
+                   Nome = "Miguel Silva",
+                   Email = "miguel@gmail.com",
+                   Cidade = "Porto",
+                   Phone = "923456659"
+               },
+               new Cliente
+               {
+                   Nome = "Ana Matos",
+                   Email = "ana@gmail.com",
+                   Cidade = "Lisboa",
+                   Phone = "923456610"
+               },
+               new Cliente
+               {
+                   Nome = "Patricia Andreza",
+                   Email = "andreza@gmail.com",
+                   Cidade = "Guarda",
+                   Phone = "923456654"
+               },
+               new Cliente
+               {
+                   Nome = "Cleiton Mendes",
+                   Email = "cleinton@gmail.com",
+                   Cidade = "Lisboa",
+                   Phone = "923456610"
+               },
+               new Cliente
+               {
+                   Nome = "Luis Manteiga",
+                   Email = "Manteiga@gmail.com",
+                   Cidade = "Aveiro",
+                   Phone = "923456654"
+               }
+
+
+            );
+
+            db.SaveChanges();
+        }
+
+
+
+        private static void PopulateGestor(GestorDeTarefasContext db)
+        {
+            if (db.Gestor.Any())
+            {
+                return;
+            }
+
+            db.Gestor.AddRange(
+                new Gestor
+                {
+                    Nome = "Paulo Santos",
+                    Email = "paulo@gmail.com",
+                    Endereço = "Lisboa",
+                    Telemóvel = "920956654"
+                },
+               new Gestor
+               {
+                   Nome = "Jordan Legumes",
+                   Email = "jordan@gmail.com",
+                   Endereço = "Guarda",
+                   Telemóvel = "960456654"
+               },
+               new Gestor
+               {
+                   Nome = "Mario Costa",
+                   Email = "costa@gmail.com",
+                   Endereço = "Guarda",
+                   Telemóvel = "962456688"
+               },
+               new Gestor
+               {
+                   Nome = "Lina Gomes",
+                   Email = "lina@gmail.com",
+                   Endereço = "Viseu",
+                   Telemóvel = "960456754"
+               },
+               new Gestor
+               {
+                   Nome = "Maria de Lurdes",
+                   Email = "maria@gmail.com",
+                   Endereço = "Leiria",
+                   Telemóvel = "960456678"
+               },
+               new Gestor
+               {
+                   Nome = "José Botão",
+                   Email = "josé@gmail.com",
+                   Endereço = "Guimarães",
+                   Telemóvel = "960456654"
+               },
+               new Gestor
+               {
+                   Nome = "Ronaldo Recorde",
+                   Email = "recorde@gmail.com",
+                   Endereço = "Madeira",
+                   Telemóvel = "930456654"
+               }
+
+            );
+
+            db.SaveChanges();
+        }
+
 
 
 

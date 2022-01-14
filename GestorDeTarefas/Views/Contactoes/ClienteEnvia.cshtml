@@ -73,10 +73,9 @@
                 </div>
                 <div class="form-group mb-5">
                     <input type="submit" value="Enviar" class="btn btn-info" />
-                    @if (User.IsInRole("GestorEventos") || User.IsInRole("Admin"))
-                    {
+                    
                         <a class="btn btn-secondary" asp-action="Index">Ver Lista</a>
-                    }
+                    
 
 
                 </div>

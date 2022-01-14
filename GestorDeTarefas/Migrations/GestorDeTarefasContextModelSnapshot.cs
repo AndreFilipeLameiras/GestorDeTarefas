@@ -36,6 +36,36 @@ namespace GestorDeTarefas.Migrations
                     b.ToTable("Cargo");
                 });
 
+            modelBuilder.Entity("GestorDeTarefas.Models.Cliente", b =>
+                {
+                    b.Property<int>("ClienteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Cidade")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ClienteId");
+
+                    b.ToTable("Cliente");
+                });
+
             modelBuilder.Entity("GestorDeTarefas.Models.Colaborador", b =>
                 {
                     b.Property<int>("ColaboradorId")
@@ -166,6 +196,36 @@ namespace GestorDeTarefas.Migrations
                     b.ToTable("Contacto");
                 });
 
+            modelBuilder.Entity("GestorDeTarefas.Models.Gestor", b =>
+                {
+                    b.Property<int>("GestorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Endereço")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Telemóvel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("GestorId");
+
+                    b.ToTable("Gestor");
+                });
+
             modelBuilder.Entity("GestorDeTarefas.Models.Idioma", b =>
                 {
                     b.Property<int>("IdiomaId")
@@ -183,12 +243,45 @@ namespace GestorDeTarefas.Migrations
                     b.ToTable("Idioma");
                 });
 
+            modelBuilder.Entity("GestorDeTarefas.Models.PedidoCliente", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("GestorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Mensagem")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("Resposta")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("GestorId");
+
+                    b.ToTable("PedidoCliente");
+                });
+
             modelBuilder.Entity("GestorDeTarefas.Models.ProjetoSprintDesign", b =>
                 {
                     b.Property<int>("ProjetoSprintDesignID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DataDefinitivaFim")
                         .HasColumnType("datetime2");
@@ -206,6 +299,9 @@ namespace GestorDeTarefas.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int>("GestorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImagemProjeto")
                         .HasColumnType("nvarchar(max)");
 
@@ -215,6 +311,10 @@ namespace GestorDeTarefas.Migrations
                         .HasColumnType("nvarchar(60)");
 
                     b.HasKey("ProjetoSprintDesignID");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("GestorId");
 
                     b.ToTable("ProjetoSprintDesign");
                 });
@@ -368,6 +468,42 @@ namespace GestorDeTarefas.Migrations
                     b.Navigation("ProjetoSprintDesign");
                 });
 
+            modelBuilder.Entity("GestorDeTarefas.Models.PedidoCliente", b =>
+                {
+                    b.HasOne("GestorDeTarefas.Models.Cliente", "Cliente")
+                        .WithMany("PedidoCliente")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GestorDeTarefas.Models.Gestor", "Gestor")
+                        .WithMany("PedidoCliente")
+                        .HasForeignKey("GestorId");
+
+                    b.Navigation("Cliente");
+
+                    b.Navigation("Gestor");
+                });
+
+            modelBuilder.Entity("GestorDeTarefas.Models.ProjetoSprintDesign", b =>
+                {
+                    b.HasOne("GestorDeTarefas.Models.Cliente", "Cliente")
+                        .WithMany("ProjetoSprintDesign")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GestorDeTarefas.Models.Gestor", "Gestor")
+                        .WithMany("ProjetoSprintDesign")
+                        .HasForeignKey("GestorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+
+                    b.Navigation("Gestor");
+                });
+
             modelBuilder.Entity("GestorDeTarefas.Models.Tarefas", b =>
                 {
                     b.HasOne("GestorDeTarefas.Models.Colaborador", "Colaborador")
@@ -396,6 +532,13 @@ namespace GestorDeTarefas.Migrations
                     b.Navigation("Colaboradors");
                 });
 
+            modelBuilder.Entity("GestorDeTarefas.Models.Cliente", b =>
+                {
+                    b.Navigation("PedidoCliente");
+
+                    b.Navigation("ProjetoSprintDesign");
+                });
+
             modelBuilder.Entity("GestorDeTarefas.Models.Colaborador", b =>
                 {
                     b.Navigation("ColaboradorIdiomas");
@@ -405,6 +548,13 @@ namespace GestorDeTarefas.Migrations
                     b.Navigation("ColaboradorProjetoSprints");
 
                     b.Navigation("Tarefas");
+                });
+
+            modelBuilder.Entity("GestorDeTarefas.Models.Gestor", b =>
+                {
+                    b.Navigation("PedidoCliente");
+
+                    b.Navigation("ProjetoSprintDesign");
                 });
 
             modelBuilder.Entity("GestorDeTarefas.Models.Idioma", b =>

@@ -44,7 +44,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Clientes/Register
-        public IActionResult Create()
+        public IActionResult Register()
         {
             return View();
         }
