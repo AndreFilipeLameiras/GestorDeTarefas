@@ -1,4 +1,4 @@
-﻿@model GestorDeTarefas.Models.PedidoCliente
+﻿@model PedidoClienteListViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -12,20 +12,34 @@
     <div class="col-md-4">
         <form asp-action="EnviarPedido">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ClienteId" />
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label">@Model.Nome</label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">@Model.Email</label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telefone" class="control-label">@Model.Telefone</label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cidade" class="control-label">@Model.Cidade</label>
+            </div>
             <div class="form-group">
                 <label asp-for="Mensagem" class="control-label"></label>
                 <textarea asp-for="Mensagem" class="form-control" rows="6" cols="50"></textarea>
                 <span asp-validation-for="Mensagem" class="text-danger"></span>
             </div>
-            
+
             <div class="form-group">
-                <input type="submit" value="EnviarPedido" class="btn btn-primary" />
+                
+                <input type="submit" value="Enviar" class="btn btn-info" />
+                <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
