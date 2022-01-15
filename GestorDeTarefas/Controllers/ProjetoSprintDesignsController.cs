@@ -28,7 +28,8 @@ namespace GestorDeTarefas.Controllers
         public async Task<IActionResult> Index(string nome, int page = 1)
         {
             var projetoSearch = _context.ProjetoSprintDesign
-               .Where(b => nome == null || b.NomeProjeto.Contains(nome) || b.EstadoProjeto.Contains(nome)
+               .Where(b => nome == null || b.NomeProjeto.Contains(nome) || b.EstadoProjeto.Contains(nome) ||
+               b.Cliente.Nome.Contains(nome)
               );
             var pagingInfo = new PagingInfo
             {
@@ -48,6 +49,7 @@ namespace GestorDeTarefas.Controllers
 
             var projeto = await projetoSearch
                             .Include(b => b.ProjetoSprintColaboradores)
+                            .Include(b => b.Cliente)
                             .OrderBy(b => b.NomeProjeto)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
                             .Take(pagingInfo.PageSize)
@@ -72,6 +74,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             var projetoSprintDesign = await _context.ProjetoSprintDesign
+                .Include(b => b.Cliente)
                 .FirstOrDefaultAsync(m => m.ProjetoSprintDesignID == id);
             if (projetoSprintDesign == null)
             {
@@ -199,6 +202,7 @@ namespace GestorDeTarefas.Controllers
         // GET: ProjetoSprintDesigns/Create
         public IActionResult Create()
         {
+            ViewData["ClienteId"] = new SelectList(_context.Cliente.OrderBy(b => b.Nome), "ClienteId", "Nome");
             return View();
         } 
 
@@ -245,6 +249,7 @@ namespace GestorDeTarefas.Controllers
                 ViewBag.Message = "Projeto adicionado com sucesso!!!";
                 return View("Success");
             }
+            ViewData["ClienteId"] = new SelectList(_context.Cliente.OrderBy(b => b.Nome), "ClienteId", "Nome",projetoSprintDesign.ClienteId);
             return View(projetoSprintDesign);
         }
 
@@ -261,6 +266,7 @@ namespace GestorDeTarefas.Controllers
             {
                 return NotFound();
             }
+            ViewData["ClienteId"] = new SelectList(_context.Cliente.OrderBy(b => b.Nome), "ClienteId", "Nome", projetoSprintDesign.ClienteId);
             return View(projetoSprintDesign);
         }
 
@@ -323,6 +329,7 @@ namespace GestorDeTarefas.Controllers
                 ViewBag.Message = "Projeto Alterado com sucesso!!!.";
                 return View("Success");
             }
+            ViewData["ClienteId"] = new SelectList(_context.Cliente.OrderBy(b => b.Nome), "ClienteId", "Nome", projetoSprintDesign.ClienteId);
             return View(projetoSprintDesign);
         }
 
@@ -690,7 +697,8 @@ namespace GestorDeTarefas.Controllers
             try
             {
                 var projetoSprintDesign = await _context.ProjetoSprintDesign
-               .FirstOrDefaultAsync(m => m.ProjetoSprintDesignID == id);
+                    .Include(b => b.Cliente)
+                    .FirstOrDefaultAsync(m => m.ProjetoSprintDesignID == id);
 
                 if (projetoSprintDesign == null)
                 {
