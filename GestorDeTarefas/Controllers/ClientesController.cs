@@ -54,7 +54,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([Bind("ClienteId,Nome,Cidade,Email,Phone")] Cliente cliente)
+        public async Task<IActionResult> Register([Bind("ClienteId,Nome,Morada,Cidade,Email,Phone")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Nome,Cidade,Email,Phone")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Nome,Morada,Cidade,Email,Phone")] Cliente cliente)
         {
             if (id != cliente.ClienteId)
             {

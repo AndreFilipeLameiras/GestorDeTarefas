@@ -13,6 +13,10 @@ namespace GestorDeTarefas.ViewModels
         public string Nome { get; set; }
 
         [Required]
+        [StringLength(256)]
+        public string Morada { get; set; }
+
+        [Required]
         [StringLength(100)]
         public string Cidade { get; set; }
 
