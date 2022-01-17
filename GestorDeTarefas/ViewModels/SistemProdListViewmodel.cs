@@ -15,5 +15,7 @@ namespace GestorDeTarefas.ViewModels
         public int SistemaProdutividadeId { get; set; }
         public string NomeProjeto { get; set; }
         public List<CheckBoxViewModelProdutividade> Colaboradores { get; set; }
+
+        public List<Tarefas> Tarefas { get; set; }
     }
 }
