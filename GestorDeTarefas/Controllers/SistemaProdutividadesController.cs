@@ -315,6 +315,46 @@ namespace GestorDeTarefas.Controllers
         }
 
 
+        public async Task<IActionResult> VerTarefas(string nome, int? id, int page = 1)
+        {
+            var tarefaSearch = _context.Tarefas
+               .Where(b => nome == null || b.Nome.Contains(nome));
+            var pagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                TotalItems = tarefaSearch
+                .Where(b => b.SistemaProdutividadeId == id)
+                .Count()
+            };
+
+            if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
+            {
+                pagingInfo.CurrentPage = pagingInfo.TotalPages;
+            }
+
+            if (pagingInfo.CurrentPage < 1)
+            {
+                pagingInfo.CurrentPage = 1;
+            }
+
+            var tarefa = await tarefaSearch
+                            .Include(b => b.SistemaProdutividade)
+                            .OrderBy(b => b.Nome)
+                            .Where(b => b.SistemaProdutividadeId == id)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+
+            return View(
+                new SistemProdListViewmodel
+                {
+                    Tarefas = tarefa,
+                    PagingInfo = pagingInfo,
+                    NomeSearched = nome
+                }
+            );
+        }
+
 
 
 
