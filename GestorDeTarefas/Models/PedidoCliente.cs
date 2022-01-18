@@ -17,6 +17,26 @@ namespace GestorDeTarefas.Models
         [Display(Name = "Resposta")]
         public string Resposta { get; set; }
 
+        [DataType(DataType.Date)]
+        [Display(Name = "Data para realização do pedido")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        public DateTime DataRealizarPedido { get; set; }
+
+        [DataType(DataType.Date)]      
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        public DateTime? DataPedido { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        public DateTime? DataResposta { get; set; }
+
+        public int? ProjetoSprintDesignID { get; set; }
+        public ProjetoSprintDesign ProjetoSprintDesign { get; set; }
+
+        public int? SistemaProdutividadeId { get; set; }
+        public SistemaProdutividade SistemaProdutividade { get; set; }
+
+
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }
 
