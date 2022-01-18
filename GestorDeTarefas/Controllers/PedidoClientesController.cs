@@ -57,13 +57,14 @@ namespace GestorDeTarefas.Controllers
             Cliente cliente = _context.Cliente.Find(id);
             PedidoCliente pedidoCliente = new PedidoCliente();
 
+           
+
             if (cliente == null)
             {
                 return NotFound();
             }
 
-            var MyViewModel = new PedidoClienteListViewModel();
-
+            
             return View(new PedidoClienteListViewModel
             {
                 
@@ -72,8 +73,11 @@ namespace GestorDeTarefas.Controllers
                 Email = cliente.Email,
                 Cidade = cliente.Cidade,
                 Telefone = cliente.Phone,
-                Mensagem = pedidoCliente.Mensagem
-            }
+                Mensagem = pedidoCliente.Mensagem,
+                DataRealizarPedido = pedidoCliente.DataRealizarPedido,
+                ProjetoSprintDesign = new SelectList(_context.ProjetoSprintDesign.OrderBy(b => b.NomeProjeto)
+                .Where(b => b.ClienteId == id.Value), "ProjetoSprintDesignID", "NomeProjeto")
+        }
                 
                 );
         }
@@ -86,21 +90,30 @@ namespace GestorDeTarefas.Controllers
         public async Task<IActionResult> EnviarPedido(PedidoClienteListViewModel pedidoCliente)
         {
             Cliente cliente = _context.Cliente.Find(pedidoCliente.ClienteId);
+
             
-            
+
+
             if (ModelState.IsValid)
             {
-                _context.Add(new PedidoCliente() { 
+
+            
+                _context.Add(new PedidoCliente() {
                 
-                    ClienteId = pedidoCliente.ClienteId, Mensagem = pedidoCliente.Mensagem
+                
+                    ClienteId = pedidoCliente.ClienteId, Mensagem = pedidoCliente.Mensagem,
+                    DataPedido = DateTime.Today, DataRealizarPedido = pedidoCliente.DataRealizarPedido,
+                    ProjetoSprintDesignID=pedidoCliente.ProjetoSprintDesignID
+                
                 });
+                
                 await _context.SaveChangesAsync();
                 ViewBag.Title = "Pedido enviado!!";
                 ViewBag.Message = "O seu pedido foi enviado com sucesso!!!";
                 ViewBag.redirect = "/Clientes/Index";
 
                 return View("Success");
-
+                new SelectList(_context.ProjetoSprintDesign.Where(b => b.ClienteId == pedidoCliente.ClienteId), "ProjetoSprintDesignID", "NomeProjeto");
             }
             return View(pedidoCliente);
         }
