@@ -103,6 +103,7 @@ namespace GestorDeTarefas.Controllers
         public async Task<IActionResult> Create([Bind("Id, Nome, DataPrevistaInicio, DataDefinitivaInicio, DataPrevistaFim, DataDefinitivaFim, ColaboradorId,ProjetoSprintDesignID,SistemaProdutividadeId")] Tarefas tarefas)
         {
 
+
             if (tarefas.DataPrevistaFim < tarefas.DataDefinitivaInicio || tarefas.DataPrevistaFim < tarefas.DataPrevistaInicio)
             {
                 ModelState.AddModelError("DataPrevistaFim", "Data prevista de fim não deve ser " +
@@ -110,7 +111,13 @@ namespace GestorDeTarefas.Controllers
             }
             if(tarefas.SistemaProdutividadeId == null && tarefas.ProjetoSprintDesignID == null)
             {
-                ModelState.AddModelError("","Por favor adicione a tarefa a pelo menos um projeto!!");
+                ModelState.AddModelError("", "Por favor adicione um projeto para esta tarefa!!");
+                
+            }
+            if(tarefas.SistemaProdutividadeId != null && tarefas.ProjetoSprintDesignID != null)
+            {
+                ModelState.AddModelError("", "Por favor adicione apenas um projeto para esta tarefa!!");
+                
             }
 
             if (ModelState.IsValid)
@@ -186,6 +193,11 @@ namespace GestorDeTarefas.Controllers
             if (tarefas.SistemaProdutividadeId == null && tarefas.ProjetoSprintDesignID == null)
             {
                 ModelState.AddModelError("", "Por favor adicione a tarefa a pelo menos um projeto!!");
+            }
+            if (tarefas.SistemaProdutividadeId == null && tarefas.ProjetoSprintDesignID == null ||
+                tarefas.SistemaProdutividadeId != null && tarefas.ProjetoSprintDesignID != null)
+            {
+                ModelState.AddModelError("", "Por favor adicione esta tarefa a um projeto!!");
             }
 
             if (ModelState.IsValid)

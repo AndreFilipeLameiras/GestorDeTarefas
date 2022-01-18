@@ -4,14 +4,16 @@ using GestorDeTarefas.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GestorDeTarefas.Migrations
 {
     [DbContext(typeof(GestorDeTarefasContext))]
-    partial class GestorDeTarefasContextModelSnapshot : ModelSnapshot
+    [Migration("20220116183813_pedidoV2")]
+    partial class pedidoV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,13 +255,13 @@ namespace GestorDeTarefas.Migrations
                     b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DataPedido")
+                    b.Property<DateTime>("DataPedido")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataRealizarPedido")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DataResposta")
+                    b.Property<DateTime>("DataResposta")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("GestorId")
