@@ -127,10 +127,15 @@ namespace GestorDeTarefas.Controllers
             }
 
             var pedidoCliente = await _context.PedidoCliente.FindAsync(id);
-            if (pedidoCliente == null)
+            
+           if (pedidoCliente == null)
             {
                 return NotFound();
             }
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nome", pedidoCliente.ClienteId);
+            ViewData["GestorId"] = new SelectList(_context.Gestor, "GestorId", "Nome", pedidoCliente.GestorId);
+            ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto", pedidoCliente.ProjetoSprintDesignID);
+            ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto", pedidoCliente.SistemaProdutividadeId);
             return View(pedidoCliente);
         }
 
@@ -139,7 +144,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResponderPedido(int id, [Bind("PedidoClienteID,Mensagem,Resposta")] PedidoCliente pedidoCliente)
+        public async Task<IActionResult> ResponderPedido(int id, [Bind("ID,Mensagem,Resposta,DataRealizarPedido,DataPedido,DataResposta,ProjetoSprintDesignID,SistemaProdutividadeId,ClienteId,GestorId")] PedidoCliente pedidoCliente)
         {
             if (id != pedidoCliente.ID)
             {
@@ -152,6 +157,9 @@ namespace GestorDeTarefas.Controllers
                 {
                     _context.Update(pedidoCliente);
                     await _context.SaveChangesAsync();
+                    ViewBag.Title = "Resposta enviada!!";
+                    ViewBag.Message = "A sus resposta foi enviado com sucesso!!!";
+                    ViewBag.redirect = "/Clientes/Index";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -164,9 +172,15 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+              //  return RedirectToAction(nameof(Index));
             }
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nome", pedidoCliente.ClienteId);
+            ViewData["GestorId"] = new SelectList(_context.Gestor, "GestorId", "Nome", pedidoCliente.GestorId);
+            ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto", pedidoCliente.ProjetoSprintDesignID);
+            ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto", pedidoCliente.SistemaProdutividadeId);
             return View(pedidoCliente);
+
+          
         }
 
         // GET: PedidoClientes/Delete/5
