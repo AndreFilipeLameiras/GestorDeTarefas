@@ -36,7 +36,9 @@ namespace GestorDeTarefas.Controllers
 
             var pedidoCliente = await _context.PedidoCliente
                 .Include(p => p.Cliente)
-                .Include(p => p.ColaboradorId)
+                .Include(p => p.Colaborador)
+                .Include(p => p.ProjetoSprintDesign)
+                .Include(p => p.SistemaProdutividade)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (pedidoCliente == null)
             {
@@ -77,7 +79,8 @@ namespace GestorDeTarefas.Controllers
                 DataRealizarPedido = pedidoCliente.DataRealizarPedido,
                 ProjetoSprintDesign = new SelectList(_context.ProjetoSprintDesign.OrderBy(b => b.NomeProjeto)
                 .Where(b => b.ClienteId == id.Value), "ProjetoSprintDesignID", "NomeProjeto")
-        }
+               
+            }
                 
                 );
         }
@@ -100,10 +103,12 @@ namespace GestorDeTarefas.Controllers
             
                 _context.Add(new PedidoCliente() {
                 
-                
-                    ClienteId = pedidoCliente.ClienteId, Mensagem = pedidoCliente.Mensagem,
-                    DataPedido = DateTime.Today, DataRealizarPedido = pedidoCliente.DataRealizarPedido,
+                    ClienteId = pedidoCliente.ClienteId, 
+                    Mensagem = pedidoCliente.Mensagem,
+                    DataPedido = DateTime.Today, 
+                    DataRealizarPedido = pedidoCliente.DataRealizarPedido,
                     ProjetoSprintDesignID=pedidoCliente.ProjetoSprintDesignID
+                    
                 
                 });
                 
@@ -127,13 +132,12 @@ namespace GestorDeTarefas.Controllers
             }
 
             var pedidoCliente = await _context.PedidoCliente.FindAsync(id);
-            
-           if (pedidoCliente == null)
+            if (pedidoCliente == null)
             {
                 return NotFound();
             }
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nome", pedidoCliente.ClienteId);
-            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "GestorId", "Nome", pedidoCliente.ColaboradorId);
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Cidade", pedidoCliente.ClienteId);
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Contacto", pedidoCliente.ColaboradorId);
             ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto", pedidoCliente.ProjetoSprintDesignID);
             ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto", pedidoCliente.SistemaProdutividadeId);
             return View(pedidoCliente);
@@ -144,7 +148,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResponderPedido(int id, [Bind("ID,Mensagem,Resposta,DataRealizarPedido,DataPedido,DataResposta,ProjetoSprintDesignID,SistemaProdutividadeId,ClienteId,GestorId")] PedidoCliente pedidoCliente)
+        public async Task<IActionResult> ResponderPedido(int id, [Bind("ID,Mensagem,Resposta,DataRealizarPedido,DataPedido,DataResposta,ProjetoSprintDesignID,SistemaProdutividadeId,ClienteId,ColaboradorId")] PedidoCliente pedidoCliente)
         {
             if (id != pedidoCliente.ID)
             {
@@ -172,7 +176,7 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-              //  return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
             }
             ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nome", pedidoCliente.ClienteId);
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "GestorId", "Nome", pedidoCliente.ColaboradorId);
