@@ -47,7 +47,7 @@ namespace GestorDeTarefas.Models
         public string? EstadoProjeto { get; set; }
 
         
-
+        public string PrioridadeProjeto { get; set; }
 
 
 
