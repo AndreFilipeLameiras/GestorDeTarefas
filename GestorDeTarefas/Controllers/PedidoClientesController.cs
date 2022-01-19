@@ -36,7 +36,7 @@ namespace GestorDeTarefas.Controllers
 
             var pedidoCliente = await _context.PedidoCliente
                 .Include(p => p.Cliente)
-                .Include(p => p.Gestor)
+                .Include(p => p.ColaboradorId)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (pedidoCliente == null)
             {
@@ -133,7 +133,7 @@ namespace GestorDeTarefas.Controllers
                 return NotFound();
             }
             ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nome", pedidoCliente.ClienteId);
-            ViewData["GestorId"] = new SelectList(_context.Gestor, "GestorId", "Nome", pedidoCliente.GestorId);
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "GestorId", "Nome", pedidoCliente.ColaboradorId);
             ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto", pedidoCliente.ProjetoSprintDesignID);
             ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto", pedidoCliente.SistemaProdutividadeId);
             return View(pedidoCliente);
@@ -175,7 +175,7 @@ namespace GestorDeTarefas.Controllers
               //  return RedirectToAction(nameof(Index));
             }
             ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nome", pedidoCliente.ClienteId);
-            ViewData["GestorId"] = new SelectList(_context.Gestor, "GestorId", "Nome", pedidoCliente.GestorId);
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "GestorId", "Nome", pedidoCliente.ColaboradorId);
             ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto", pedidoCliente.ProjetoSprintDesignID);
             ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto", pedidoCliente.SistemaProdutividadeId);
             return View(pedidoCliente);
