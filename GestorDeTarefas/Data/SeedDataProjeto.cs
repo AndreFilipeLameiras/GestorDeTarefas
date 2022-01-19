@@ -12,11 +12,11 @@ namespace GestorDeTarefas.Data
         internal static void Populate(GestorDeTarefasContext db)
         {
             PopulateCliente(db);
-            PopulateGestor(db);
-            PopulateProjetoProdutividade(db);
-            PopulateProjetoSprint(db);
             PopulateCargo(db);
             PopulateColaborador(db);
+            PopulateProjetoProdutividade(db);
+            PopulateProjetoSprint(db);
+            
             PopulateTarefas(db);
             PopulateIdioma(db);
              
@@ -33,7 +33,7 @@ namespace GestorDeTarefas.Data
                 DataPrevistaFim = DateTime.Parse("22/12/2021"),
                 EstadoProjeto="Dentro do prazo",
                 ClienteId=1,
-                GestorId=2
+                ColaboradorId =1
                 
                 },
                 new ProjetoSprintDesign { NomeProjeto = "Criação de automovel",
@@ -42,7 +42,7 @@ namespace GestorDeTarefas.Data
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
                     EstadoProjeto = "Dentro do prazo",
                     ClienteId = 2,
-                    GestorId = 2
+                    ColaboradorId = 2
                 },
                 new ProjetoSprintDesign { NomeProjeto = "Construção Civil",
                     DataPrevistaInicio = DateTime.Parse("16/12/2021"),
@@ -50,7 +50,7 @@ namespace GestorDeTarefas.Data
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
                     EstadoProjeto = "Em atraso",
                     ClienteId = 4,
-                    GestorId = 3
+                    ColaboradorId = 3
                 },
                 new ProjetoSprintDesign { NomeProjeto = "Reparação de computadores",
                     DataPrevistaInicio = DateTime.Parse("20/09/2021"),
@@ -58,7 +58,7 @@ namespace GestorDeTarefas.Data
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
                     EstadoProjeto = "Em atraso",
                     ClienteId = 2,
-                    GestorId = 1
+                    ColaboradorId = 1
                 },
                 new ProjetoSprintDesign { NomeProjeto = "Manutenção de estrada",
                     DataPrevistaInicio = DateTime.Parse("20/12/2021"),
@@ -66,7 +66,8 @@ namespace GestorDeTarefas.Data
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
                     EstadoProjeto = "Dentro do prazo",
                     ClienteId = 2,
-                    GestorId = 4
+                    ColaboradorId = 3
+
                 }
 
             );
@@ -135,15 +136,15 @@ namespace GestorDeTarefas.Data
             }
 
             db.Cargo.AddRange(
-                new Cargo { Nome_Cargo = "Pintor" },
+                new Cargo { Nome_Cargo = "Gestor" },
                 new Cargo { Nome_Cargo = "Eletricista" },
                 new Cargo { Nome_Cargo = "Mecanico" },
                 new Cargo { Nome_Cargo = "Encarregado" },
                 new Cargo { Nome_Cargo = "Ajudante" },
-                new Cargo { Nome_Cargo = "Gestor" },
-                new Cargo { Nome_Cargo = "FUNILEIRO" },
+                new Cargo { Nome_Cargo = "Servente" },
+                new Cargo { Nome_Cargo = "Motorista" },
                 new Cargo { Nome_Cargo = "Bate Chapas" },
-                new Cargo { Nome_Cargo = "FUNILEIRO" }
+                new Cargo { Nome_Cargo = "Pintor" }
 
             );
 
@@ -159,11 +160,30 @@ namespace GestorDeTarefas.Data
 
             db.Colaborador.AddRange(
                 new Colaborador { 
+                    
                     Name="James Ruan",
                     CargoId=1,
                     Contacto = "930256963",
                     Email="james@gmail.com",
                     
+                },
+                new Colaborador
+                {
+                    
+                    Name = "Cezar Antonio",
+                    CargoId = 1,
+                    Contacto = "930256963",
+                    Email = "cezar@gmail.com",
+                    
+                },
+                new Colaborador
+                {
+                    
+                    Name = "Luisa Alves",
+                    CargoId = 1,
+                    Contacto = "930256963",
+                    Email = "Luisa@gmail.com",
+
                 },
                  new Colaborador
                  {
@@ -379,72 +399,7 @@ namespace GestorDeTarefas.Data
 
 
 
-        private static void PopulateGestor(GestorDeTarefasContext db)
-        {
-            if (db.Gestor.Any())
-            {
-                return;
-            }
-
-            db.Gestor.AddRange(
-                new Gestor
-                {
-                    Nome = "Paulo Santos",
-                    Email = "paulo@gmail.com",
-                    Endereço = "Lisboa",
-                    Telemóvel = "920956654"
-                },
-               new Gestor
-               {
-                   Nome = "Jordan Legumes",
-                   Email = "jordan@gmail.com",
-                   Endereço = "Guarda",
-                   Telemóvel = "960456654"
-               },
-               new Gestor
-               {
-                   Nome = "Mario Costa",
-                   Email = "costa@gmail.com",
-                   Endereço = "Guarda",
-                   Telemóvel = "962456688"
-               },
-               new Gestor
-               {
-                   Nome = "Lina Gomes",
-                   Email = "lina@gmail.com",
-                   Endereço = "Viseu",
-                   Telemóvel = "960456754"
-               },
-               new Gestor
-               {
-                   Nome = "Maria de Lurdes",
-                   Email = "maria@gmail.com",
-                   Endereço = "Leiria",
-                   Telemóvel = "960456678"
-               },
-               new Gestor
-               {
-                   Nome = "José Botão",
-                   Email = "josé@gmail.com",
-                   Endereço = "Guimarães",
-                   Telemóvel = "960456654"
-               },
-               new Gestor
-               {
-                   Nome = "Ronaldo Recorde",
-                   Email = "recorde@gmail.com",
-                   Endereço = "Madeira",
-                   Telemóvel = "930456654"
-               }
-
-            );
-
-            db.SaveChanges();
-        }
-
-
-
-
+        
     }
 }
 
