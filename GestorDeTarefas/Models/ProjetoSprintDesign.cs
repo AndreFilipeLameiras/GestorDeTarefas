@@ -60,9 +60,8 @@ namespace GestorDeTarefas.Models
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }
 
-        public int GestorId { get; set; }
-
-        public Gestor Gestor { get; set; }
+        public int ColaboradorId { get; set; }
+        public Colaborador Colaborador { get; set; }
 
 
 
