@@ -88,9 +88,9 @@ namespace GestorDeTarefas.Controllers
        // [Authorize (Roles = "product_manager")]
         public IActionResult Create()
         {
-            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
-            ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto");
-            ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto");
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador.OrderBy(b=>b.Name), "ColaboradorId", "Name");
+            ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign.OrderBy(b => b.NomeProjeto), "ProjetoSprintDesignID", "NomeProjeto");
+            ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade.OrderBy(b => b.NomeProjeto), "SistemaProdutividadeId", "NomeProjeto");
 
             return View();
         }
@@ -103,6 +103,7 @@ namespace GestorDeTarefas.Controllers
         public async Task<IActionResult> Create([Bind("Id, Nome, DataPrevistaInicio, DataDefinitivaInicio, DataPrevistaFim, DataDefinitivaFim, ColaboradorId,ProjetoSprintDesignID,SistemaProdutividadeId")] Tarefas tarefas)
         {
 
+
             if (tarefas.DataPrevistaFim < tarefas.DataDefinitivaInicio || tarefas.DataPrevistaFim < tarefas.DataPrevistaInicio)
             {
                 ModelState.AddModelError("DataPrevistaFim", "Data prevista de fim não deve ser " +
@@ -110,7 +111,13 @@ namespace GestorDeTarefas.Controllers
             }
             if(tarefas.SistemaProdutividadeId == null && tarefas.ProjetoSprintDesignID == null)
             {
-                ModelState.AddModelError("","Por favor adicione a tarefa a pelo menos um projeto!!");
+                ModelState.AddModelError("", "Por favor adicione um projeto para esta tarefa!!");
+                
+            }
+            if(tarefas.SistemaProdutividadeId != null && tarefas.ProjetoSprintDesignID != null)
+            {
+                ModelState.AddModelError("", "Por favor adicione apenas um projeto para esta tarefa!!");
+                
             }
 
             if (ModelState.IsValid)
@@ -186,6 +193,11 @@ namespace GestorDeTarefas.Controllers
             if (tarefas.SistemaProdutividadeId == null && tarefas.ProjetoSprintDesignID == null)
             {
                 ModelState.AddModelError("", "Por favor adicione a tarefa a pelo menos um projeto!!");
+            }
+            if (tarefas.SistemaProdutividadeId == null && tarefas.ProjetoSprintDesignID == null ||
+                tarefas.SistemaProdutividadeId != null && tarefas.ProjetoSprintDesignID != null)
+            {
+                ModelState.AddModelError("", "Por favor adicione esta tarefa a um projeto!!");
             }
 
             if (ModelState.IsValid)

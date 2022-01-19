@@ -36,7 +36,7 @@ namespace GestorDeTarefas.Controllers
 
             var pedidoCliente = await _context.PedidoCliente
                 .Include(p => p.Cliente)
-                .Include(p => p.Gestor)
+                .Include(p => p.ColaboradorId)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (pedidoCliente == null)
             {
@@ -57,13 +57,14 @@ namespace GestorDeTarefas.Controllers
             Cliente cliente = _context.Cliente.Find(id);
             PedidoCliente pedidoCliente = new PedidoCliente();
 
+           
+
             if (cliente == null)
             {
                 return NotFound();
             }
 
-            var MyViewModel = new PedidoClienteListViewModel();
-
+            
             return View(new PedidoClienteListViewModel
             {
                 
@@ -72,8 +73,11 @@ namespace GestorDeTarefas.Controllers
                 Email = cliente.Email,
                 Cidade = cliente.Cidade,
                 Telefone = cliente.Phone,
-                Mensagem = pedidoCliente.Mensagem
-            }
+                Mensagem = pedidoCliente.Mensagem,
+                DataRealizarPedido = pedidoCliente.DataRealizarPedido,
+                ProjetoSprintDesign = new SelectList(_context.ProjetoSprintDesign.OrderBy(b => b.NomeProjeto)
+                .Where(b => b.ClienteId == id.Value), "ProjetoSprintDesignID", "NomeProjeto")
+        }
                 
                 );
         }
@@ -86,21 +90,30 @@ namespace GestorDeTarefas.Controllers
         public async Task<IActionResult> EnviarPedido(PedidoClienteListViewModel pedidoCliente)
         {
             Cliente cliente = _context.Cliente.Find(pedidoCliente.ClienteId);
+
             
-            
+
+
             if (ModelState.IsValid)
             {
-                _context.Add(new PedidoCliente() { 
+
+            
+                _context.Add(new PedidoCliente() {
                 
-                    ClienteId = pedidoCliente.ClienteId, Mensagem = pedidoCliente.Mensagem
+                
+                    ClienteId = pedidoCliente.ClienteId, Mensagem = pedidoCliente.Mensagem,
+                    DataPedido = DateTime.Today, DataRealizarPedido = pedidoCliente.DataRealizarPedido,
+                    ProjetoSprintDesignID=pedidoCliente.ProjetoSprintDesignID
+                
                 });
+                
                 await _context.SaveChangesAsync();
                 ViewBag.Title = "Pedido enviado!!";
                 ViewBag.Message = "O seu pedido foi enviado com sucesso!!!";
                 ViewBag.redirect = "/Clientes/Index";
 
                 return View("Success");
-
+                new SelectList(_context.ProjetoSprintDesign.Where(b => b.ClienteId == pedidoCliente.ClienteId), "ProjetoSprintDesignID", "NomeProjeto");
             }
             return View(pedidoCliente);
         }
@@ -114,10 +127,15 @@ namespace GestorDeTarefas.Controllers
             }
 
             var pedidoCliente = await _context.PedidoCliente.FindAsync(id);
-            if (pedidoCliente == null)
+            
+           if (pedidoCliente == null)
             {
                 return NotFound();
             }
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nome", pedidoCliente.ClienteId);
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "GestorId", "Nome", pedidoCliente.ColaboradorId);
+            ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto", pedidoCliente.ProjetoSprintDesignID);
+            ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto", pedidoCliente.SistemaProdutividadeId);
             return View(pedidoCliente);
         }
 
@@ -126,7 +144,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResponderPedido(int id, [Bind("PedidoClienteID,Mensagem,Resposta")] PedidoCliente pedidoCliente)
+        public async Task<IActionResult> ResponderPedido(int id, [Bind("ID,Mensagem,Resposta,DataRealizarPedido,DataPedido,DataResposta,ProjetoSprintDesignID,SistemaProdutividadeId,ClienteId,GestorId")] PedidoCliente pedidoCliente)
         {
             if (id != pedidoCliente.ID)
             {
@@ -139,6 +157,9 @@ namespace GestorDeTarefas.Controllers
                 {
                     _context.Update(pedidoCliente);
                     await _context.SaveChangesAsync();
+                    ViewBag.Title = "Resposta enviada!!";
+                    ViewBag.Message = "A sus resposta foi enviado com sucesso!!!";
+                    ViewBag.redirect = "/Clientes/Index";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -151,9 +172,15 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+              //  return RedirectToAction(nameof(Index));
             }
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nome", pedidoCliente.ClienteId);
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "GestorId", "Nome", pedidoCliente.ColaboradorId);
+            ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto", pedidoCliente.ProjetoSprintDesignID);
+            ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto", pedidoCliente.SistemaProdutividadeId);
             return View(pedidoCliente);
+
+          
         }
 
         // GET: PedidoClientes/Delete/5

@@ -169,7 +169,7 @@ namespace GestorDeTarefas.Controllers
                         await _context.SaveChangesAsync();
                         ViewBag.Title = "A sua resposta foi enviada!!";
                         ViewBag.Message = "Resposta enviada com sucesso!!!";
-                        ViewBag.redirect = "//Contactoes/Index"; // Request.Path
+                        ViewBag.redirect = "/Contactoes/Index"; // Request.Path
                         return View("Success");
                     }catch(Exception e)
                     {
