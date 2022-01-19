@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
+using GestorDeTarefas.ViewModels;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -19,13 +20,44 @@ namespace GestorDeTarefas.Controllers
             _context = context;
         }
 
-        // GET: Cidades
-        public async Task<IActionResult> Index()
+        // GET: Cidade
+        public async Task<IActionResult> Index(string nome, int page = 1)
         {
-            return View(await _context.Cidade.ToListAsync());
+            var cidadeSearch = _context.Cidade
+              .Where(b => nome == null || b.Nome_Cidade.Contains(nome));
+            var pagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                TotalItems = cidadeSearch.Count()
+            };
+
+            if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
+            {
+                pagingInfo.CurrentPage = pagingInfo.TotalPages;
+            }
+
+            if (pagingInfo.CurrentPage < 1)
+            {
+                pagingInfo.CurrentPage = 1;
+            }
+
+            var cidades = await cidadeSearch
+                            .OrderBy(b => b.Nome_Cidade)
+                            .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
+                            .Take(pagingInfo.PageSize)
+                            .ToListAsync();
+
+            return View(
+                new CidadeListViewModel
+                {
+                    Cidades = cidades,
+                    PagingInfo = pagingInfo,
+                    NomeSearched = nome
+                }
+            );
         }
 
-        // GET: Cidades/Details/5
+        // GET: Cidade/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,7 +66,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             var cidade = await _context.Cidade
-                .FirstOrDefaultAsync(m => m.CidadeId == id);
+                .SingleOrDefaultAsync(b => b.CidadeId == id);
             if (cidade == null)
             {
                 return NotFound();
@@ -43,13 +75,15 @@ namespace GestorDeTarefas.Controllers
             return View(cidade);
         }
 
-        // GET: Cidades/Create
+        // GET: Cidade/Create
         public IActionResult Create()
         {
+
             return View();
+
         }
 
-        // POST: Cidades/Create
+        // POST: Cidade/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -60,12 +94,14 @@ namespace GestorDeTarefas.Controllers
             {
                 _context.Add(cidade);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Cidade Adicionada";
+                ViewBag.Message = "Cidade adicionada com sucesso.";
+                return View("Success");
             }
             return View(cidade);
         }
 
-        // GET: Cidades/Edit/5
+        // GET: Cidade/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,7 +117,7 @@ namespace GestorDeTarefas.Controllers
             return View(cidade);
         }
 
-        // POST: Cidades/Edit/5
+        // POST: Cidade/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -111,38 +147,60 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Cidade editada";
+                ViewBag.Message = "Cidade alterada com sucesso.";
+                return View("Success");
             }
             return View(cidade);
         }
 
-        // GET: Cidades/Delete/5
+        // GET: Cidade/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var cidade = await _context.Cidade
-                .FirstOrDefaultAsync(m => m.CidadeId == id);
-            if (cidade == null)
+                var cidade = await _context.Cidade
+                    .FirstOrDefaultAsync(m => m.CidadeId == id);
+                if (cidade == null)
+                {
+                    return NotFound();
+                }
+
+                return View(cidade);
+            }
+            catch (DbUpdateException /* ex */)
             {
-                return NotFound();
-            }
 
-            return View(cidade);
+                return View("MensagemErro");
+            }
         }
 
-        // POST: Cidades/Delete/5
+        // POST: Cidade/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cidade = await _context.Cidade.FindAsync(id);
-            _context.Cidade.Remove(cidade);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                var cidade = await _context.Cidade.FindAsync(id);
+                _context.Cidade.Remove(cidade);
+                await _context.SaveChangesAsync();
+
+                ViewBag.Title = "Cidade Apagada";
+                ViewBag.Message = "Cidade apagada com sucesso.";
+                return View("Success");
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                ViewBag.Title = "Ups! Esta Cidade não pode ser apagada.";
+                ViewBag.Message = "Verifique as ligações entre as tabelas!!!";
+                return View("MensagemErro");
+            }
         }
 
         private bool CidadeExists(int id)
