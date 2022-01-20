@@ -1,0 +1,36 @@
+﻿
+@model ListaPedidoClienteViewModel
+
+@{
+    ViewData["Title"] = "Lista Mensagem";
+}
+
+
+
+<h1>Lista Mensagem</h1>
+
+<div>
+    <h4>PedidoCliente</h4>
+    <hr />
+    @foreach (PedidoCliente pedido in Model.PedidoCliente)
+    {
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5 class="card-title">Cliente: @pedido.Cliente.Nome</h5>
+                <div style="display:flex">
+                    <h5 style="margin-right:4px">Projeto Sprint:</h5>
+                    <h5 class="card-text lead">@pedido.ProjetoSprintDesign.NomeProjeto</h5>
+                </div>
+                <div style="display:flex">
+                    <h5 style="margin-right:4px">Mensagem:</h5>
+                    <h5 class="card-text lead">@pedido.Mensagem</h5>
+                </div>
+
+                <a asp-action="AbrirMensagem" asp-route-id="@pedido.ID" class="btn btn-info">Abrir</a>
+                    <a asp-action="Delete" asp-route-id="@pedido.ID" class="btn btn-danger">Apagar</a>
+                
+            </div>
+        </div>
+
+    }
+   
