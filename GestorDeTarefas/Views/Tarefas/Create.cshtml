@@ -36,21 +36,21 @@
 
             <div class="form-group">
                 <label asp-for="ColaboradorId" class="control-label"></label>
-                <select asp-for="ColaboradorId" class="form-control" asp-items="ViewBag.ColaboradorId">
+                <select id="lista1" asp-for="ColaboradorId" class="form-control " asp-items="ViewBag.ColaboradorId">
                     <option value="">-- Escolha opção --</option>
                 </select>
                 <span asp-validation-for="ColaboradorId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ProjetoSprintDesignID" class="control-label">Projetos Sprint</label>
-                <select asp-for="ProjetoSprintDesignID" class="form-control" asp-items="ViewBag.ProjetoSprintDesignID">
+                <select id="lista2" asp-for="ProjetoSprintDesignID" class="form-control" asp-items="ViewBag.ProjetoSprintDesignID">
                     <option value="">-- Escolha opção --</option>
                 </select>
                 <span asp-validation-for="ProjetoSprintDesignID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SistemaProdutividadeId" class="control-label">Projetos Produtividade</label>
-                <select asp-for="SistemaProdutividadeId" class="form-control" asp-items="ViewBag.SistemaProdutividadeId">
+                <select id="lista3" asp-for="SistemaProdutividadeId" class="form-control" asp-items="ViewBag.SistemaProdutividadeId">
                     <option value="">-- Escolha opção --</option>
                 </select>
                 <span asp-validation-for="SistemaProdutividadeId" class="text-danger"></span>
@@ -65,8 +65,31 @@
     </div>
 </div>
 
- 
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#lista1").select2();
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#lista2").select2();
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#lista3").select2();
+        });
+    </script>
 }
+

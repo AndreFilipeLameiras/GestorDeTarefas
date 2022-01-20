@@ -9,8 +9,13 @@ namespace GestorDeTarefas.ViewModels
     public class ColaboradorListViewModel
     {
         public IEnumerable<Colaborador> Colaboradors { get; set; }
+
+      
+
         public PagingInfo PagingInfo { get; set; }
         public string NomeSearched { get; set; }
+
+        public string CargoSearched { get; set; }
 
 
         public List<CheckBoxViewModelColaboradorIdioma> Idiomas { get; set;}

@@ -10,6 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Views\Cidades\Delete.cshtml~RFe0d6029.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="jQuery" Version="3.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.12" />

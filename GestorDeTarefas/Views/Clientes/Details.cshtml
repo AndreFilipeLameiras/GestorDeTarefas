@@ -44,5 +44,7 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.ClienteId">Edit</a> |
+    <a asp-controller="PedidoClientes" asp-action="EnviarPedido" asp-route-id="@Model.ClienteId">Pedir alterações</a>|
     <a asp-action="Index">Back to List</a>
+
 </div>

@@ -1,4 +1,5 @@
 ﻿@model PedidoClienteListViewModel
+@using GestorDeTarefas.Models;
 
 @{
     ViewData["Title"] = "Create";
@@ -26,15 +27,31 @@
                 <label asp-for="Cidade" class="control-label">@Model.Cidade</label>
             </div>
             <div class="form-group">
+                @*@Html.DropDownListFor(m => m.ProjetoSprintDesignID, Model.ProjetoSprintDesign)*@
+
+                <label asp-for="ProjetoSprintDesignID" class="control-label">Projetos Sprint</label>
+                <select asp-for="ProjetoSprintDesignID" class="form-control " asp-items="Model.ProjetoSprintDesign">
+                    <option value="">-- Escolha opção --</option>
+                </select>
+                <span asp-validation-for="ProjetoSprintDesignID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataRealizarPedido" class="control-label"></label>
+                <input asp-for="DataRealizarPedido" class="form-control" />
+                <span asp-validation-for="DataRealizarPedido" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
                 <label asp-for="Mensagem" class="control-label"></label>
                 <textarea asp-for="Mensagem" class="form-control" rows="6" cols="50"></textarea>
                 <span asp-validation-for="Mensagem" class="text-danger"></span>
             </div>
 
+
             <div class="form-group">
-                
+
                 <input type="submit" value="Enviar" class="btn btn-info" />
-                <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+                <a class="btn btn-secondary"asp-controller="Clientes" asp-action="Index">Cancelar</a>
 
             </div>
         </form>

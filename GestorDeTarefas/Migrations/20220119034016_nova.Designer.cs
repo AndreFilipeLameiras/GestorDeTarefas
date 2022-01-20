@@ -4,14 +4,16 @@ using GestorDeTarefas.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GestorDeTarefas.Migrations
 {
     [DbContext(typeof(GestorDeTarefasContext))]
-    partial class GestorDeTarefasContextModelSnapshot : ModelSnapshot
+    [Migration("20220119034016_nova")]
+    partial class nova
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,23 +38,6 @@ namespace GestorDeTarefas.Migrations
                     b.ToTable("Cargo");
                 });
 
-            modelBuilder.Entity("GestorDeTarefas.Models.Cidade", b =>
-                {
-                    b.Property<int>("CidadeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Nome_Cidade")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("CidadeId");
-
-                    b.ToTable("Cidade");
-                });
-
             modelBuilder.Entity("GestorDeTarefas.Models.Cliente", b =>
                 {
                     b.Property<int>("ClienteId")
@@ -66,11 +51,6 @@ namespace GestorDeTarefas.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("Morada")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -245,7 +225,7 @@ namespace GestorDeTarefas.Migrations
                     b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ColaboradorId")
+                    b.Property<int>("ColaboradorId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DataPedido")
@@ -357,9 +337,6 @@ namespace GestorDeTarefas.Migrations
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
-
-                    b.Property<string>("PrioridadeProjeto")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SistemaProdutividadeId");
 
@@ -492,7 +469,9 @@ namespace GestorDeTarefas.Migrations
 
                     b.HasOne("GestorDeTarefas.Models.Colaborador", "Colaborador")
                         .WithMany()
-                        .HasForeignKey("ColaboradorId");
+                        .HasForeignKey("ColaboradorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("GestorDeTarefas.Models.ProjetoSprintDesign", "ProjetoSprintDesign")
                         .WithMany()
