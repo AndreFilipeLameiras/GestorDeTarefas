@@ -47,6 +47,51 @@ namespace GestorDeTarefas.Controllers
             return View(pedidoCliente);
         }
 
+        public async Task<IActionResult> AbrirMensagem(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var pedidoCliente = await _context.PedidoCliente
+                .Include(p => p.Cliente)
+                .Include(p => p.ProjetoSprintDesign)
+                .Include(p => p.SistemaProdutividade)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (pedidoCliente == null)
+            {
+                return NotFound();
+            }
+
+            return View(pedidoCliente);
+        }
+
+
+        public async Task<IActionResult> ListaMensagem(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var pedidoCliente = await _context.PedidoCliente
+                .Include(p => p.Cliente)
+                .Include(p => p.ProjetoSprintDesign)
+                .Include(p => p.SistemaProdutividade)
+                .Where(b=>b.ProjetoSprintDesignID == id.Value)
+                .ToListAsync();
+            if (pedidoCliente == null)
+            {
+                return NotFound();
+            }
+
+            return View(new ListaPedidoClienteViewModel { 
+                  PedidoCliente= pedidoCliente
+            });
+        }
+
+
         // GET: PedidoClientes/Create
         public IActionResult EnviarPedido(int? id)
         {
@@ -135,6 +180,7 @@ namespace GestorDeTarefas.Controllers
             {
                 return NotFound();
             }
+
             ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Cidade", pedidoCliente.ClienteId);
             ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto", pedidoCliente.ProjetoSprintDesignID);
             ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto", pedidoCliente.SistemaProdutividadeId);
