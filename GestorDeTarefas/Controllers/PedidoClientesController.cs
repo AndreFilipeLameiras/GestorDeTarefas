@@ -221,12 +221,12 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+               
             }
             ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nome", pedidoCliente.ClienteId);
             ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto", pedidoCliente.ProjetoSprintDesignID);
             ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto", pedidoCliente.SistemaProdutividadeId);
-            return View(pedidoCliente);
+            return View("Success");
 
           
         }
