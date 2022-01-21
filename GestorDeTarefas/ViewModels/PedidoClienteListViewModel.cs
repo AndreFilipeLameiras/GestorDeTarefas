@@ -39,7 +39,6 @@ namespace GestorDeTarefas.ViewModels
         public int? SistemaProdutividadeId { get; set; }
         public int ClienteId { get; set; }
 
-        
         public string Nome { get; set; }
 
         public string NomeProjeto { get; set; }
