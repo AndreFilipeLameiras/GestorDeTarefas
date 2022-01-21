@@ -26,9 +26,10 @@
                     <h5 class="card-text lead">@pedido.Mensagem</h5>
                 </div>
 
-                <a asp-action="AbrirMensagem" asp-route-id="@pedido.ID" class="btn btn-info">Abrir</a>
-                    <a asp-action="Delete" asp-route-id="@pedido.ID" class="btn btn-danger">Apagar</a>
-                
+                <a asp-action="AbrirMensagem" asp-route-id="@pedido.ID" class="btn btn-info">Abrir</a> |
+                <a asp-action="Delete" asp-route-id="@pedido.ID" class="btn btn-danger">Apagar</a> |
+                <a class="btn btn-secondary" asp-controller="ProjetoSprintDesigns" asp-action="Index">Voltar</a>
+
             </div>
         </div>
 
