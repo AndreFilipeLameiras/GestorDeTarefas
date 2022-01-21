@@ -180,9 +180,10 @@ namespace GestorDeTarefas.Controllers
                 return NotFound();
             }
 
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Cidade", pedidoCliente.ClienteId);
-            ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign, "ProjetoSprintDesignID", "NomeProjeto", pedidoCliente.ProjetoSprintDesignID);
-            ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade, "SistemaProdutividadeId", "NomeProjeto", pedidoCliente.SistemaProdutividadeId);
+            ViewData["ClienteId"] = new SelectList(_context.Cliente.Where(b=>b.ClienteId==pedidoCliente.ClienteId), "ClienteId", "Nome", pedidoCliente.ClienteId);
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador.Where(b => b.ColaboradorId == pedidoCliente.ColaboradorId), "ColaboradorId", "Name", pedidoCliente.ClienteId);
+            ViewData["ProjetoSprintDesignID"] = new SelectList(_context.ProjetoSprintDesign.Where(b => b.ProjetoSprintDesignID == pedidoCliente.ClienteId), "ProjetoSprintDesignID", "NomeProjeto", pedidoCliente.ProjetoSprintDesignID);
+            ViewData["SistemaProdutividadeId"] = new SelectList(_context.SistemaProdutividade.Where(b => b.SistemaProdutividadeId == pedidoCliente.ClienteId), "SistemaProdutividadeId", "NomeProjeto", pedidoCliente.SistemaProdutividadeId);
             return View(pedidoCliente);
         }
 
@@ -202,6 +203,7 @@ namespace GestorDeTarefas.Controllers
             {
                 try
                 {
+                    pedidoCliente.DataResposta = DateTime.Today;
                     _context.Update(pedidoCliente);
                     await _context.SaveChangesAsync();
                     ViewBag.Title = "Resposta enviada!!";
