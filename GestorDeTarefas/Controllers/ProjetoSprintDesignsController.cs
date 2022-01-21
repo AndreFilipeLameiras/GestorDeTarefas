@@ -86,24 +86,6 @@ namespace GestorDeTarefas.Controllers
 
 
 
-        public async Task<IActionResult> BuscarCliente(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            ProjetoSprintDesign projetoSprintDesign = _context.ProjetoSprintDesign.Find(id);
-
-            var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.ClienteId == projetoSprintDesign.ClienteId);
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-
-            return View(cliente);
-        }
 
 
         public IActionResult Success()
