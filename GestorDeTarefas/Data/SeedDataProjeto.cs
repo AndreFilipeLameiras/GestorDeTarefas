@@ -353,42 +353,48 @@ namespace GestorDeTarefas.Data
                     Nome = "Jonas Paulo",
                     Email ="jonaspaulo@gmail.com",
                     Cidade="Lisboa",
-                    Phone="923456654"                 
+                    Phone="923456654",
+                    Morada = "Rua das ruas"
                 },
                new Cliente
                {
                    Nome = "Miguel Silva",
                    Email = "miguel@gmail.com",
                    Cidade = "Porto",
-                   Phone = "923456659"
+                   Phone = "923456659",
+                   Morada = "Rua das velhas"
                },
                new Cliente
                {
                    Nome = "Ana Matos",
                    Email = "ana@gmail.com",
                    Cidade = "Lisboa",
-                   Phone = "923456610"
+                   Phone = "923456610",
+                   Morada = "Rua da Ana"
                },
                new Cliente
                {
                    Nome = "Patricia Andreza",
                    Email = "andreza@gmail.com",
                    Cidade = "Guarda",
-                   Phone = "923456654"
+                   Phone = "923456654",
+                   Morada = "Rua das ovelhas"
                },
                new Cliente
                {
                    Nome = "Cleiton Mendes",
                    Email = "cleinton@gmail.com",
                    Cidade = "Lisboa",
-                   Phone = "923456610"
+                   Phone = "923456610",
+                   Morada = "Rua das ruas"
                },
                new Cliente
                {
                    Nome = "Luis Manteiga",
                    Email = "Manteiga@gmail.com",
                    Cidade = "Aveiro",
-                   Phone = "923456654"
+                   Phone = "923456654",
+                   Morada = "Rua das Ameixoeiras"
                }
 
 
