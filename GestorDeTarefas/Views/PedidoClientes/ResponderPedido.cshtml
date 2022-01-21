@@ -33,27 +33,23 @@
                 <input asp-for="DataPedido" class="form-control" />
                 <span asp-validation-for="DataPedido" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DataResposta" class="control-label"></label>
-                <input asp-for="DataResposta" class="form-control" />
-                <span asp-validation-for="DataResposta" class="text-danger"></span>
-            </div>
+          
             <div class="form-group">
                 <label asp-for="ProjetoSprintDesignID" class="control-label"></label>
                 <select asp-for="ProjetoSprintDesignID" class="form-control" asp-items="ViewBag.ProjetoSprintDesignID"></select>
                 <span asp-validation-for="ProjetoSprintDesignID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SistemaProdutividadeId" class="control-label"></label>
-                <select asp-for="SistemaProdutividadeId" class="form-control" asp-items="ViewBag.SistemaProdutividadeId"></select>
-                <span asp-validation-for="SistemaProdutividadeId" class="text-danger"></span>
-            </div>
+            </div>           
             <div class="form-group">
                 <label asp-for="ClienteId" class="control-label"></label>
                 <select asp-for="ClienteId" class="form-control" asp-items="ViewBag.ClienteId"></select>
                 <span asp-validation-for="ClienteId" class="text-danger"></span>
             </div>
-            
+            <div class="form-group">
+                <label asp-for="ColaboradorId" class="control-label"></label>
+                <select asp-for="ColaboradorId" class="form-control" asp-items="ViewBag.ColaboradorId"></select>
+                <span asp-validation-for="ColaboradorId" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
