@@ -1,11 +1,11 @@
 ﻿@model PedidoClienteListViewModel
-@using GestorDeTarefas.Models;
+
 
 @{
     ViewData["Title"] = "Pedir Alteração";
 }
 
-<h1>Create</h1>
+
 
 <h4>Pedir Alteração No Projeto</h4>
 <hr />
@@ -14,37 +14,35 @@
         <form asp-action="EnviarPedido">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProjetoSprintDesignID" />
+
             <div class="form-group">
-                <label asp-for="Nome" class="control-label">@Model.Nome</label>
-            </div>
-            <div class="form-group">
-                <label asp-for="NomeProjeto" class="control-label">@Model.NomeProjeto</label>
+                <label asp-for="NomeProjeto" class="control-label"><h5>Nome do Projeto</h5> @Model.NomeProjeto</label>
             </div>
 
             <div class="form-group">
                 @*@Html.DropDownListFor(m => m.ProjetoSprintDesignID, Model.ProjetoSprintDesign)*@
 
-                <label asp-for="ClienteId" class="control-label">Cliente</label>
+                <label asp-for="ClienteId" class="control-label"><h6>Cliente</h6></label>
                 <select asp-for="ClienteId" class="form-control " asp-items="Model.Cliente">
                 </select>
                 <span asp-validation-for="ClienteId" class="text-danger"></span>
             </div>
 
-            <div class="form-group">              
-                <label asp-for="ColaboradorId" class="control-label">Gestor</label>
+            <div class="form-group">
+                <label asp-for="ColaboradorId" class="control-label"><h6>Gestor</h6></label>
                 <select asp-for="ColaboradorId" class="form-control " asp-items="Model.Colaborador">
                 </select>
                 <span asp-validation-for="ColaboradorId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DataRealizarPedido" class="control-label"></label>
+                <label asp-for="DataRealizarPedido" class="control-label"><h6>Data para realização do pedido</h6></label>
                 <input asp-for="DataRealizarPedido" class="form-control" />
                 <span asp-validation-for="DataRealizarPedido" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="Mensagem" class="control-label"></label>
-                <textarea asp-for="Mensagem" class="form-control" rows="6" cols="50"></textarea>
+                <label asp-for="Mensagem" class="control-label"><h6>Mensagem</h6></label>
+                <textarea asp-for="Mensagem" placeholder="Escreve aqui a sua mensagem" class="form-control" rows="6" cols="50"></textarea>
                 <span asp-validation-for="Mensagem" class="text-danger"></span>
             </div>
 
@@ -52,7 +50,7 @@
             <div class="form-group">
 
                 <input type="submit" value="Enviar" class="btn btn-info" />
-                <a class="btn btn-secondary" asp-controller="Clientes" asp-action="Index">Cancelar</a>
+                <a class="btn btn-secondary" asp-controller="ProjetoSprintDesigns" asp-action="Index">Cancelar</a>
 
             </div>
         </form>

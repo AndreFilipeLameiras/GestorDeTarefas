@@ -74,12 +74,12 @@ namespace GestorDeTarefas.Controllers
             {
                 return NotFound();
             }
-
+            var projetoSprint = _context.ProjetoSprintDesign.Find(id);
             var pedidoCliente = await _context.PedidoCliente
                 .Include(p => p.Cliente)
                 .Include(p => p.ProjetoSprintDesign)
                 .Include(p => p.SistemaProdutividade)
-                .Where(b=>b.ProjetoSprintDesignID == id.Value)
+                .Where(b=>b.ProjetoSprintDesignID == projetoSprint.ProjetoSprintDesignID)
                 .ToListAsync();
             if (pedidoCliente == null)
             {
@@ -208,7 +208,7 @@ namespace GestorDeTarefas.Controllers
                     await _context.SaveChangesAsync();
                     ViewBag.Title = "Resposta enviada!!";
                     ViewBag.Message = "A sus resposta foi enviado com sucesso!!!";
-                    ViewBag.redirect = "/Clientes/Index";
+                    ViewBag.redirect = "/ProjetoSprintDesigns/Index";
                 }
                 catch (DbUpdateConcurrencyException)
                 {

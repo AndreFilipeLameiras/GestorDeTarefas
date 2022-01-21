@@ -1,12 +1,12 @@
 ﻿@model GestorDeTarefas.Models.PedidoCliente
 @{
-    ViewData["Title"] = "AbrirMensagem";
+    ViewData["Title"] = "Abrir Mensagem";
 }
 
-<h1>AbrirMensagem</h1>
+<h1>Mensagem do cliente:  @Html.DisplayFor(model => model.Cliente.Nome)</h1>
 
 <div>
-    <h4>PedidoCliente</h4>
+  
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -50,6 +50,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="ResponderPedido" asp-route-id="@Model.ID">Responder</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="ResponderPedido" class="btn btn-info" asp-route-id="@Model.ID">Responder</a> |
+    <a class="btn btn-secondary" asp-controller="ProjetoSprintDesigns" asp-action="Index">Voltar</a>
 </div>
