@@ -26,6 +26,15 @@
                 <td> @Html.DisplayFor(model => model.Email)</td>
             </tr>
             <tr>
+                <th scope="row"><h6>Data de envio</h6></th>
+                
+                <td>@Model.DataEnvio.ToString("dd/MM/yyyy")</td>
+            </tr>
+            <tr>
+                <th scope="row"><h6>Data da resposta </h6></th>
+                <td> @Html.DisplayFor(model => model.DataResposta)</td>
+            </tr>
+            <tr>
                 <th scope="row"><h6>Assunto"</h6></th>
                 <td>@Html.DisplayFor(model => model.Assunto)</td>
             </tr>
@@ -111,6 +120,4 @@
 
 
 
-    <a asp-action="Edit" asp-route-id="@Model.ContactoId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+    

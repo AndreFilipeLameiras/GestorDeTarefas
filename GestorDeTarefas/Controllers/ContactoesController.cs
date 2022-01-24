@@ -94,6 +94,7 @@ namespace GestorDeTarefas.Controllers
         {
             if (ModelState.IsValid)
             {
+                contacto.DataEnvio=DateTime.Today;
                 _context.Add(contacto);
                 await _context.SaveChangesAsync();
 
@@ -135,7 +136,7 @@ namespace GestorDeTarefas.Controllers
             {
                 return NotFound();
             }
-
+            
             if (ModelState.IsValid)
             {
                 try
@@ -143,7 +144,9 @@ namespace GestorDeTarefas.Controllers
                     Contacto ContactoVerificarDados = await _context.Contacto.FindAsync(id);
                     ContactoVerificarDados.Verificado = true;
                     ContactoVerificarDados.Resposta = contacto.Resposta;
+                    ContactoVerificarDados.DataResposta = DateTime.Today;
                     contacto = ContactoVerificarDados;
+                    
                     try
                     {
                         using (MailMessage message = new MailMessage("gestordetarefasgrupo4@gmail.com", contacto.Email))

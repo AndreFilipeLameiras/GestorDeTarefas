@@ -17,27 +17,51 @@
                 <input type="hidden" asp-for="ContactoId" />
                 <div class="form-group">
                     <label class="control-label">Nome</label>
-                    <input asp-for="Nome" class="form-control" />
+                    <input type="hidden" asp-for="Nome" class="form-control" />
+                    <label asp-for="Mensagem" class="form-control" rows="4" cols="50">
+                        @Html.DisplayFor(model => model.Nome)
+                    </label>
                     <span asp-validation-for="Nome" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Sobrenome</label>
-                    <input asp-for="Sobrenome" class="form-control" />
+                    <input type="hidden" asp-for="Sobrenome" class="form-control" />
+                    <label asp-for="Mensagem" class="form-control" rows="4" cols="50">
+                        @Html.DisplayFor(model => model.Sobrenome)
+                    </label>
                     <span asp-validation-for="Sobrenome" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
+                    <label asp-for="Email" class="control-label">Email</label>
+                    <input type="hidden" asp-for="Email" class="form-control" />
+                    <label asp-for="Mensagem" class="form-control" rows="4" cols="50">
+                        @Html.DisplayFor(model => model.Email)
+                    </label>
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                    <label asp-for="DataEnvio" class="control-label">Data de envio </label>
+                    <input type="hidden" asp-for="DataEnvio" class="form-control" />
+                    <label asp-for="DataEnvio" class="form-control" rows="4" cols="50">
+                        @Model.DataEnvio.ToString("dd/MM/yyyy")
+                    </label>
+                    <span asp-validation-for="DataEnvio" class="text-danger"></span>
+                </div>
+                <div class="form-group">
                     <label class="control-label">Assunto</label>
-                    <input asp-for="Assunto" class="form-control" />
+                    <input type="hidden" asp-for="Assunto" class="form-control" />
+                    <label asp-for="Mensagem" class="form-control" rows="4" cols="50">
+                        @Html.DisplayFor(model => model.Assunto)
+                    </label>
                     <span asp-validation-for="Assunto" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Mensagem</label>
-                    <textarea asp-for="Mensagem" class="form-control" rows="4" cols="50"></textarea>
+                    <input type="hidden" asp-for="Mensagem" class="form-control" />
+                    <label asp-for="Mensagem" class="form-control" rows="4" cols="50">
+                        @Html.DisplayFor(model => model.Mensagem)
+                    </label>
+
                     <span asp-validation-for="Mensagem" class="text-danger"></span>
                 </div>
                 <div class="form-group">

@@ -24,13 +24,14 @@
             <thead>
                 <tr>
                     <th scope="col">Nome</th>
+                    <th scope="col">Sobrenome</th>
                     <th scope="col">Verificado</th>
                     <th scope="col">Assunto</th>
                     <th scope="col">Opções</th>
                 </tr>
             </thead>
             <tbody class="text-justify">
-                <tr>                   
+                <tr>
                     <td>
                         @foreach (var item in Model.Contacto)
                         {
@@ -38,7 +39,15 @@
                                 @Html.DisplayFor(m => item.Nome)
                             </dd>
                         }
-                        </td>
+                    </td>
+                    <td>
+                        @foreach (var item in Model.Contacto)
+                        {
+                            <dd style="margin-bottom:17px">
+                                @Html.DisplayFor(m => item.Sobrenome)
+                            </dd>
+                        }
+                    </td>
                     <td>
                         @foreach (var item in Model.Contacto)
                         {
@@ -46,7 +55,7 @@
                                 @Html.DisplayFor(m => item.Verificado)
                             </dd>
                         }
-                        </td>
+                    </td>
                     <td>
                         @foreach (var item in Model.Contacto)
                         {
@@ -54,7 +63,7 @@
                                 @Html.DisplayFor(m => item.Assunto)
                             </dd>
                         }
-                        </td>
+                    </td>
                     <td>
                         @foreach (var item in Model.Contacto)
                         {
@@ -62,11 +71,11 @@
                                 <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.ContactoId">Detalhes</a>
                             </dd>
                         }
-                        </td>
-                            
-                        
+                    </td>
 
-                    </tr>
+
+
+                </tr>
             </tbody>
         </table>
 
