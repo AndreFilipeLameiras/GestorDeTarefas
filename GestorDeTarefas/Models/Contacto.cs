@@ -38,5 +38,14 @@ namespace GestorDeTarefas.Models
 
         [Display(Name = "Resposta")]
         public string Resposta { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        public DateTime DataEnvio { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        public DateTime? DataResposta { get; set; }
+
     }
 }
