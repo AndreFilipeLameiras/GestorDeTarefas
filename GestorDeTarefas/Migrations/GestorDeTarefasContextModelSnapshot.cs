@@ -310,8 +310,7 @@ namespace GestorDeTarefas.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EstadoProjeto")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImagemProjeto")
                         .HasColumnType("nvarchar(max)");

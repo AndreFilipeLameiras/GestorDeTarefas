@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestorDeTarefas.Migrations
 {
     [DbContext(typeof(GestorDeTarefasContext))]
-    [Migration("20220124183105_second")]
-    partial class second
+    [Migration("20220124191528_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -312,8 +312,7 @@ namespace GestorDeTarefas.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EstadoProjeto")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImagemProjeto")
                         .HasColumnType("nvarchar(max)");

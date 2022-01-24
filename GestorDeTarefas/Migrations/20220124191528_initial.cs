@@ -184,7 +184,7 @@ namespace GestorDeTarefas.Migrations
                     DataDefinitivaInicio = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DataPrevistaFim = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataDefinitivaFim = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EstadoProjeto = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    EstadoProjeto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImagemProjeto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClienteId = table.Column<int>(type: "int", nullable: false),
                     ColaboradorId = table.Column<int>(type: "int", nullable: false)
@@ -288,7 +288,7 @@ namespace GestorDeTarefas.Migrations
                     DataDefinitivaInicio = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DataPrevistaFim = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataDefinitivaFim = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EstadoTarefa = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    EstadoTarefa = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ColaboradorId = table.Column<int>(type: "int", nullable: false),
                     ProjetoSprintDesignID = table.Column<int>(type: "int", nullable: true),
                     SistemaProdutividadeId = table.Column<int>(type: "int", nullable: true)
