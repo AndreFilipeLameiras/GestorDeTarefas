@@ -42,7 +42,6 @@ namespace GestorDeTarefas.Models
         public DateTime? DataDefinitivaFim { get; set; }
 
         [Display(Name = "Estado da tarefa")]
-        [StringLength(20, MinimumLength = 5, ErrorMessage = "A tarefa deve ter entre 5 e 20 caracteres")]
         public string? EstadoTarefa { get; set; }
 
 
