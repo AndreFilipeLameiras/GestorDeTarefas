@@ -237,7 +237,6 @@ namespace GestorDeTarefas.Data
                 new Tarefas { 
                     Nome="Limpeza",
                     ColaboradorId=1,
-                    ProjetoSprintDesignID=3,
                     SistemaProdutividadeId=1,
                     DataPrevistaInicio = DateTime.Parse("20/09/2021"),
                     DataDefinitivaInicio = DateTime.Parse("18/11/2021"),
@@ -248,7 +247,6 @@ namespace GestorDeTarefas.Data
                 {
                     Nome = "Pintar",
                     ColaboradorId = 3,
-                    ProjetoSprintDesignID = 2,
                     SistemaProdutividadeId = 1,
                     DataPrevistaInicio = DateTime.Parse("20/12/2021"),
                     DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
@@ -279,12 +277,10 @@ namespace GestorDeTarefas.Data
                 {
                     Nome = "Arumar materiais",
                     ColaboradorId = 1,
-                    ProjetoSprintDesignID = 3,
-                    SistemaProdutividadeId = 4,
+                    ProjetoSprintDesignID = 3,                   
                     DataPrevistaInicio = DateTime.Parse("20/09/2021"),
-                    DataDefinitivaInicio = DateTime.Parse("18/11/2021"),
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
-                    EstadoTarefa = "Em atraso"
+                    EstadoTarefa = ""
                 }
 
 
