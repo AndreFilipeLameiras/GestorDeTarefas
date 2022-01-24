@@ -27,8 +27,7 @@ namespace GestorDeTarefas.Models
         [DataType(DataType.Date)]
         [Display(Name = "Data Definitiva do Inicio")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
-        [Required(ErrorMessage = "Por favor, insira a data definitiva de inicio da tarefa")]
-        public DateTime DataDefinitivaInicio { get; set; }
+        public DateTime? DataDefinitivaInicio { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "Data Prevista do Fim")]
