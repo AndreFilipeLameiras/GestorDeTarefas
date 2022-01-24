@@ -300,7 +300,7 @@ namespace GestorDeTarefas.Migrations
                     b.Property<DateTime?>("DataDefinitivaFim")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataDefinitivaInicio")
+                    b.Property<DateTime?>("DataDefinitivaInicio")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataPrevistaFim")
@@ -379,7 +379,7 @@ namespace GestorDeTarefas.Migrations
                     b.Property<DateTime?>("DataDefinitivaFim")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataDefinitivaInicio")
+                    b.Property<DateTime?>("DataDefinitivaInicio")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataPrevistaFim")
