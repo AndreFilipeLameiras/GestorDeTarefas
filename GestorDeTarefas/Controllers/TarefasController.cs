@@ -180,6 +180,11 @@ namespace GestorDeTarefas.Controllers
                 ModelState.AddModelError("DataPrevistaFim", "Data prevista de fim não deve ser " +
                     "menor do que a data prevista ou efetiva de inicio");
             }
+            if (tarefas.DataDefinitivaInicio ==null && tarefas.DataDefinitivaFim != null)
+            {
+                ModelState.AddModelError("DataDefinitivaInicio", "Por favor, adicione a data definitiva de inicio");
+                    
+            }
 
             if (tarefas.DataDefinitivaFim < tarefas.DataDefinitivaInicio)
             {
@@ -217,6 +222,10 @@ namespace GestorDeTarefas.Controllers
                     if (tarefas.DataPrevistaFim >= tarefas.DataDefinitivaFim)
                     {
                         tarefas.EstadoTarefa = "Concluído dentro do prazo";
+                    }
+                    if (tarefas.DataDefinitivaInicio == null && tarefas.DataDefinitivaFim == null)
+                    {
+                        tarefas.EstadoTarefa = "";
                     }
                     _context.Update(tarefas);
                     await _context.SaveChangesAsync();
