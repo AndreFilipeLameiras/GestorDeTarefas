@@ -104,10 +104,10 @@ namespace GestorDeTarefas.Controllers
         {
 
 
-            if (tarefas.DataPrevistaFim < tarefas.DataDefinitivaInicio || tarefas.DataPrevistaFim < tarefas.DataPrevistaInicio)
+            if (tarefas.DataPrevistaFim < tarefas.DataPrevistaInicio)
             {
                 ModelState.AddModelError("DataPrevistaFim", "Data prevista de fim não deve ser " +
-                    "menor do que a data prevista ou efetiva de inicio");
+                    "menor do que a data prevista de inicio");
             }
             if(tarefas.SistemaProdutividadeId == null && tarefas.ProjetoSprintDesignID == null)
             {
@@ -122,13 +122,9 @@ namespace GestorDeTarefas.Controllers
 
             if (ModelState.IsValid)
             {
-                if(tarefas.DataPrevistaInicio < tarefas.DataDefinitivaInicio)
+                if(tarefas.DataDefinitivaInicio==null && tarefas.DataDefinitivaFim == null)
                 {
-                    tarefas.EstadoTarefa = "Em atraso";
-                }
-                if (tarefas.DataPrevistaInicio >= tarefas.DataDefinitivaInicio)
-                {
-                    tarefas.EstadoTarefa="Dentro do prazo";
+                    tarefas.EstadoTarefa = "";
                 }
                 _context.Add(tarefas);
                 await _context.SaveChangesAsync();
@@ -214,9 +210,13 @@ namespace GestorDeTarefas.Controllers
                         tarefas.EstadoTarefa = "Dentro do prazo";
                     }
 
-                    if (tarefas.DataDefinitivaFim !=null)
+                    if (tarefas.DataPrevistaFim < tarefas.DataDefinitivaFim)
                     {
-                        tarefas.EstadoTarefa = "Concluído";
+                        tarefas.EstadoTarefa = "Concluído fora do prazo";
+                    }
+                    if (tarefas.DataPrevistaFim >= tarefas.DataDefinitivaFim)
+                    {
+                        tarefas.EstadoTarefa = "Concluído dentro do prazo";
                     }
                     _context.Update(tarefas);
                     await _context.SaveChangesAsync();
