@@ -47,12 +47,18 @@
 
             @if (tarefa.SistemaProdutividadeId != null)
             {
-        <div style="display:flex">
-            <h5 style="margin-right:4px">Projeto Produtividade:</h5>
-            <h5 class="card-text lead">@tarefa.SistemaProdutividade.NomeProjeto</h5>
-        </div>
+                <div style="display:flex">
+                    <h5 style="margin-right:4px">Projeto Produtividade:</h5>
+                    <h5 class="card-text lead">@tarefa.SistemaProdutividade.NomeProjeto</h5>
+                </div>
             }
-
+            @if (tarefa.EstadoTarefa.Equals(""))
+            {
+                <div style="display:flex">
+                    <h5 style="margin-right:4px">Estado da tarefa:</h5>
+                    <h5 class=" text-primary">@tarefa.EstadoTarefa</h5>
+                </div>
+            }
             @if (tarefa.EstadoTarefa.Equals("Em atraso"))
             {
                 <div style="display:flex">
@@ -67,11 +73,18 @@
                     <h5 class=" text-warning">@tarefa.EstadoTarefa</h5>
                 </div>
             }
-            @if (tarefa.EstadoTarefa.Equals("Concluído"))
+            @if (tarefa.EstadoTarefa.Equals("Concluído dentro do prazo"))
             {
                 <div style="display:flex">
                     <h5 style="margin-right:4px">Estado da tarefa:</h5>
                     <h5 class=" text-success">@tarefa.EstadoTarefa</h5>
+                </div>
+            }
+            @if (tarefa.EstadoTarefa.Equals("Concluído fora do prazo"))
+            {
+                <div style="display:flex">
+                    <h5 style="margin-right:4px">Estado da tarefa:</h5>
+                    <h5 class=" text-info">@tarefa.EstadoTarefa</h5>
                 </div>
             }
 

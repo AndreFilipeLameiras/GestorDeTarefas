@@ -204,6 +204,7 @@ namespace GestorDeTarefas.Controllers
         public IActionResult Create()
         {
             ViewData["ClienteId"] = new SelectList(_context.Cliente.OrderBy(b => b.Nome), "ClienteId", "Nome");
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
             return View();
         } 
 
@@ -212,7 +213,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProjetoSprintDesignID,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim,CarregarImagemProjeto")] ProjetoSprintDesign projetoSprintDesign)
+        public async Task<IActionResult> Create([Bind("ProjetoSprintDesignID,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim,EstadoProjeto,ImagemProjeto,ClienteId,ColaboradorId")] ProjetoSprintDesign projetoSprintDesign)
         {
             if (projetoSprintDesign.DataPrevistaFim < projetoSprintDesign.DataDefinitivaInicio || projetoSprintDesign.DataPrevistaFim < projetoSprintDesign.DataPrevistaInicio)
             {
@@ -221,16 +222,12 @@ namespace GestorDeTarefas.Controllers
             }
             if (ModelState.IsValid)
             {
-                if (projetoSprintDesign.DataPrevistaInicio < projetoSprintDesign.DataDefinitivaInicio)
+                if (projetoSprintDesign.DataDefinitivaInicio == null && projetoSprintDesign.DataDefinitivaFim == null)
                 {
-                    projetoSprintDesign.EstadoProjeto = "Em atraso";
-                }
-                if (projetoSprintDesign.DataPrevistaInicio >= projetoSprintDesign.DataDefinitivaInicio)
-                {
-                    projetoSprintDesign.EstadoProjeto = "Dentro do prazo";
+                    projetoSprintDesign.EstadoProjeto = "";
                 }
 
-              // projetoSprintDesign.CarregarImagemProjeto.
+                // projetoSprintDesign.CarregarImagemProjeto.
                 //Guardar imagem no wwwroot/imagens
                 string wwwRootPath = _hostEnvironment.WebRootPath;
                 string fileName = Path.GetFileNameWithoutExtension(projetoSprintDesign.CarregarImagemProjeto.FileName);
@@ -251,6 +248,7 @@ namespace GestorDeTarefas.Controllers
                 return View("Success");
             }
             ViewData["ClienteId"] = new SelectList(_context.Cliente.OrderBy(b => b.Nome), "ClienteId", "Nome",projetoSprintDesign.ClienteId);
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", projetoSprintDesign.ColaboradorId);
             return View(projetoSprintDesign);
         }
 
@@ -268,6 +266,7 @@ namespace GestorDeTarefas.Controllers
                 return NotFound();
             }
             ViewData["ClienteId"] = new SelectList(_context.Cliente.OrderBy(b => b.Nome), "ClienteId", "Nome", projetoSprintDesign.ClienteId);
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", projetoSprintDesign.ColaboradorId);
             return View(projetoSprintDesign);
         }
 
@@ -276,7 +275,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProjetoSprintDesignID,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] ProjetoSprintDesign projetoSprintDesign)
+        public async Task<IActionResult> Edit(int id, [Bind("ProjetoSprintDesignID,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim,EstadoProjeto,ImagemProjeto,ClienteId,ColaboradorId")] ProjetoSprintDesign projetoSprintDesign)
         {
             if (id != projetoSprintDesign.ProjetoSprintDesignID)
             {
@@ -287,7 +286,11 @@ namespace GestorDeTarefas.Controllers
                 ModelState.AddModelError("DataPrevistaFim", "Data prevista de fim não deve ser " +
                     "menor do que a data prevista ou efetiva de inicio");
             }
+            if (projetoSprintDesign.DataDefinitivaInicio == null && projetoSprintDesign.DataDefinitivaFim != null)
+            {
+                ModelState.AddModelError("DataDefinitivaInicio", "Por favor, adicione a data definitiva de inicio");
 
+            }
             if (projetoSprintDesign.DataDefinitivaFim < projetoSprintDesign.DataDefinitivaInicio)
             {
                 ModelState.AddModelError("DataDefinitivaFim", "Data Efetiva de fim não deve ser " +
@@ -308,9 +311,17 @@ namespace GestorDeTarefas.Controllers
                         projetoSprintDesign.EstadoProjeto = "Dentro do prazo";
                     }
 
-                    if (projetoSprintDesign.DataDefinitivaFim != null)
+                    if (projetoSprintDesign.DataPrevistaFim < projetoSprintDesign.DataDefinitivaFim)
                     {
-                        projetoSprintDesign.EstadoProjeto = "Concluído"; 
+                        projetoSprintDesign.EstadoProjeto = "Concluído fora do prazo";
+                    }
+                    if (projetoSprintDesign.DataPrevistaFim >= projetoSprintDesign.DataDefinitivaFim)
+                    {
+                        projetoSprintDesign.EstadoProjeto = "Concluído dentro do prazo";
+                    }
+                    if (projetoSprintDesign.DataDefinitivaInicio == null && projetoSprintDesign.DataDefinitivaFim == null)
+                    {
+                        projetoSprintDesign.EstadoProjeto = "";
                     }
                     _context.Update(projetoSprintDesign);
                     await _context.SaveChangesAsync();
@@ -331,6 +342,7 @@ namespace GestorDeTarefas.Controllers
                 return View("Success");
             }
             ViewData["ClienteId"] = new SelectList(_context.Cliente.OrderBy(b => b.Nome), "ClienteId", "Nome", projetoSprintDesign.ClienteId);
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", projetoSprintDesign.ColaboradorId);
             return View(projetoSprintDesign);
         }
 

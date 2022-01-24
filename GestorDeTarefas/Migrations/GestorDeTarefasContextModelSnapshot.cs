@@ -300,7 +300,7 @@ namespace GestorDeTarefas.Migrations
                     b.Property<DateTime?>("DataDefinitivaFim")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataDefinitivaInicio")
+                    b.Property<DateTime?>("DataDefinitivaInicio")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataPrevistaFim")
@@ -310,8 +310,7 @@ namespace GestorDeTarefas.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EstadoProjeto")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImagemProjeto")
                         .HasColumnType("nvarchar(max)");
@@ -379,7 +378,7 @@ namespace GestorDeTarefas.Migrations
                     b.Property<DateTime?>("DataDefinitivaFim")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataDefinitivaInicio")
+                    b.Property<DateTime?>("DataDefinitivaInicio")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataPrevistaFim")
@@ -389,8 +388,7 @@ namespace GestorDeTarefas.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EstadoTarefa")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
