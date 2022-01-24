@@ -26,9 +26,7 @@
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.DataDefinitivaInicio)
             </dt>
-            <dd class="col-sm-10">
-                @Model.DataDefinitivaInicio.ToString("dd/MM/yyyy")
-            </dd>
+            
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.DataPrevistaFim)
             </dt>
@@ -52,7 +50,7 @@
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.EstadoTarefa)
             </dt>
-            <dd class="col-sm-10">
+            <dd class="col-sm-12">
                 @if (Model.EstadoTarefa.Equals("Em atraso"))
                 {
                     <h6 class="text-danger">
@@ -65,9 +63,21 @@
                         @Html.DisplayFor(model => model.EstadoTarefa)
                     </h6>
                 }
-                @if (Model.EstadoTarefa.Equals("Concluído"))
+                @if (Model.EstadoTarefa.Equals("Concluído dentro do prazo"))
                 {
                     <h6 class="text-success">
+                        @Html.DisplayFor(model => model.EstadoTarefa)
+                    </h6>
+                }
+                @if (Model.EstadoTarefa.Equals("Concluído fora do prazo"))
+                {
+                    <h6 class="text-info">
+                        @Html.DisplayFor(model => model.EstadoTarefa)
+                    </h6>
+                }
+                @if (Model.EstadoTarefa.Equals(""))
+                {
+                    <h6 class="text-primary">
                         @Html.DisplayFor(model => model.EstadoTarefa)
                     </h6>
                 }
