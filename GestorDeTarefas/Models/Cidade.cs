@@ -13,5 +13,7 @@ namespace GestorDeTarefas.Models
         [Required(ErrorMessage = "Por favor, insira a cidade")]
         [StringLength(50)]
         public string Nome_Cidade { get; set; }
+
+        public ICollection<Cliente> Clientes { get; set; }
     }
 }
