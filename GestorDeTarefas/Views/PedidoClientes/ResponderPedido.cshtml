@@ -15,34 +15,36 @@
             <input type="hidden" asp-for="ID" />
             <div class="form-group">
                 <label asp-for="ProjetoSprintDesignID" class="control-label">Projeto Sprint</label>
-                <select asp-for="ProjetoSprintDesignID" class="form-control" asp-items="ViewBag.ProjetoSprintDesignID"></select>
+                <select asp-for="ProjetoSprintDesignID" class="form-control" asp-items="ViewBag.ProjetoSprintDesignID" readonly></select>
                 <span asp-validation-for="ProjetoSprintDesignID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ClienteId" class="control-label">Cliente</label>
-                <select asp-for="ClienteId" class="form-control" asp-items="ViewBag.ClienteId"></select>
+                <select asp-for="ClienteId" class="form-control" asp-items="ViewBag.ClienteId" readonly></select>
                 <span asp-validation-for="ClienteId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ColaboradorId" class="control-label">Gestor</label>
-                <select asp-for="ColaboradorId" class="form-control" asp-items="ViewBag.ColaboradorId"></select>
+                <select asp-for="ColaboradorId" class="form-control" asp-items="ViewBag.ColaboradorId" readonly ></select>
                 <span asp-validation-for="ColaboradorId" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="DataRealizarPedido" class="control-label"></label>
-                <input asp-for="DataRealizarPedido" class="form-control" />
+                <input readonly asp-for="DataRealizarPedido" class="form-control" />
+                
                 <span asp-validation-for="DataRealizarPedido" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DataPedido" class="control-label"></label>
-                <input asp-for="DataPedido" class="form-control" />
+                <input  asp-for="DataPedido" class="form-control"readonly/>
+                
                 <span asp-validation-for="DataPedido" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Mensagem" class="control-label"></label>
-                <textarea asp-for="Mensagem" class="form-control" rows="6" cols="50"></textarea>
+                <textarea asp-for="Mensagem" class="form-control" rows="6" cols="50" readonly ></textarea>
                 <span asp-validation-for="Mensagem" class="text-danger"></span>
             </div>
 
