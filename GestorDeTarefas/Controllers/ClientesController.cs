@@ -46,6 +46,7 @@ namespace GestorDeTarefas.Controllers
         // GET: Clientes/Register
         public IActionResult Register()
         {
+            ViewData["CidadeId"] = new SelectList(_context.Cidade, "CidadeId", "Nome_Cidade");
             return View();
         }
 
@@ -62,8 +63,10 @@ namespace GestorDeTarefas.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CidadeId"] = new SelectList(_context.Cidade, "CidadeId", "Nome_Cidade", cliente.CidadeId);
             return View(cliente);
         }
+        
 
         // GET: Clientes/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -78,6 +81,7 @@ namespace GestorDeTarefas.Controllers
             {
                 return NotFound();
             }
+            ViewData["CidadeId"] = new SelectList(_context.Cidade, "CidadeId", "Nome_Cidade", cliente.CidadeId);
             return View(cliente);
         }
 
@@ -113,6 +117,7 @@ namespace GestorDeTarefas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CidadeId"] = new SelectList(_context.Cidade, "CidadeId", "Nome_Cidade", cliente.CidadeId);
             return View(cliente);
         }
 
