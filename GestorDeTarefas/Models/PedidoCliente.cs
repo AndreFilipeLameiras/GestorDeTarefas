@@ -24,7 +24,7 @@ namespace GestorDeTarefas.Models
 
         [DataType(DataType.Date)]      
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
-        public DateTime? DataPedido { get; set; }
+        public DateTime DataPedido { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
