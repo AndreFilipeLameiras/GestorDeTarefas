@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GestorDeTarefas.Models.Cliente>
+﻿@model ClienteListViewModel
 
 @{
     ViewData["Title"] = "Clientes";
@@ -6,12 +6,14 @@
 
 <h1>Clientes</h1>
 
+<p>Há um total de @Model.PagingInfo.TotalItems clientes</p>
+
 <p>
     <a asp-action="Register" class="btn btn-dark">Criar novo cliente</a>
 </p>
 
 
-@foreach (var cliente in Model)
+@foreach (var cliente in Model.Clientes)
 {
     <div class="card mt-3">
         <div class="card-body">
