@@ -55,7 +55,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([Bind("ClienteId,Nome,Morada,Cidade,Email,Phone")] Cliente cliente)
+        public async Task<IActionResult> Register([Bind("ClienteId,Nome,Morada,CidadeId,Email,Phone")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
