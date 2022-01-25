@@ -21,7 +21,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Clientes
-        public async Task<IActionResult> Index( int page = 1)
+        public async Task<IActionResult> Index(int page = 1)
         {
             var pagingInfo = new PagingInfo
             {
@@ -29,8 +29,19 @@ namespace GestorDeTarefas.Controllers
                 TotalItems = _context.Cliente.Count()
             };
 
+            if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
+            {
+                pagingInfo.CurrentPage = pagingInfo.TotalPages;
+            }
+
+            if (pagingInfo.CurrentPage < 1)
+            {
+                pagingInfo.CurrentPage = 1;
+            }
+
+
             var clientes = await _context.Cliente
-                            .Include(b => b.Nome)
+                            
                             .OrderBy(b => b.Nome)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
                             .Take(pagingInfo.PageSize)
@@ -56,7 +67,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.ClienteId == id);
+                .SingleOrDefaultAsync(m => m.ClienteId == id);
             if (cliente == null)
             {
                 return NotFound();
