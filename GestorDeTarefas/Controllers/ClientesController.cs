@@ -57,7 +57,8 @@ namespace GestorDeTarefas.Controllers
                 new ClienteListViewModel
                 {
                     Clientes = clientes,
-                    PagingInfo = pagingInfo
+                    PagingInfo = pagingInfo,
+                    NomeSearched = nome
                 }
                 );
         }
