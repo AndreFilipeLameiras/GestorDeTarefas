@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\GestorDeTarefasMigrations\**" />
+    <Content Remove="Data\GestorDeTarefasMigrations\**" />
+    <EmbeddedResource Remove="Data\GestorDeTarefasMigrations\**" />
+    <None Remove="Data\GestorDeTarefasMigrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Home\Blog - Copy.cshtml" />
   </ItemGroup>
 
@@ -24,10 +31,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data\GestorDeTarefasMigrations\" />
   </ItemGroup>
 
 </Project>
