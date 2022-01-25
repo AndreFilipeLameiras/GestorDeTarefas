@@ -61,7 +61,9 @@ namespace GestorDeTarefas.Controllers
             {
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Cliente Adicionado";
+                ViewBag.Message = "Cliente adicionado com sucesso.";
+                return View("Success");
             }
             ViewData["CidadeId"] = new SelectList(_context.Cidade, "CidadeId", "Nome_Cidade", cliente.CidadeId);
             return View(cliente);
