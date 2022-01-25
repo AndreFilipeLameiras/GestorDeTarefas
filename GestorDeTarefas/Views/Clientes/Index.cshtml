@@ -1,62 +1,27 @@
 ﻿@model IEnumerable<GestorDeTarefas.Models.Cliente>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Clientes";
 }
 
 <h1>Clientes</h1>
 
 <p>
-    <a asp-action="Create">Criar novo cliente</a>
+    <a asp-action="Create" class="btn btn-dark">Criar novo cliente</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Morada)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cidade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Morada)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cidade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ClienteId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ClienteId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ClienteId">Delete</a>
 
-                <a asp-controller="PedidoClientes" asp-action="EnviarPedido" asp-route-id="@item.ClienteId">Mensagem</a>
-                
-            </td>
-        </tr>
+
+@foreach (var cliente in Model)
+{
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">@cliente.Nome</h5>
+            <p class="card-text lead">@cliente.Email</p>
+
+
+            <a asp-action="Details" asp-route-id="@cliente.ClienteId" class="btn btn-info">Details</a>
+            <a asp-action="Edit" asp-route-id="@cliente.ClienteId" class="btn btn-warning">Edit</a>
+            <a asp-action="Delete" asp-route-id="@cliente.ClienteId" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
 }
-    </tbody>
-</table>
