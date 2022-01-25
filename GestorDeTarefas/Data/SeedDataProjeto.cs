@@ -418,8 +418,24 @@ namespace GestorDeTarefas.Data
                 new Cidade
                 {
                     Nome_Cidade = "Lisboa"
+                },
+                new Cidade
+                {
+                    Nome_Cidade = "Guarda"
+                },
+                new Cidade
+                {
+                    Nome_Cidade = "Porto"
+                },
+                new Cidade
+                {
+                    Nome_Cidade = "Aveiro"
+                },
+                new Cidade
+                {
+                    Nome_Cidade = "Faro"
                 }
-              
+
 
 
             );

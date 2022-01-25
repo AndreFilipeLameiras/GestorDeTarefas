@@ -26,8 +26,10 @@ namespace GestorDeTarefas.Models
         [EmailAddress]
         public string Email { get; set; }
 
-        [Phone]
-        public string Phone { get; set; }
+        [Required(ErrorMessage = "Por favor, insira o contacto")]
+        [StringLength(9, MinimumLength = 9, ErrorMessage = "O contacto deve ter 9 caracteres")]
+        [RegularExpression(@"(9\d{8})", ErrorMessage = "Numero invalido.")]
+        public string Telemovel { get; set; }
 
         public ICollection<PedidoCliente> PedidoCliente { get; set; }
 

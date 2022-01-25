@@ -18,6 +18,8 @@
         <form asp-action="Index" method="get">
             <label for="nome" class="control-label">Nome do Cliente</label>
             <input name="nome" type="search" class="form-control" value="@Model.NomeSearched" />
+            <label for="cidade" class="control-label">Cidade</label>
+            <input name="cidade" type="search" class="form-control" value="@Model.CidadeSearched" />
             <div class="mt-3">
                 <input type="submit" value="Procurar" class="btn btn-info" />
                 <a asp-action="Index" class="btn btn-secondary">Limpar</a>
@@ -34,12 +36,12 @@
     <div class="card mt-3">
         <div class="card-body">
             <h5 class="card-title">@cliente.Nome</h5>
-            <p class="card-text lead">@cliente.Email</p>
+            <p class="card-text lead">@cliente.Cidade</p>
 
 
-            <a asp-action="Details" asp-route-id="@cliente.ClienteId" class="btn btn-info">Details</a>
-            <a asp-action="Edit" asp-route-id="@cliente.ClienteId" class="btn btn-warning">Edit</a>
-            <a asp-action="Delete" asp-route-id="@cliente.ClienteId" class="btn btn-danger">Delete</a>
+            <a asp-action="Details" asp-route-id="@cliente.ClienteId" class="btn btn-info">Detalhes</a>
+            <a asp-action="Edit" asp-route-id="@cliente.ClienteId" class="btn btn-warning">Editar</a>
+            <a asp-action="Delete" asp-route-id="@cliente.ClienteId" class="btn btn-danger">Eliminar</a>
         </div>
     </div>
 }

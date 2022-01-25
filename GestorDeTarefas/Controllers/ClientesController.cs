@@ -21,10 +21,11 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Clientes
-        public async Task<IActionResult> Index(string nome, int page = 1)
+        public async Task<IActionResult> Index(string nome, string cidade, int page = 1)
         {
             var clienteSearch = _context.Cliente
-                .Where(b => nome == null || b.Nome.Contains(nome));
+                .Where(b => (nome == null || b.Nome.Contains(nome))
+                & ( cidade == null || b.Cidade.Nome_Cidade.Contains(cidade)));
 
 
             var pagingInfo = new PagingInfo
@@ -58,7 +59,8 @@ namespace GestorDeTarefas.Controllers
                 {
                     Clientes = clientes,
                     PagingInfo = pagingInfo,
-                    NomeSearched = nome
+                    NomeSearched = nome,
+                    CidadeSearched = cidade
                 }
                 );
         }
@@ -130,7 +132,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Nome,Morada,Cidade,Email,Phone")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Nome,Morada,CidadeId,Email,Phone")] Cliente cliente)
         {
             if (id != cliente.ClienteId)
             {
