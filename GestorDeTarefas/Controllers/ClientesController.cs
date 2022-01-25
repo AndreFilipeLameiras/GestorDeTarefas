@@ -21,12 +21,16 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Clientes
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(string nome, int page = 1)
         {
+            var clienteSearch = _context.Cliente
+                .Where(b => nome == null || b.Nome.Contains(nome));
+
+
             var pagingInfo = new PagingInfo
             {
                 CurrentPage = page,
-                TotalItems = _context.Cliente.Count()
+                TotalItems = clienteSearch.Count()
             };
 
             if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
@@ -40,7 +44,7 @@ namespace GestorDeTarefas.Controllers
             }
 
 
-            var clientes = await _context.Cliente
+            var clientes = await clienteSearch
                             
                             .OrderBy(b => b.Nome)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
