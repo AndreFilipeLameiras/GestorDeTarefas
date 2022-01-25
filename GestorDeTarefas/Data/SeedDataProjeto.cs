@@ -11,6 +11,7 @@ namespace GestorDeTarefas.Data
     {
         internal static void Populate(GestorDeTarefasContext db)
         {
+            PopulateCidade(db);
             PopulateCliente(db);
             PopulateCargo(db);
             PopulateColaborador(db);
@@ -348,50 +349,77 @@ namespace GestorDeTarefas.Data
                 {
                     Nome = "Jonas Paulo",
                     Email ="jonaspaulo@gmail.com",
-                    Cidade="Lisboa",
+                    //Cidade="Lisboa",
                     Phone="923456654",
-                    Morada = "Rua das ruas"
+                    Morada = "Rua das ruas",
+                    CidadeId = 1
+
                 },
                new Cliente
                {
                    Nome = "Miguel Silva",
                    Email = "miguel@gmail.com",
-                   Cidade = "Porto",
+                   //Cidade = "Porto",
                    Phone = "923456659",
-                   Morada = "Rua das velhas"
+                   Morada = "Rua das velhas",
+                   CidadeId = 1
                },
                new Cliente
                {
                    Nome = "Ana Matos",
                    Email = "ana@gmail.com",
-                   Cidade = "Lisboa",
+                   //Cidade = "Lisboa",
                    Phone = "923456610",
-                   Morada = "Rua da Ana"
+                   Morada = "Rua da Ana",
+                   CidadeId = 1
                },
                new Cliente
                {
                    Nome = "Patricia Andreza",
                    Email = "andreza@gmail.com",
-                   Cidade = "Guarda",
+                   //Cidade = "Guarda",
                    Phone = "923456654",
-                   Morada = "Rua das ovelhas"
+                   Morada = "Rua das ovelhas",
+                   CidadeId = 1
                },
                new Cliente
                {
                    Nome = "Cleiton Mendes",
                    Email = "cleinton@gmail.com",
-                   Cidade = "Lisboa",
+                   //Cidade = "Lisboa",
                    Phone = "923456610",
-                   Morada = "Rua das ruas"
+                   Morada = "Rua das ruas",
+                   CidadeId = 1
                },
                new Cliente
                {
                    Nome = "Luis Manteiga",
                    Email = "Manteiga@gmail.com",
-                   Cidade = "Aveiro",
+                   //Cidade = "Aveiro",
                    Phone = "923456654",
-                   Morada = "Rua das Ameixoeiras"
+                   Morada = "Rua das Ameixoeiras",
+                   CidadeId = 1
                }
+
+
+            );
+
+            db.SaveChanges();
+        }
+
+        private static void PopulateCidade(GestorDeTarefasContext db)
+        {
+            if (db.Cidade.Any())
+            {
+                return;
+            }
+
+            db.Cidade.AddRange(
+                new Cidade
+                {
+                    Nome_Cidade = "Lisboa"
+                }
+              
 
 
             );
@@ -401,7 +429,6 @@ namespace GestorDeTarefas.Data
 
 
 
-        
     }
 }
 
