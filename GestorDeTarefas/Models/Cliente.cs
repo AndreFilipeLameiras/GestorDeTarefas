@@ -18,9 +18,8 @@ namespace GestorDeTarefas.Models
         [StringLength(256)]
         public string Morada { get; set; }
 
-        [Required]
-        [StringLength(200)]
-        public string Cidade { get; set; }
+        public int CidadeId { get; set; }
+        public Cidade Cidade { get; set; }
 
         [Required]
         [StringLength(256)]

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,9 +17,9 @@ namespace GestorDeTarefas.ViewModels
         [StringLength(256)]
         public string Morada { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public string Cidade { get; set; }
+        public int CidadeId { get; set; }
+
+        public IEnumerable<SelectListItem> Cidade { get; set; }
 
         [Required]
         [StringLength(256)]
@@ -38,5 +39,7 @@ namespace GestorDeTarefas.ViewModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "As PassWords não correspondem")]
         public string ConfirmPassword { get; set; }
+
+
     }
 }
