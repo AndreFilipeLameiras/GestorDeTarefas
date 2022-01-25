@@ -21,16 +21,17 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Clientes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index( int page = 1)
         {
             var pagingInfo = new PagingInfo
             {
-                CurrentPage = 1,
+                CurrentPage = page,
                 TotalItems = _context.Cliente.Count()
             };
 
             var clientes = await _context.Cliente
                             .Include(b => b.Nome)
+                            .OrderBy(b => b.Nome)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
                             .Take(pagingInfo.PageSize)
                             .ToListAsync();

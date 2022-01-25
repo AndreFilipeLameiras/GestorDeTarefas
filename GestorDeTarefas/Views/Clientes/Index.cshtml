@@ -27,3 +27,22 @@
         </div>
     </div>
 }
+
+<nav class="mt-3">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link" asp-action="Index" asp-route-page="1">Primeiro</a>
+        </li>
+        @{
+            for (int p = 1; p <= Model.PagingInfo.TotalPages; p++)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Index" asp-route-page="@p">@p</a>
+                </li>
+            }
+        }
+        <li class="page-item">
+            <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.PageSize">Ultimo</a>
+        </li>
+    </ul>
+</nav>
