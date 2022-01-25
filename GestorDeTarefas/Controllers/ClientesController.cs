@@ -117,7 +117,9 @@ namespace GestorDeTarefas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Cliente Editado";
+                ViewBag.Message = "Cliente editado com sucesso.";
+                return View("Success");
             }
             ViewData["CidadeId"] = new SelectList(_context.Cidade, "CidadeId", "Nome_Cidade", cliente.CidadeId);
             return View(cliente);
@@ -149,7 +151,10 @@ namespace GestorDeTarefas.Controllers
             var cliente = await _context.Cliente.FindAsync(id);
             _context.Cliente.Remove(cliente);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            ViewBag.Title = "Cliente Eliminado";
+            ViewBag.Message = "Cliente eliminado com sucesso.";
+            return View("Success");
         }
 
         private bool ClienteExists(int id)
