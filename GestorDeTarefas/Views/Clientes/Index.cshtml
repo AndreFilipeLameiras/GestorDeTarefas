@@ -12,6 +12,22 @@
     <a asp-action="Register" class="btn btn-dark">Criar novo cliente</a>
 </p>
 
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Procurar</h5>
+        <form asp-action="Index" method="get">
+            <label for="nome" class="control-label">Nome do Cliente</label>
+            <input name="nome" type="search" class="form-control" value="@Model.NomeSearched" />
+            <div class="mt-3">
+                <input type="submit" value="Procurar" class="btn btn-info" />
+                <a asp-action="Index" class="btn btn-secondary">Limpar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
 
 @foreach (var cliente in Model.Clientes)
 {
