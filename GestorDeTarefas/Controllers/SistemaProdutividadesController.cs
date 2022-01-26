@@ -21,10 +21,12 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: SistemaProdutividades
-        public async Task<IActionResult> Index(string nome, int page = 1)
+        public async Task<IActionResult> Index(string nome, string cliente, string estado, int page = 1)
         {
             var projetoSearch = _context.SistemaProdutividade
-               .Where(b => nome == null || b.NomeProjeto.Contains(nome) || b.EstadoProjeto.Contains(nome));
+               .Where(b =>( nome == null || b.NomeProjeto.Contains(nome))
+               & (estado == null || b.EstadoProjeto.Contains(estado))
+               & (cliente == null || b.Cliente.Nome.Contains(cliente)));
 
             var pagingInfo = new PagingInfo
             {
@@ -45,6 +47,7 @@ namespace GestorDeTarefas.Controllers
             var project = await projetoSearch
                             .Include(b => b.ProdutividadeColaborador)
                             .Include(b => b.Cliente)
+                            
                             .OrderBy(b => b.NomeProjeto)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
                             .Take(pagingInfo.PageSize)
@@ -55,7 +58,9 @@ namespace GestorDeTarefas.Controllers
                 {
                     ProjetoProdutividade = project,
                     PagingInfo = pagingInfo,
-                    NomeSearched = nome
+                    NomeSearched = nome,
+                    ClienteSearched = cliente,
+                    EstadoSearched = estado
                 }
             );
 
