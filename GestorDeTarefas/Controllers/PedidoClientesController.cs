@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
 using GestorDeTarefas.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -21,6 +22,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: PedidoClientes
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.PedidoCliente.ToListAsync());
@@ -67,7 +69,7 @@ namespace GestorDeTarefas.Controllers
             return View(pedidoCliente);
         }
 
-
+        [Authorize(Roles = "gestor, cliente")]
         public async Task<IActionResult> ListaMensagem(int? id)
         {
             if (id == null)
@@ -93,6 +95,7 @@ namespace GestorDeTarefas.Controllers
 
 
         // GET: PedidoClientes/Create
+        [Authorize(Roles = "cliente")]
         public IActionResult EnviarPedido(int? id)
         {
             if (id == null)
@@ -132,6 +135,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "cliente")]
         public async Task<IActionResult> EnviarPedido(PedidoClienteListViewModel pedidoCliente)
         {
             ProjetoSprintDesign projeto = _context.ProjetoSprintDesign.Find(pedidoCliente.ClienteId);
@@ -167,6 +171,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: PedidoClientes/Edit/5
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> ResponderPedido(int? id)
         {
             if (id == null)
@@ -192,6 +197,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> ResponderPedido(int id, [Bind("ID,Mensagem,Resposta,DataRealizarPedido,DataPedido,DataResposta,ProjetoSprintDesignID,SistemaProdutividadeId,ClienteId,ColaboradorId")] PedidoCliente pedidoCliente)
         {
             if (id != pedidoCliente.ID)
@@ -232,6 +238,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: PedidoClientes/Delete/5
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -252,6 +259,7 @@ namespace GestorDeTarefas.Controllers
         // POST: PedidoClientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var pedidoCliente = await _context.PedidoCliente.FindAsync(id);
