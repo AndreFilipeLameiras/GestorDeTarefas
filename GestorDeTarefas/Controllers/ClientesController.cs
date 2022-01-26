@@ -46,7 +46,7 @@ namespace GestorDeTarefas.Controllers
 
 
             var clientes = await clienteSearch
-                            
+                            .Include(b => b.Cidade)
                             .OrderBy(b => b.Nome)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
                             .Take(pagingInfo.PageSize)
@@ -74,6 +74,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             var cliente = await _context.Cliente
+                .Include(b => b.Cidade)
                 .SingleOrDefaultAsync(m => m.ClienteId == id);
             if (cliente == null)
             {
@@ -95,7 +96,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([Bind("ClienteId,Nome,Morada,CidadeId,Email,Phone")] Cliente cliente)
+        public async Task<IActionResult> Register([Bind("ClienteId,Nome,Morada,CidadeId,Email,Telemovel")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -132,7 +133,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Nome,Morada,CidadeId,Email,Phone")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Nome,Morada,CidadeId,Email,Telemovel")] Cliente cliente)
         {
             if (id != cliente.ClienteId)
             {

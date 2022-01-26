@@ -36,8 +36,8 @@
     <div class="card mt-3">
         <div class="card-body">
             <h5 class="card-title">@cliente.Nome</h5>
-            <p class="card-text lead">@cliente.Cidade</p>
-
+            <p class="card-text">@cliente.Cidade.Nome_Cidade</p>
+            
 
             <a asp-action="Details" asp-route-id="@cliente.ClienteId" class="btn btn-info">Detalhes</a>
             <a asp-action="Edit" asp-route-id="@cliente.ClienteId" class="btn btn-warning">Editar</a>
