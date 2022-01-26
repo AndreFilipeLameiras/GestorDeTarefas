@@ -34,5 +34,7 @@ namespace GestorDeTarefas.Models
         public ICollection<PedidoCliente> PedidoCliente { get; set; }
 
         public ICollection<ProjetoSprintDesign> ProjetoSprintDesign { get; set; }
+
+        public ICollection<SistemaProdutividade> SistemaProdutividade { get; set; }
     }
 }
