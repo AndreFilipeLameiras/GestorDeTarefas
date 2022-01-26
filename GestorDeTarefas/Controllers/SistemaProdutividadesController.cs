@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
 using GestorDeTarefas.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -204,7 +205,7 @@ namespace GestorDeTarefas.Controllers
 
 
 
-
+        [Authorize(Roles = "gestor")]
         // GET: SistemaProdutividades/Create
         public IActionResult Create()
         {
@@ -212,7 +213,7 @@ namespace GestorDeTarefas.Controllers
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
             return View();
         }
-
+        [Authorize(Roles = "gestor")]
         // POST: SistemaProdutividades/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -245,8 +246,8 @@ namespace GestorDeTarefas.Controllers
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", sistemaProdutividade.ColaboradorId);
             return View(sistemaProdutividade);
         }
-    
 
+        [Authorize(Roles = "gestor")]
         // GET: SistemaProdutividades/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -264,7 +265,7 @@ namespace GestorDeTarefas.Controllers
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", sistemaProdutividade.ColaboradorId);
             return View(sistemaProdutividade);
         }
-
+        [Authorize(Roles = "gestor")]
         // POST: aaa/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -338,7 +339,7 @@ namespace GestorDeTarefas.Controllers
             return View(sistemaProdutividade);
         }
 
-
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> VerTarefas(string nome, int? id, int page = 1)
         {
             var tarefaSearch = _context.Tarefas
@@ -381,7 +382,7 @@ namespace GestorDeTarefas.Controllers
 
 
 
-
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> RemoverColaboradores(string nome, int? id, int page = 1)
         {
             if (id == null)
@@ -488,6 +489,8 @@ namespace GestorDeTarefas.Controllers
                 PagingInfo = pagingInfo
             });
         }
+
+        [Authorize(Roles = "admin, gestor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoverColaboradores(SistemProdListViewmodel projetoProdutividade)
@@ -522,6 +525,7 @@ namespace GestorDeTarefas.Controllers
             
         }
 
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> AdicionarColaboradores(string nome, int? id, int page = 1)
         {
 
@@ -630,6 +634,7 @@ namespace GestorDeTarefas.Controllers
 
         }
 
+        [Authorize(Roles = "admin, gestor")]
         // POST: ProjetoSprintDesigns/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -689,7 +694,7 @@ namespace GestorDeTarefas.Controllers
             
         }
 
-
+        [Authorize(Roles = "admin, gestor")]
         // GET: SistemaProdutividades/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -717,6 +722,7 @@ namespace GestorDeTarefas.Controllers
 
         }
 
+        [Authorize(Roles = "admin, gestor")]
         // POST: SistemaProdutividades/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

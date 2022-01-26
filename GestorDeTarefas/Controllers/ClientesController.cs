@@ -218,7 +218,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Clientes/Edit/5
-        [Authorize(Roles = "gestor")]
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -240,7 +240,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "gestor")]
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Nome,Morada,CidadeId,Email,Telemovel")] Cliente cliente)
         {
             if (id != cliente.ClienteId)
