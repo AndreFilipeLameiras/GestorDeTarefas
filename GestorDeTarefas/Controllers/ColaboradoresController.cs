@@ -25,6 +25,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Colaboradors
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Index(string nome, string cargo, int page = 1)
         {
             var colaboradorSearch = _context.Colaborador
@@ -149,6 +150,7 @@ namespace GestorDeTarefas.Controllers
 
 
         // GET: Colaboradors/Details/5
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -315,6 +317,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Colaboradors/Edit/5
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -335,6 +338,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Edit(int id, [Bind("ColaboradorId,Name,Email,Contacto,Cargo")] Colaborador colaborador)
         {
             if (id != colaborador.ColaboradorId)
@@ -368,6 +372,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Colaboradors/Delete/5
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Delete(int? id)
         {
             try
@@ -397,6 +402,7 @@ namespace GestorDeTarefas.Controllers
         // POST: Colaboradors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             try
