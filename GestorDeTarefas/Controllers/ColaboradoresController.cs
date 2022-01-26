@@ -253,6 +253,7 @@ namespace GestorDeTarefas.Controllers
                 }
 
                 var colaborador = await _context.Colaborador
+                    .Include(b => b.Cargo)
                     .SingleOrDefaultAsync(m => m.ColaboradorId == id);
                 if (colaborador == null)
                 {

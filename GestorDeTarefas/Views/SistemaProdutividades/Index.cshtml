@@ -33,6 +33,7 @@
     <div class="card mt-3">
         <div class="card-body">
             <h5 class="card-title">Projeto: @projeto.NomeProjeto</h5>
+            <h5 class="card-title">Cliente: @projeto.Cliente.Nome</h5>
             @if (projeto.EstadoProjeto.Equals("Em atraso"))
             {
                 <div style="display:flex">
@@ -47,16 +48,22 @@
                     <h5 class=" text-warning">@projeto.EstadoProjeto</h5>
                 </div>
             }
-            @if (projeto.EstadoProjeto.Equals("Concluído"))
+            @if (projeto.EstadoProjeto.Equals("Concluído dentro do prazo"))
             {
                 <div style="display:flex">
-
                     <h5 style="margin-right:4px">Estado do projeto:</h5>
                     <h5 class=" text-success">@projeto.EstadoProjeto</h5>
                 </div>
             }
+            @if (projeto.EstadoProjeto.Equals("Concluído fora do prazo"))
+            {
+                <div style="display:flex">
+                    <h5 style="margin-right:4px">Estado do projeto:</h5>
+                    <h5 class=" text-info">@projeto.EstadoProjeto</h5>
+                </div>
+            }
 
-            <h5 class="card-subtitle">Prioridade: @projeto.PrioridadeProjeto</h5>
+            
 
 
             <a asp-action="Details" asp-route-id="@projeto.SistemaProdutividadeId" class="btn btn-info">Detalhes</a>

@@ -44,6 +44,7 @@ namespace GestorDeTarefas.Controllers
 
             var project = await projetoSearch
                             .Include(b => b.ProdutividadeColaborador)
+                            .Include(b => b.Cliente)
                             .OrderBy(b => b.NomeProjeto)
                             .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.PageSize)
                             .Take(pagingInfo.PageSize)
@@ -71,6 +72,7 @@ namespace GestorDeTarefas.Controllers
             }
 
             var sistemaProdutividade = await _context.SistemaProdutividade
+                .Include(b => b.Cliente)
                 .FirstOrDefaultAsync(m => m.SistemaProdutividadeId == id);
             if (sistemaProdutividade == null)
             {
@@ -201,6 +203,8 @@ namespace GestorDeTarefas.Controllers
         // GET: SistemaProdutividades/Create
         public IActionResult Create()
         {
+            ViewData["ClienteId"] = new SelectList(_context.Cliente.OrderBy(b => b.Nome), "ClienteId", "Nome");
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name");
             return View();
         }
 
@@ -209,7 +213,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SistemaProdutividadeId,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] SistemaProdutividade sistemaProdutividade)
+        public async Task<IActionResult> Create([Bind("SistemaProdutividadeId,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim,EstadoProjeto, ClienteId,ColaboradorId")] SistemaProdutividade sistemaProdutividade)
         {
             if (sistemaProdutividade.DataPrevistaFim < sistemaProdutividade.DataDefinitivaInicio || sistemaProdutividade.DataPrevistaFim < sistemaProdutividade.DataPrevistaInicio)
             {
@@ -232,6 +236,8 @@ namespace GestorDeTarefas.Controllers
                 ViewBag.Message = "Projeto adicionado com sucesso!!!";
                 return View("Success");
             }
+            ViewData["ClienteId"] = new SelectList(_context.Cliente.OrderBy(b => b.Nome), "ClienteId", "Nome", sistemaProdutividade.ClienteId);
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", sistemaProdutividade.ColaboradorId);
             return View(sistemaProdutividade);
         }
     
@@ -249,6 +255,8 @@ namespace GestorDeTarefas.Controllers
             {
                 return NotFound();
             }
+            ViewData["ClienteId"] = new SelectList(_context.Cliente.OrderBy(b => b.Nome), "ClienteId", "Nome", sistemaProdutividade.ClienteId);
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", sistemaProdutividade.ColaboradorId);
             return View(sistemaProdutividade);
         }
 
@@ -257,7 +265,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SistemaProdutividadeId,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim")] SistemaProdutividade sistemaProdutividade)
+        public async Task<IActionResult> Edit(int id, [Bind("SistemaProdutividadeId,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim,EstadoProjeto,ClienteId,ColaboradorId")] SistemaProdutividade sistemaProdutividade)
         {
             if (id != sistemaProdutividade.SistemaProdutividadeId)
             {
@@ -289,10 +297,19 @@ namespace GestorDeTarefas.Controllers
                         sistemaProdutividade.EstadoProjeto = "Dentro do prazo";
                     }
 
-                    if (sistemaProdutividade.DataDefinitivaFim != null)
+                    if (sistemaProdutividade.DataPrevistaFim < sistemaProdutividade.DataDefinitivaFim)
                     {
-                        sistemaProdutividade.EstadoProjeto = "Concluído";
+                        sistemaProdutividade.EstadoProjeto = "Concluido fora do prazo";
                     }
+                    if (sistemaProdutividade.DataPrevistaFim >= sistemaProdutividade.DataDefinitivaFim)
+                    {
+                        sistemaProdutividade.EstadoProjeto = "Concluido dentro do prazo";
+                    }
+                    if (sistemaProdutividade.DataDefinitivaInicio == null && sistemaProdutividade.DataDefinitivaFim == null)
+                    {
+                        sistemaProdutividade.EstadoProjeto = "";
+                    }
+                    
                     _context.Update(sistemaProdutividade);
                     await _context.SaveChangesAsync();
                 }
@@ -311,6 +328,8 @@ namespace GestorDeTarefas.Controllers
                 ViewBag.Message = "Projeto Alterado com sucesso!!!.";
                 return View("Success");
             }
+            ViewData["ClienteId"] = new SelectList(_context.Cliente.OrderBy(b => b.Nome), "ClienteId", "Nome", sistemaProdutividade.ClienteId);
+            ViewData["ColaboradorId"] = new SelectList(_context.Colaborador, "ColaboradorId", "Name", sistemaProdutividade.ColaboradorId);
             return View(sistemaProdutividade);
         }
 

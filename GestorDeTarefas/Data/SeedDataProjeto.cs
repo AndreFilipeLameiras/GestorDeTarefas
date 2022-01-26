@@ -87,8 +87,9 @@ namespace GestorDeTarefas.Data
                     DataPrevistaInicio = DateTime.Parse("20/12/2021"),
                     DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
-                    EstadoProjeto = "Dentro do prazo"
-
+                    EstadoProjeto = "Dentro do prazo",
+                    ClienteId = 2,
+                    ColaboradorId = 3
                 },
                 new SistemaProdutividade
                 {
@@ -96,7 +97,9 @@ namespace GestorDeTarefas.Data
                     DataPrevistaInicio = DateTime.Parse("20/12/2021"),
                     DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
-                    EstadoProjeto = "Dentro do prazo"
+                    EstadoProjeto = "Dentro do prazo",
+                    ClienteId = 1,
+                    ColaboradorId = 2
                 },
                 new SistemaProdutividade
                 {
@@ -104,7 +107,9 @@ namespace GestorDeTarefas.Data
                     DataPrevistaInicio = DateTime.Parse("16/12/2021"),
                     DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
-                    EstadoProjeto = "Em atraso"
+                    EstadoProjeto = "Em atraso",
+                    ClienteId = 3,
+                    ColaboradorId = 1
                 },
                 new SistemaProdutividade
                 {
@@ -112,7 +117,9 @@ namespace GestorDeTarefas.Data
                     DataPrevistaInicio = DateTime.Parse("20/09/2021"),
                     DataDefinitivaInicio = DateTime.Parse("18/11/2021"),
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
-                    EstadoProjeto = "Em atraso"
+                    EstadoProjeto = "Em atraso",
+                    ClienteId = 1,
+                    ColaboradorId = 3
                 },
                 new SistemaProdutividade
                 {
@@ -120,7 +127,9 @@ namespace GestorDeTarefas.Data
                     DataPrevistaInicio = DateTime.Parse("20/12/2021"),
                     DataDefinitivaInicio = DateTime.Parse("18/12/2021"),
                     DataPrevistaFim = DateTime.Parse("22/12/2021"),
-                    EstadoProjeto = "Dentro do prazo"
+                    EstadoProjeto = "Dentro do prazo",
+                    ClienteId = 4,
+                    ColaboradorId = 2
                 }
 
             );

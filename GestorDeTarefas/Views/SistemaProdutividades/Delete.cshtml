@@ -42,10 +42,10 @@
             @Html.DisplayFor(model => model.DataDefinitivaFim)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PrioridadeProjeto)
+            @Html.DisplayNameFor(model => model.Cliente)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PrioridadeProjeto)
+            @Html.DisplayFor(model => model.Cliente.Nome)
         </dd>
 
     </dl>
@@ -53,6 +53,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="SistemaProdutividadeId" />
         <input type="submit" value="Apagar" class="btn btn-danger" /> 
-        <a asp-action="Index" class="btn btn-success">Voltar a lista</a>
+        <a asp-action="Index" class="btn btn-success">Cancelar</a>
     </form>
 </div>
