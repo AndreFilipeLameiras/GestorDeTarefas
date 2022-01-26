@@ -1,0 +1,74 @@
+﻿@model ColaboradorListViewModel
+@{
+    ViewData["Title"] = "VerIdiomas";
+}
+
+<h1>VerIdiomas</h1>
+
+<div class="table-responsive">
+
+    <table class="table table-bordered" width="100%" cellspacing="0">
+        <thead>
+            <htr>
+        <th scope="col">Nome do Colaborador</th>
+        <th scope="col">Idiomas</th>
+        <th scope="col">Email</th>
+        <th scope="col">Contacto</th>
+        <th scope="col">Cargo</th>
+
+        </htr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.NomeColaborador)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Contacto)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Cargo)
+                </td>
+                @if (Model.Idiomas != null)
+                {
+                    <td>
+                        @foreach (var item in Model.Idiomas)
+                        {
+                            if (item.Checked)
+                            {
+                                <div style="margin-bottom:5px">@item.Name</div>
+
+                            }
+                        }
+
+                    </td>
+                    <td>
+                        @for (int i = 0; i < Model.Idiomas.Count(); i++)
+                        {
+                            if (Model.Idiomas[i].Checked)
+                            {
+
+                                <dd>
+                                    @Html.DisplayFor(m => Model.Idiomas[i].Name)
+
+                                </dd>
+                            }
+                        }
+
+                    </td>
+                }
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ColaboradorId" class="btn btn-warning">Editar</a> |
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</div>
+
