@@ -15,12 +15,25 @@
                     <td>@Html.DisplayFor(model => model.NomeProjeto)</td>
                 </tr>
                 <tr>
-                    <th scope="row"><h6>Data previda de inicio</h6></th>
+                    <th scope="row"><h6>Data prevista de inicio</h6></th>
                     <td>   @Model.DataPrevistaInicio.ToString("dd/MM/yyyy")</td>
                 </tr>
                 <tr>
                     <th scope="row"><h6>Data prevista de fim</h6></th>
                     <td>@Model.DataPrevistaFim.ToString("dd/MM/yyyy")</td>
+                </tr>
+                <tr>
+                    <th scope="row"><h6>Data definitiva de inicio</h6></th>
+                    <td>
+                        @if (Model.DataDefinitivaInicio == null)
+                        {
+                            <h6 class="text-info">Por definir</h6>
+                        }
+                        @if (Model.DataDefinitivaInicio != null)
+                        {
+                            @Html.DisplayFor(model => model.DataDefinitivaInicio)
+                        }
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row"><h6>Data definitiva de fim</h6></th>
