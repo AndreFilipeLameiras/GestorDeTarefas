@@ -155,12 +155,94 @@ namespace GestorDeTarefas.Controllers
             var colaborador = await _context.Colaborador
                 .Include(b => b.Cargo)
                 .FirstOrDefaultAsync(m => m.ColaboradorId == id);
+
+
             if (colaborador == null)
             {
                 return NotFound();
             }
 
             return View(colaborador);
+        }
+
+        public async Task<IActionResult> VerIdiomas(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var Colaborador = await _context.Colaborador
+                .FirstOrDefaultAsync(m => m.ColaboradorId == id);
+            if (Colaborador == null)
+            {
+                return NotFound();
+            }
+
+
+
+            var ResultadoSearch = from b in _context.ColaboradorIdioma
+                                  select new
+                                  {
+                                      b.ColaboradorId,
+                                      b.Colaborador.Name,
+                                      b.Colaborador.Email,
+                                      b.Colaborador.Contacto,
+                                      b.Colaborador.Cargo,
+                                      Checked = ((from ab in _context.ColaboradorIdioma
+
+                                                  where (ab.IdiomaId == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                                  select ab)
+                                                  .Count() > 0)
+                                  };
+
+
+            var ResultadoSearch2 = from b in _context.ColaboradorIdioma
+                                   select new
+                                   {
+                                       b.ColaboradorId,
+                                       b.Colaborador.Name,
+                                       b.Colaborador.Email,
+                                       b.Colaborador.Contacto,
+                                       b.Colaborador.Cargo,
+                                       Checked = ((from ab in _context.ColaboradorIdioma
+
+                                                   where (ab.IdiomaId == id) & (ab.ColaboradorId == b.ColaboradorId)
+                                                   select ab)
+                                                    .Count() > 0)
+                                   };
+
+            var Resultado = await ResultadoSearch2
+                            .OrderBy(b => b.Name)
+                            .ToListAsync();
+
+            var MyViewModel = new ColaboradorListViewModel();
+            var MyCheckBoxList = new List<CheckBoxViewModelColaboradorIdioma>();
+
+            foreach (var item in Resultado)
+            {
+                MyCheckBoxList.Add(new CheckBoxViewModelColaboradorIdioma
+                {
+                    Id = item.ColaboradorId,
+                    Name = item.Name,
+                    Email = item.Email,
+                    Contacto = item.Contacto,
+                    Cargo = item.Cargo.Nome_Cargo,
+                    Checked = item.Checked,
+                });
+
+                MyViewModel.Idiomas = MyCheckBoxList;
+            }
+
+            return View(new ColaboradorListViewModel
+            {
+                ColaboradorId = id.Value,
+                NomeColaborador = Colaborador.Name,
+                Idiomas = MyCheckBoxList,
+                Contacto = Colaborador.Contacto,
+                Cargo = Colaborador.Cargo.Nome_Cargo,
+                Email = Colaborador.Email
+            });
         }
 
         // GET: Colaboradors/Create
