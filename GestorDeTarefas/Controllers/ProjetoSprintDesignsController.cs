@@ -767,7 +767,10 @@ namespace GestorDeTarefas.Controllers
             return _context.ProjetoSprintDesign.Any(e => e.ProjetoSprintDesignID == id);
         }
 
+        public IActionResult Chat()
+        {
+            return View();
+        }
 
-       
     }
 }
