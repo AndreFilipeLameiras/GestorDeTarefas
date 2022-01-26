@@ -60,5 +60,7 @@ namespace GestorDeTarefas.Models
         public int ColaboradorId { get; set; }
         public Colaborador Colaborador { get; set; }
 
+
+
     }
 }

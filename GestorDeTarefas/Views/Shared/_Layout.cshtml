@@ -30,13 +30,15 @@
                 <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="About">About</a></li>
                 <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Blog">Blog</a></li>
                 <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Projetos">Modelos de Projetos</a></li>
-                <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Cargos" asp-action="Index">Cargos</a></li>
-                <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Tarefas" asp-action="Index">Tarefas</a></li>
-                <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Idiomas" asp-action="Index">Idiomas</a></li>
-                <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Colaboradores" asp-action="Index">Colaboradores</a></li>
-                <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Clientes" asp-action="Index">Clientes</a></li>
-                <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Cidades" asp-action="Index">Cidades</a></li>
-            </ul>
+                @if (User.IsInRole("gestor"))
+                {
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Cargos" asp-action="Index">Cargos</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Tarefas" asp-action="Index">Tarefas</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Idiomas" asp-action="Index">Idiomas</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Colaboradores" asp-action="Index">Colaboradores</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Clientes" asp-action="Index">Clientes</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Cidades" asp-action="Index">Cidades</a></li>}
+                </ul>
         </div>
     </nav>
     <!-- Header--> 

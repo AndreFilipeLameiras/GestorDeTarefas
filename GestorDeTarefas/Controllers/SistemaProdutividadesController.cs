@@ -79,6 +79,7 @@ namespace GestorDeTarefas.Controllers
 
             var sistemaProdutividade = await _context.SistemaProdutividade
                 .Include(b => b.Cliente)
+                .Include(b => b.Colaborador)
                 .FirstOrDefaultAsync(m => m.SistemaProdutividadeId == id);
             if (sistemaProdutividade == null)
             {
