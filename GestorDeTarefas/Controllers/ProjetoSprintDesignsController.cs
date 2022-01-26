@@ -277,6 +277,31 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ProjetoSprintDesignID,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim,EstadoProjeto,ImagemProjeto,ClienteId,ColaboradorId")] ProjetoSprintDesign projetoSprintDesign)
         {
+            var tarefaConcluidoDentroPrazo= _context.Tarefas
+               .Where(b => b.EstadoTarefa.Contains("Concluído dentro do prazo") & b.ProjetoSprintDesignID == id)
+               .Count(); 
+             
+
+            var tarefaConcluidoForaPrazo = _context.Tarefas
+               .Where(b => b.EstadoTarefa.Contains("Concluído fora do prazo") & b.ProjetoSprintDesignID == id)
+               .Count();
+
+            var tarefaTotal = _context.Tarefas
+                .Where(b =>b.ProjetoSprintDesignID == id)
+               .Count();
+            int total, dentroPrazo, foraPrazo;
+            total = tarefaTotal;
+            dentroPrazo = tarefaConcluidoDentroPrazo;
+            foraPrazo = tarefaConcluidoForaPrazo;
+
+            if (total != (dentroPrazo + foraPrazo))
+            {
+                ModelState.AddModelError("","Não podes concluir este projeto porque ainda existe tarefa por terminar");
+            }
+            if (total== 0)
+            {
+                ModelState.AddModelError("", "Não podes concluir este projeto porque não tem tarefa");
+            }
             if (id != projetoSprintDesign.ProjetoSprintDesignID)
             {
                 return NotFound();
