@@ -737,6 +737,7 @@ namespace GestorDeTarefas.Controllers
             {
                 var projetoSprintDesign = await _context.ProjetoSprintDesign
                     .Include(b => b.Cliente)
+                    .Include(b => b.Colaborador)
                     .FirstOrDefaultAsync(m => m.ProjetoSprintDesignID == id);
 
                 if (projetoSprintDesign == null)
