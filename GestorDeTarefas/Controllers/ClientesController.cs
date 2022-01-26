@@ -8,16 +8,21 @@ using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
 using GestorDeTarefas.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace GestorDeTarefas.Controllers
 {
     public class ClientesController : Controller
     {
         private readonly GestorDeTarefasContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ClientesController(GestorDeTarefasContext context)
+        public ClientesController(GestorDeTarefasContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Clientes
@@ -87,8 +92,22 @@ namespace GestorDeTarefas.Controllers
         // GET: Clientes/Register
         public IActionResult Register()
         {
-            ViewData["CidadeId"] = new SelectList(_context.Cidade, "CidadeId", "Nome_Cidade");
-            return View();
+            Cliente cliente = new Cliente();
+            RegistarClienteViewModel r = new RegistarClienteViewModel();
+
+
+            return View(new RegistarClienteViewModel
+            {
+                Nome = cliente.Nome,
+                Email = cliente.Email,
+                Morada = cliente.Morada,
+                Cidade = new SelectList(_context.Cidade, "CidadeId", "Nome_Cidade"),
+                Telemovel = cliente.Telemovel,
+                Password = r.Password,
+                ConfirmPassword = r.ConfirmPassword
+                
+
+            });
         }
 
         // POST: Clientes/Register
@@ -96,8 +115,38 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([Bind("ClienteId,Nome,Morada,CidadeId,Email,Telemovel")] Cliente cliente)
+        public async Task<IActionResult> Register(RegistarClienteViewModel clienteInfo)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(clienteInfo);
+            }
+
+            string username = clienteInfo.Email;
+
+            IdentityUser user = await _userManager.FindByNameAsync(username);
+
+            if (user != null)
+            {
+                ModelState.AddModelError("Email", "Já existe um cliente com esse e-mail.");
+                return View(clienteInfo);
+            }
+           
+            user = new IdentityUser(username);
+            await _userManager.CreateAsync(user, clienteInfo.Password);
+            await _userManager.AddToRoleAsync(user, "Cliente");
+
+            Cliente cliente = new Cliente
+            {
+                Nome = clienteInfo.Nome,
+                Email = clienteInfo.Email,
+                Morada = clienteInfo.Morada,
+                Telemovel = clienteInfo.Telemovel,             
+                CidadeId = clienteInfo.CidadeId
+
+        };
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(cliente);
@@ -110,6 +159,61 @@ namespace GestorDeTarefas.Controllers
             return View(cliente);
         }
 
+        [Authorize(Roles = "Cliente")]
+        public async Task<IActionResult> EditPersonalData()
+        {
+            string email = User.Identity.Name;
+
+            var cliente = await _context.Cliente.SingleOrDefaultAsync(c => c.Email == email);
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+
+            EditarClienteRegistadoViewModel clienteInfo = new EditarClienteRegistadoViewModel
+            {
+                Nome = cliente.Nome,
+                Email = cliente.Email
+            };
+
+            return View(clienteInfo);
+
+        }
+
+        // POST: Customers/EditLoggedInCustomerViewModel
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Cliente")]
+        public async Task<IActionResult> EditPersonalData(EditarClienteRegistadoViewModel cliente)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(cliente);
+            }
+
+            string email = User.Identity.Name;
+
+            var clienteLoggedin = await _context.Cliente.SingleOrDefaultAsync(c => c.Email == email);
+            if (clienteLoggedin == null)
+            {
+                return NotFound();
+            }
+
+            clienteLoggedin.Nome = cliente.Nome;
+
+            try
+            {
+                _context.Update(clienteLoggedin);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                
+
+                throw;
+            }
+            return RedirectToAction(nameof(Index), "Home");
+        }
 
         // GET: Clientes/Edit/5
         public async Task<IActionResult> Edit(int? id)
