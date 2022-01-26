@@ -109,7 +109,7 @@ namespace GestorDeTarefas.Controllers
             ViewData["CidadeId"] = new SelectList(_context.Cidade, "CidadeId", "Nome_Cidade", cliente.CidadeId);
             return View(cliente);
         }
-        
+
 
         // GET: Clientes/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -157,6 +157,7 @@ namespace GestorDeTarefas.Controllers
                     {
                         throw;
                     }
+
                 }
                 ViewBag.Title = "Cliente Editado";
                 ViewBag.Message = "Cliente editado com sucesso.";
