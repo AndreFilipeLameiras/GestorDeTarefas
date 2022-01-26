@@ -1,4 +1,6 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 @{
     ViewData["Title"] = "Chat";
 }
@@ -7,17 +9,17 @@
 <div class="container">
     <div class="row">&nbsp;</div>
     <div class="row">
-        <div class="col-2">User</div>
-        <div class="col-4"><input type="text" id="userInput" /></div>
+        <div class="col-2">Utilizador</div>
+        <div class="col-4"><input type="text" id="userInput" value="@User.Identity.Name" readonly/></div>
     </div>
     <div class="row">
-        <div class="col-2">Message</div>
+        <div class="col-2">Menssagem</div>
         <div class="col-4"><input type="text" id="messageInput" /></div>
     </div>
     <div class="row">&nbsp;</div>
     <div class="row">
         <div class="col-6">
-            <input type="button" id="sendButton" value="Send Message" />
+            <input type="button" id="sendButton" value="Enviar Menssagem" />
         </div>
     </div>
 </div>

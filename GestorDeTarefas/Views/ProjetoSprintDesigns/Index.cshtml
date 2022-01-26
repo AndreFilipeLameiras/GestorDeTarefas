@@ -69,10 +69,10 @@
                     </div>
                 }
 
-
-                <a asp-action="Details" asp-route-id="@projeto.ProjetoSprintDesignID" class="btn btn-info">Detalhes</a>
-                @if (User.IsInRole("gestor"))
+                @if (User.IsInRole("gestor, admin"))
                 {
+                    <a asp-action="Details" asp-route-id="@projeto.ProjetoSprintDesignID" class="btn btn-info">Detalhes</a>
+
 
                     <a asp-action="Edit" asp-route-id="@projeto.ProjetoSprintDesignID" class="btn btn-warning">Editar</a>
 
