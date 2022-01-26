@@ -62,10 +62,10 @@
                 </div>
                 <div class="form-group mb-5">
                     <input type="submit" value="Enviar" class="btn btn-info" />
-                    
+                    @if (User.IsInRole("gestor") || User.IsInRole("admin")) { 
                         <a class="btn btn-secondary" asp-action="Index">Ver Lista</a>
-                    
 
+                    }
 
                 </div>
                 <br />
