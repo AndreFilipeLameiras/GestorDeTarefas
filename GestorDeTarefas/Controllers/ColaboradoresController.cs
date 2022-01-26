@@ -8,16 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
 using GestorDeTarefas.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestorDeTarefas.Controllers
 {
     public class ColaboradoresController : Controller
     {
         private readonly GestorDeTarefasContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ColaboradoresController(GestorDeTarefasContext context)
+        public ColaboradoresController(GestorDeTarefasContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Colaboradors
@@ -246,19 +250,57 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Colaboradors/Create
-        public IActionResult Create()
+        public IActionResult Register()
         {
-            ViewData["CargoId"] = new SelectList(_context.Cargo, "CargoId", "Nome_Cargo");
-            return View();
+            Colaborador colaborador = new Colaborador();
+            RegistarColaboradorViewModel r = new RegistarColaboradorViewModel();
+
+
+            return View(new RegistarColaboradorViewModel
+            {
+                Nome = colaborador.Name,
+                Email = colaborador.Email,
+                Cargo = new SelectList(_context.Cargo, "CargoId", "Nome_Cargo"),
+                Contacto = colaborador.Contacto
+            });
         }
+
+        //public IActionResult Create()
+        //{
+        //    ViewData["CargoId"] = new SelectList(_context.Cargo, "CargoId", "Nome_Cargo");
+        //    return View();
+        //}
 
         // POST: Colaboradors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ColaboradorId,Name,Email,Contacto,CargoId")] Colaborador colaborador)
+        public async Task<IActionResult> Register(RegistarColaboradorViewModel colaboradorInfo)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(colaboradorInfo);
+            }
+
+            string username = colaboradorInfo.Email;
+
+            IdentityUser user = await _userManager.FindByNameAsync(username);
+
+            if (user != null)
+            {
+                ModelState.AddModelError("Email", "There is allready a customer with that email.");
+                return View(colaboradorInfo);
+            }
+
+            Colaborador colaborador = new Colaborador
+            {
+                Name = colaboradorInfo.Nome,
+                Email = colaboradorInfo.Email,
+                Contacto = colaboradorInfo.Contacto,
+                CargoId = colaboradorInfo.CargoId
+            };
+
             if (ModelState.IsValid)
             {
                 _context.Add(colaborador);
@@ -266,9 +308,10 @@ namespace GestorDeTarefas.Controllers
                 //return RedirectToAction(nameof(Index));
                 ViewBag.Title = "Colaborador adicionado";
                 ViewBag.Message = "Colaborador adicionado com sucesso.";
-                return View("Success");
+                //return View("Success");
             }
-            return View(colaborador);
+            return View("Success");
+            //return View(colaborador);
         }
 
         // GET: Colaboradors/Edit/5
@@ -335,6 +378,7 @@ namespace GestorDeTarefas.Controllers
                 }
 
                 var colaborador = await _context.Colaborador
+                    .Include(b => b.Cargo)
                     .SingleOrDefaultAsync(m => m.ColaboradorId == id);
                 if (colaborador == null)
                 {
