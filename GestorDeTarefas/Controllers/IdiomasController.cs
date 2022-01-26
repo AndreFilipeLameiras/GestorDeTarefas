@@ -90,6 +90,13 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdiomaId,NomeIdioma")] Idioma idioma)
         {
+            var memberUnique = _context.Idioma.Where(m => m.NomeIdioma.Equals(idioma.NomeIdioma)).Count();
+
+            if (memberUnique != 0)
+            {
+                ModelState.AddModelError("NomeIdioma", "Este idioma já existe");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(idioma);
@@ -127,6 +134,13 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdiomaId,NomeIdioma")] Idioma idioma)
         {
+            var memberUnique = _context.Idioma.Where(m => m.NomeIdioma.Equals(idioma.NomeIdioma) && m.IdiomaId != idioma.IdiomaId).Count();
+
+            if (memberUnique != 0)
+            {
+                ModelState.AddModelError("NomeIdioma", "Este idioma já existe");
+            }
+
             if (id != idioma.IdiomaId)
             {
                 return NotFound();

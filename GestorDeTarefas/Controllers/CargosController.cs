@@ -88,8 +88,16 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Create([Bind("CargoId,Nome_Cargo")] Cargo cargo)
         {
+            var memberUnique = _context.Cargo.Where(m => m.Nome_Cargo.Equals(cargo.Nome_Cargo)).Count();
+
+            if (memberUnique != 0)
+            {
+                ModelState.AddModelError("Nome_Cargo", "Este cargo já existe");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(cargo);
@@ -100,6 +108,7 @@ namespace GestorDeTarefas.Controllers
             }
             return View(cargo);
         }
+
 
         // GET: Cargos/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -124,6 +133,12 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CargoId,Nome_Cargo")] Cargo cargo)
         {
+            var memberUnique = _context.Cargo.Where(m => m.Nome_Cargo.Equals(cargo.Nome_Cargo) && m.CargoId != cargo.CargoId).Count();
+
+            if (memberUnique != 0)
+            {
+                ModelState.AddModelError("Nome_Cargo", "Este cargo já existe");
+            }
             if (id != cargo.CargoId)
             {
                 return NotFound();
@@ -151,6 +166,7 @@ namespace GestorDeTarefas.Controllers
                 ViewBag.Message = "Cargo alterado com sucesso.";
                 return View("Success");
             }
+
             return View(cargo);
         }
 

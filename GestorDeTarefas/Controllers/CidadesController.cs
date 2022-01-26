@@ -90,6 +90,13 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CidadeId,Nome_Cidade")] Cidade cidade)
         {
+            var memberUnique = _context.Cidade.Where(m => m.Nome_Cidade.Equals(cidade.Nome_Cidade)).Count();
+
+            if (memberUnique != 0)
+            {
+                ModelState.AddModelError("Nome_Cidade", "Esta cidade já existe");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(cidade);
@@ -124,6 +131,13 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CidadeId,Nome_Cidade")] Cidade cidade)
         {
+            var memberUnique = _context.Cidade.Where(m => m.Nome_Cidade.Equals(cidade.Nome_Cidade) && m.CidadeId != cidade.CidadeId).Count();
+
+            if (memberUnique != 0)
+            {
+                ModelState.AddModelError("Nome_Cidade", "Esta cidade já existe");
+            }
+
             if (id != cidade.CidadeId)
             {
                 return NotFound();
