@@ -22,6 +22,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Tarefas
+        [Authorize(Roles = "gestor, colaborador")]
         public async Task<IActionResult> Index(string nome,int page = 1)
         {
             var tarefaSearch = _context.Tarefas
@@ -64,6 +65,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Tarefas/Details/5
+        [Authorize(Roles = "gestor, colaborador, admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -85,7 +87,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Tarefas/Create
-       // [Authorize (Roles = "product_manager")]
+       [Authorize (Roles = "gestor")]
         public IActionResult Create()
         {
             ViewData["ColaboradorId"] = new SelectList(_context.Colaborador.OrderBy(b=>b.Name), "ColaboradorId", "Name");
@@ -144,6 +146,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Tarefas/Edit/5
+        [Authorize(Roles = "gestor, colaborador")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -167,6 +170,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor, colaborador")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataPrevistaInicio,DataDefinitivaInicio," +
             "DataPrevistaFim,DataDefinitivaFim,ColaboradorId,ProjetoSprintDesignID,SistemaProdutividadeId")] Tarefas tarefas)
         {
@@ -255,6 +259,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Tarefas/Delete/5
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -286,6 +291,7 @@ namespace GestorDeTarefas.Controllers
         // POST: Tarefas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             try
@@ -317,7 +323,7 @@ namespace GestorDeTarefas.Controllers
             return View();
         }
 
-        [Authorize(Roles = "customer")]
+        [Authorize(Roles = "cliente")]
         public string Buy(int id)
         {
             var username = User.Identity.Name;

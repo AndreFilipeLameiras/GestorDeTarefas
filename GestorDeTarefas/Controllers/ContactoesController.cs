@@ -24,6 +24,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Contactoes
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Index(string nome, int page = 1)
         {
             var contactoSearch = _context.Contacto
@@ -62,6 +63,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Contactoes/Details/5
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -110,6 +112,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Contactoes/Edit/5
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> GestorResponde(int? id)
         {
             if (id == null)
@@ -128,6 +131,7 @@ namespace GestorDeTarefas.Controllers
         // POST: Contactoes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "admin, gestor")]
         [HttpPost]
         [ValidateAntiForgeryToken]      
         public async Task<IActionResult> GestorResponde(int id, [Bind("ContactoId,Nome,Sobrenome,Email,Assunto,Mensagem,Verificado,Resposta")] Contacto contacto)
@@ -198,6 +202,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Contactoes/Delete/5
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -218,6 +223,7 @@ namespace GestorDeTarefas.Controllers
         // POST: Contactoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var contacto = await _context.Contacto.FindAsync(id);
@@ -238,12 +244,13 @@ namespace GestorDeTarefas.Controllers
 
 
 
-
+        [Authorize(Roles = "admin, gestor")]
         public IActionResult GestorEnvia()
         {
 
             return View();
         }
+        [Authorize(Roles = "admin, gestor")]
         [HttpPost]
         public IActionResult GestorEnvia(Contacto model)
         {

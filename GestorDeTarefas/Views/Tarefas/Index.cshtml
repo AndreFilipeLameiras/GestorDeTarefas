@@ -88,15 +88,17 @@
                 </div>
             }
 
-
-
-            <a asp-action="Details" asp-route-id="@tarefa.Id" class="btn btn-info">Detalhes</a>
-            @if (User.IsInRole("gestor"))
+            @if (User.IsInRole("gestor, colaborador, admin"))
             {
-                <a asp-action="Edit" asp-route-id="@tarefa.Id" class="btn btn-warning">Editar</a>
-                <a asp-action="Delete" asp-route-id="@tarefa.Id" class="btn btn-danger">Apagar</a>
+
+                <a asp-action="Details" asp-route-id="@tarefa.Id" class="btn btn-info">Detalhes</a>
             }
-        </div>
+                @if (User.IsInRole("gestor"))
+                {
+                    <a asp-action="Edit" asp-route-id="@tarefa.Id" class="btn btn-warning">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@tarefa.Id" class="btn btn-danger">Apagar</a>
+                }
+            </div>
         </div>
 }
 
