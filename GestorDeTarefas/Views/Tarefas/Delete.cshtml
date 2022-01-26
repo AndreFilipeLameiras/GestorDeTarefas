@@ -9,95 +9,97 @@
 <h3 class="text-danger>Tem certeza que quer apagar isto?</h3>
 
 <div>
-   
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DataPrevistaInicio)
-        </dt>
-        <dd class="col-sm-10">
-            @Model.DataPrevistaInicio.ToString("dd/MM/yyyy")
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DataDefinitivaInicio)
-        </dt>
-        
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DataPrevistaFim)
-        </dt>
-        <dd class="col-sm-10">
-            @Model.DataPrevistaFim.ToString("dd/MM/yyyy")
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DataDefinitivaFim)
-        </dt>
-        <dd class="col-sm-10">
-            @if (Model.DataDefinitivaFim == null)
-            {
-                <h6 class="text-info">Por definir</h6>
-            }
-            @if (Model.DataDefinitivaFim != null)
-            {
-                @Html.DisplayFor(model => model.DataDefinitivaFim)
-            }
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EstadoTarefa)
-        </dt>
-        <dd class="col-sm-10">
-            @if (Model.EstadoTarefa.Equals("Em atraso"))
-            {
-                <h6 class="text-danger">
-                    @Html.DisplayFor(model => model.EstadoTarefa)
-                </h6>
-            }
-            @if (Model.EstadoTarefa.Equals("Dentro do prazo"))
-            {
-                <h6 class="text-warning">
-                    @Html.DisplayFor(model => model.EstadoTarefa)
-                </h6>
-            }
-            @if (Model.EstadoTarefa.Equals("Concluído"))
-            {
-                <h6 class="text-success">
-                    @Html.DisplayFor(model => model.EstadoTarefa)
-                </h6>
-            }
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Colaborador)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Colaborador.Name)
-        </dd>
-        @if (Model.ProjetoSprintDesignID != null)
-        {
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.ProjetoSprintDesign)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.ProjetoSprintDesign.NomeProjeto)
-            </dd>
-        }
-
-        @if (Model.SistemaProdutividadeId != null)
-        {
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.SistemaProdutividade)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.SistemaProdutividade.NomeProjeto)
-            </dd>
-        }
 
 
-    </dl>
+    <div class="table-responsive">
+        <table class="table table-bordered " width="100%" cellspacing="0">
+
+            <tbody>
+                <tr>
+                    <th scope="row"><h6>Nome da tarefa</h6></th>
+                    <td>@Html.DisplayFor(model => model.Nome)</td>
+                </tr>
+                <tr>
+                    <th scope="row"><h6>Data previda de inicio</h6></th>
+                    <td>   @Model.DataPrevistaInicio.ToString("dd/MM/yyyy")</td>
+                </tr>
+                <tr>
+                    <th scope="row"><h6>Data prevista de fim</h6></th>
+                    <td>@Model.DataPrevistaFim.ToString("dd/MM/yyyy")</td>
+                </tr>
+                <tr>
+                    <th scope="row"><h6>Data definitiva de fim</h6></th>
+                    <td>
+                        @if (Model.DataDefinitivaFim == null)
+                        {
+                            <h6 class="text-info">Por definir</h6>
+                        }
+                        @if (Model.DataDefinitivaFim != null)
+                        {
+                            @Html.DisplayFor(model => model.DataDefinitivaFim)
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><h6>Estado da tarefa</h6></th>
+
+                    <td>
+                        @if (Model.EstadoTarefa.Equals("Em atraso"))
+                        {
+                            <h6 class="text-danger">
+                                @Html.DisplayFor(model => model.EstadoTarefa)
+                            </h6>
+                        }
+                        @if (Model.EstadoTarefa.Equals("Dentro do prazo"))
+                        {
+                            <h6 class="text-warning">
+                                @Html.DisplayFor(model => model.EstadoTarefa)
+                            </h6>
+                        }
+                        @if (Model.EstadoTarefa.Equals("Concluído dentro do prazo"))
+                        {
+                            <h6 class="text-success">
+                                @Html.DisplayFor(model => model.EstadoTarefa)
+                            </h6>
+                        }
+                        @if (Model.EstadoTarefa.Equals("Concluído fora do prazo"))
+                        {
+                            <h6 class="text-info">
+                                @Html.DisplayFor(model => model.EstadoTarefa)
+                            </h6>
+                        }
+                        @if (Model.EstadoTarefa.Equals(""))
+                        {
+                            <h6 class="text-primary">
+                                @Html.DisplayFor(model => model.EstadoTarefa)
+                            </h6>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><h6>Colaborador</h6></th>
+                    <td> @Html.DisplayFor(model => model.Colaborador.Name)</td>
+                </tr>
+                @if (Model.ProjetoSprintDesignID != null)
+                {
+
+                    <tr>
+                        <th scope="row"><h6>Projeto Sprint Design</h6></th>
+                        <td> @Html.DisplayFor(model => model.ProjetoSprintDesign.NomeProjeto)</td>
+                    </tr>
+                }
+                @if (Model.SistemaProdutividadeId != null)
+                {
+
+                    <tr>
+                        <th scope="row"><h6>Projeto Sprint Design</h6></th>
+                        <td> @Html.DisplayFor(model => model.SistemaProdutividade.NomeProjeto)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />

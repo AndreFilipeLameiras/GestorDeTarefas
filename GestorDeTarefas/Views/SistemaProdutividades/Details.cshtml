@@ -44,16 +44,17 @@
                 <td>@Html.DisplayFor(model => model.EstadoProjeto)</td>
 
             </tr>
-
             <tr>
-                <td>@Html.DisplayNameFor(model => model.PrioridadeProjeto)</td>
-                <td>@Html.DisplayFor(model => model.PrioridadeProjeto)</td>
+                <td>@Html.DisplayNameFor(model => model.Cliente)</td>
+                <td>@Html.DisplayFor(model => model.Cliente.Nome)</td>
             </tr>
+            
         </table>
         <br>
         <br>
     </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.SistemaProdutividadeId" class="btn btn-warning">Editar</a> |
-    <a asp-action="Index" class="btn btn-secondary">Voltar a lista</a>
-</div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.SistemaProdutividadeId" class="btn btn-warning">Editar</a> |
+        <a asp-controller="PedidoClientes" asp-action="EnviarPedido" asp-route-id="@Model.SistemaProdutividadeId" class="btn btn-primary">Pedir Alteração</a> |
+        <a asp-action="Index" class="btn btn-secondary">Voltar a lista</a>
+    </div>

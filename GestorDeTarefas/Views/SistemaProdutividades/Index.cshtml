@@ -17,8 +17,12 @@
     <div class="card-body">
         <h5 class="card-title">Pesquisar</h5>
         <form asp-action="Index" method="get">
-            <label for="nome" class="control-label">Nome do Projeto ou Estado do Projeto</label>
-            <input name="nome" type="search" class="form-control" value="@Model.NomeSearched" />            
+            <label for="nome" class="control-label">Nome do Projeto </label>
+            <input name="nome" type="search" class="form-control" value="@Model.NomeSearched" />
+            <label for="estado" class="control-label">Estado do projeto</label>
+            <input name="estado" type="search" class="form-control" value="@Model.EstadoSearched" />
+            <label for="cliente" class="control-label">Cliente</label>
+            <input name="cliente" type="search" class="form-control" value="@Model.ClienteSearched" />
             <div class="mt-3">
                 <input type="submit" value="Pesquisar" class="btn btn-info" />
                 <a asp-action="Index" class="btn btn-secondary">Limpar</a>
@@ -33,6 +37,7 @@
     <div class="card mt-3">
         <div class="card-body">
             <h5 class="card-title">Projeto: @projeto.NomeProjeto</h5>
+            <h5 class="card-title">Cliente: @projeto.Cliente.Nome</h5>
             @if (projeto.EstadoProjeto.Equals("Em atraso"))
             {
                 <div style="display:flex">
@@ -47,16 +52,22 @@
                     <h5 class=" text-warning">@projeto.EstadoProjeto</h5>
                 </div>
             }
-            @if (projeto.EstadoProjeto.Equals("Concluído"))
+            @if (projeto.EstadoProjeto.Equals("Concluído dentro do prazo"))
             {
                 <div style="display:flex">
-
                     <h5 style="margin-right:4px">Estado do projeto:</h5>
                     <h5 class=" text-success">@projeto.EstadoProjeto</h5>
                 </div>
             }
+            @if (projeto.EstadoProjeto.Equals("Concluído fora do prazo"))
+            {
+                <div style="display:flex">
+                    <h5 style="margin-right:4px">Estado do projeto:</h5>
+                    <h5 class=" text-info">@projeto.EstadoProjeto</h5>
+                </div>
+            }
 
-            <h5 class="card-subtitle">Prioridade: @projeto.PrioridadeProjeto</h5>
+            
 
 
             <a asp-action="Details" asp-route-id="@projeto.SistemaProdutividadeId" class="btn btn-info">Detalhes</a>

@@ -10,7 +10,7 @@ using GestorDeTarefas.Models;
 using GestorDeTarefas.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+
 
 namespace GestorDeTarefas.Controllers
 {
@@ -26,6 +26,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Clientes
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Index(string nome, string cidade, int page = 1)
         {
             var clienteSearch = _context.Cliente
@@ -71,6 +72,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Clientes/Details/5
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -143,8 +145,8 @@ namespace GestorDeTarefas.Controllers
                 Morada = clienteInfo.Morada,
                 Telemovel = clienteInfo.Telemovel,             
                 CidadeId = clienteInfo.CidadeId
-
-        };
+               
+            };
 
 
             if (ModelState.IsValid)
@@ -159,7 +161,7 @@ namespace GestorDeTarefas.Controllers
             return View(cliente);
         }
 
-        [Authorize(Roles = "Cliente")]
+        [Authorize(Roles = "cliente")]
         public async Task<IActionResult> EditPersonalData()
         {
             string email = User.Identity.Name;
@@ -183,7 +185,7 @@ namespace GestorDeTarefas.Controllers
         // POST: Customers/EditLoggedInCustomerViewModel
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Cliente")]
+        [Authorize(Roles = "cliente")]
         public async Task<IActionResult> EditPersonalData(EditarClienteRegistadoViewModel cliente)
         {
             if (!ModelState.IsValid)
@@ -216,6 +218,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Clientes/Edit/5
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -237,6 +240,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Nome,Morada,CidadeId,Email,Telemovel")] Cliente cliente)
         {
             if (id != cliente.ClienteId)
