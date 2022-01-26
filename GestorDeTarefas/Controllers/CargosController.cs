@@ -133,6 +133,12 @@ namespace GestorDeTarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CargoId,Nome_Cargo")] Cargo cargo)
         {
+            var memberUnique = _context.Cargo.Where(m => m.Nome_Cargo.Equals(cargo.Nome_Cargo) && m.CargoId != cargo.CargoId).Count();
+
+            if (memberUnique != 0)
+            {
+                ModelState.AddModelError("Nome_Cargo", "Este cargo já existe");
+            }
             if (id != cargo.CargoId)
             {
                 return NotFound();
@@ -161,12 +167,6 @@ namespace GestorDeTarefas.Controllers
                 return View("Success");
             }
 
-            //var memberUnique = _context.Member.Where(m => m.Email.Equals(member.Email) && m.MemberId != member.MemberId).Count();
-
-            //if (memberUnique != 0)
-            //{
-            //    ModelState.AddModelError("Email", "Email already in use");
-            //}
             return View(cargo);
         }
 
