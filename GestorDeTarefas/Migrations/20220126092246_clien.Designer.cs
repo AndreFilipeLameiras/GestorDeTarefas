@@ -4,14 +4,16 @@ using GestorDeTarefas.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GestorDeTarefas.Migrations
 {
     [DbContext(typeof(GestorDeTarefasContext))]
-    partial class GestorDeTarefasContextModelSnapshot : ModelSnapshot
+    [Migration("20220126092246_clien")]
+    partial class clien
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -344,12 +346,6 @@ namespace GestorDeTarefas.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ColaboradorId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DataDefinitivaFim")
                         .HasColumnType("datetime2");
 
@@ -375,10 +371,6 @@ namespace GestorDeTarefas.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SistemaProdutividadeId");
-
-                    b.HasIndex("ClienteId");
-
-                    b.HasIndex("ColaboradorId");
 
                     b.ToTable("SistemaProdutividade");
                 });
@@ -544,25 +536,6 @@ namespace GestorDeTarefas.Migrations
                 {
                     b.HasOne("GestorDeTarefas.Models.Cliente", "Cliente")
                         .WithMany("ProjetoSprintDesign")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("GestorDeTarefas.Models.Colaborador", "Colaborador")
-                        .WithMany()
-                        .HasForeignKey("ColaboradorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Cliente");
-
-                    b.Navigation("Colaborador");
-                });
-
-            modelBuilder.Entity("GestorDeTarefas.Models.SistemaProdutividade", b =>
-                {
-                    b.HasOne("GestorDeTarefas.Models.Cliente", "Cliente")
-                        .WithMany()
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

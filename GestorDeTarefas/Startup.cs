@@ -1,4 +1,5 @@
-﻿using GestorDeTarefas.Data;
+﻿using GestorDeTarefas.BatePapo;
+using GestorDeTarefas.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,7 +32,7 @@ namespace GestorDeTarefas
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-
+            services.AddSignalR();
             services.AddIdentity<IdentityUser, IdentityRole>(
                 options =>
                 {
@@ -96,6 +97,7 @@ namespace GestorDeTarefas
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ChatHub>("/chatHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

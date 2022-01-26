@@ -11,5 +11,9 @@ namespace GestorDeTarefas.ViewModels
         public IEnumerable<Cliente> Clientes { get; set; }
 
         public PagingInfo PagingInfo { get; set; }
+
+        public string NomeSearched { get; set; }
+
+        public string CidadeSearched { get; set; }
     }
 }
