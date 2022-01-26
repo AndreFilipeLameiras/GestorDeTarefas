@@ -16,6 +16,7 @@ namespace GestorDeTarefas.Data
 		private const string ROLE_ADMINISTRADOR = "admin";
 		private const string ROLE_GESTOR = "gestor";
 		private const string ROLE_CLIENTE = "cliente";
+		private const string ROLE_COLABORADOR = "colaborador";
 
 		internal static void Populate(GestorDeTarefasContext gestorDeTarefaContext)
 		{
@@ -69,6 +70,7 @@ namespace GestorDeTarefas.Data
 		{
 			EnsureUserIsCreatedAsync(userManager, "john@ipg.pt", "Secret123$", ROLE_CLIENTE).Wait();
 			EnsureUserIsCreatedAsync(userManager, "mary@ipg.pt", "Secret123$", ROLE_GESTOR).Wait();
+			EnsureUserIsCreatedAsync(userManager, "everton@ipg.pt", "Secret123$", ROLE_COLABORADOR).Wait();
 		}
 
 		internal static void CreateRoles(RoleManager<IdentityRole> roleManager)
@@ -76,6 +78,7 @@ namespace GestorDeTarefas.Data
 			EnsureRoleIsCreatedAsync(roleManager, ROLE_ADMINISTRADOR).Wait();
 			EnsureRoleIsCreatedAsync(roleManager, ROLE_GESTOR).Wait();
 			EnsureRoleIsCreatedAsync(roleManager, ROLE_CLIENTE).Wait();
+			EnsureRoleIsCreatedAsync(roleManager, ROLE_COLABORADOR).Wait();
 
 		}
 

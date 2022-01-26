@@ -124,5 +124,6 @@ namespace GestorDeTarefas.Data
         public DbSet<GestorDeTarefas.Models.PedidoCliente> PedidoCliente { get; set; }
 
         public DbSet<GestorDeTarefas.Models.Cidade> Cidade { get; set; }
+        public IEnumerable<object> Member { get; internal set; }
     }
 }
