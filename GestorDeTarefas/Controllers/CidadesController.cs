@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
 using GestorDeTarefas.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -21,6 +22,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Cidade
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Index(string nome, int page = 1)
         {
             var cidadeSearch = _context.Cidade
@@ -58,6 +60,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Cidade/Details/5
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -76,6 +79,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Cidade/Create
+        [Authorize(Roles = "admin, gestor")]
         public IActionResult Create()
         {
 
@@ -88,6 +92,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Create([Bind("CidadeId,Nome_Cidade")] Cidade cidade)
         {
             var memberUnique = _context.Cidade.Where(m => m.Nome_Cidade.Equals(cidade.Nome_Cidade)).Count();
@@ -109,6 +114,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Cidade/Edit/5
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -129,6 +135,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Edit(int id, [Bind("CidadeId,Nome_Cidade")] Cidade cidade)
         {
             var memberUnique = _context.Cidade.Where(m => m.Nome_Cidade.Equals(cidade.Nome_Cidade) && m.CidadeId != cidade.CidadeId).Count();
@@ -169,6 +176,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Cidade/Delete/5
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Delete(int? id)
         {
             try
@@ -197,6 +205,7 @@ namespace GestorDeTarefas.Controllers
         // POST: Cidade/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             try

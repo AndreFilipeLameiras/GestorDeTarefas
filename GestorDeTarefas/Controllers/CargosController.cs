@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GestorDeTarefas.Data;
 using GestorDeTarefas.Models;
 using GestorDeTarefas.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -21,6 +22,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Cargos
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Index(string nome, int page = 1)
         {
             var cargoSearch = _context.Cargo
@@ -56,8 +58,9 @@ namespace GestorDeTarefas.Controllers
                 }
             );
         }
-        
+
         // GET: Cargos/Details/5
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -74,8 +77,9 @@ namespace GestorDeTarefas.Controllers
 
             return View(cargo);
         }
-        
+
         // GET: Cargos/Create
+        [Authorize(Roles = "admin, gestor")]
         public IActionResult Create()
         {
             
@@ -88,7 +92,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Create([Bind("CargoId,Nome_Cargo")] Cargo cargo)
         {
             var memberUnique = _context.Cargo.Where(m => m.Nome_Cargo.Equals(cargo.Nome_Cargo)).Count();
@@ -111,6 +115,7 @@ namespace GestorDeTarefas.Controllers
 
 
         // GET: Cargos/Edit/5
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -131,6 +136,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Edit(int id, [Bind("CargoId,Nome_Cargo")] Cargo cargo)
         {
             var memberUnique = _context.Cargo.Where(m => m.Nome_Cargo.Equals(cargo.Nome_Cargo) && m.CargoId != cargo.CargoId).Count();
@@ -171,6 +177,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Cargos/Delete/5
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> Delete(int? id)
         {
             try
@@ -199,6 +206,7 @@ namespace GestorDeTarefas.Controllers
         // POST: Cargos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin, gestor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             try
