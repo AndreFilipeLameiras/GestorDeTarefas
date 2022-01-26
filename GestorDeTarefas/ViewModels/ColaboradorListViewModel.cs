@@ -23,5 +23,11 @@ namespace GestorDeTarefas.ViewModels
         public int ColaboradorId { get; set;}
 
         public string NomeColaborador { get; set;}
+
+        public string Email { get; set; }
+
+        public string Contacto { get; set; }
+
+        public string Cargo { get; set; }
     }
 }
