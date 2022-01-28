@@ -27,7 +27,10 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="ID" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        @if (User.IsInRole("gestor") || User.IsInRole("admin"))
+        {
+    <input type="submit" value="Delete" class="btn btn-danger" /> 
+        }
+    <a class="btn btn-secondary " asp-action="Index">Voltar</a>
     </form>
 </div>

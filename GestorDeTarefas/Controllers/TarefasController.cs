@@ -22,7 +22,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Tarefas
-        [Authorize(Roles = "gestor, colaborador")]
+        [Authorize(Roles = "gestor,colaborador,admin")]
         public async Task<IActionResult> Index(string nome,int page = 1)
         {
             var tarefaSearch = _context.Tarefas
@@ -65,7 +65,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Tarefas/Details/5
-        [Authorize(Roles = "gestor, colaborador, admin")]
+        [Authorize(Roles = "gestor,colaborador,admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -102,6 +102,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Create([Bind("Id, Nome, DataPrevistaInicio, DataDefinitivaInicio, DataPrevistaFim, DataDefinitivaFim, ColaboradorId,ProjetoSprintDesignID,SistemaProdutividadeId")] Tarefas tarefas)
         {
 
@@ -146,7 +147,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: Tarefas/Edit/5
-        [Authorize(Roles = "gestor, colaborador")]
+        [Authorize(Roles = "gestor,colaborador")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -170,7 +171,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "gestor, colaborador")]
+        [Authorize(Roles = "gestor,colaborador")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataPrevistaInicio,DataDefinitivaInicio," +
             "DataPrevistaFim,DataDefinitivaFim,ColaboradorId,ProjetoSprintDesignID,SistemaProdutividadeId")] Tarefas tarefas)
         {

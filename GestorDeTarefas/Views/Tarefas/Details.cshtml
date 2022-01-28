@@ -7,98 +7,121 @@
 <h1>Detalhes das Tarefas</h1>
 
 
-    <div class="table-responsive">
-        <table class="table table-bordered " width="100%" cellspacing="0">
+<div class="table-responsive">
+    <table class="table table-bordered " width="100%" cellspacing="0">
 
-            <tbody>
-                <tr>
-                    <th scope="row"><h6>Nome da tarefa</h6></th>
-                    <td>@Html.DisplayFor(model => model.Nome)</td>
-                </tr>
-                <tr>
-                    <th scope="row"><h6>Data previda de inicio</h6></th>
-                    <td>   @Model.DataPrevistaInicio.ToString("dd/MM/yyyy")</td>
-                </tr>
-                <tr>
-                    <th scope="row"><h6>Data prevista de fim</h6></th>
-                    <td>@Model.DataPrevistaFim.ToString("dd/MM/yyyy")</td>
-                </tr>
-                <tr>
-                    <th scope="row"><h6>Data definitiva de fim</h6></th>
-                    <td>
-                        @if (Model.DataDefinitivaFim == null)
-                        {
-                            <h6 class="text-info">Por definir</h6>
-                        }
-                        @if (Model.DataDefinitivaFim != null)
-                        {
-                            @Html.DisplayFor(model => model.DataDefinitivaFim)
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row"><h6>Estado da tarefa</h6></th>
+        <tbody>
+            <tr>
+                <th scope="row"><h6>Nome da tarefa</h6></th>
+                <td>@Html.DisplayFor(model => model.Nome)</td>
+            </tr>
+            <tr>
+                <th scope="row"><h6>Data prevista de inicio</h6></th>
+                <td>   @Model.DataPrevistaInicio.ToString("dd/MM/yyyy")</td>
+            </tr>
+            <tr>
+                <th scope="row"><h6>Data prevista de fim</h6></th>
+                <td>@Model.DataPrevistaFim.ToString("dd/MM/yyyy")</td>
+            </tr>
+            <tr>
+                <th scope="row"><h6>Data definitiva de inicio</h6></th>
+                <td>
+                    @if (Model.DataDefinitivaInicio == null)
+                    {
+                        <h6 class="text-info">Por definir</h6>
+                    }
+                    @if (Model.DataDefinitivaInicio != null)
+                    {
+                        @Html.DisplayFor(model => model.DataDefinitivaInicio)
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><h6>Data definitiva de fim</h6></th>
+                <td>
+                    @if (Model.DataDefinitivaFim == null)
+                    {
+                        <h6 class="text-info">Por definir</h6>
+                    }
+                    @if (Model.DataDefinitivaFim != null)
+                    {
+                        @Html.DisplayFor(model => model.DataDefinitivaFim)
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><h6>Estado da tarefa</h6></th>
 
-                    <td>
-                        @if (Model.EstadoTarefa.Equals("Em atraso"))
-                        {
-                            <h6 class="text-danger">
-                                @Html.DisplayFor(model => model.EstadoTarefa)
-                            </h6>
-                        }
-                        @if (Model.EstadoTarefa.Equals("Dentro do prazo"))
-                        {
-                            <h6 class="text-warning">
-                                @Html.DisplayFor(model => model.EstadoTarefa)
-                            </h6>
-                        }
-                        @if (Model.EstadoTarefa.Equals("Concluído dentro do prazo"))
-                        {
-                            <h6 class="text-success">
-                                @Html.DisplayFor(model => model.EstadoTarefa)
-                            </h6>
-                        }
-                        @if (Model.EstadoTarefa.Equals("Concluído fora do prazo"))
-                        {
-                            <h6 class="text-info">
-                                @Html.DisplayFor(model => model.EstadoTarefa)
-                            </h6>
-                        }
-                        @if (Model.EstadoTarefa.Equals(""))
-                        {
-                            <h6 class="text-primary">
-                                @Html.DisplayFor(model => model.EstadoTarefa)
-                            </h6>
-                        }
-                    </td>
-                </tr>
+                <td>
+                    @if (Model.EstadoTarefa.Equals("Em atraso"))
+                    {
+                        <h6 class="text-danger">
+                            @Html.DisplayFor(model => model.EstadoTarefa)
+                        </h6>
+                    }
+                    @if (Model.EstadoTarefa.Equals("Dentro do prazo"))
+                    {
+                        <h6 class="text-warning">
+                            @Html.DisplayFor(model => model.EstadoTarefa)
+                        </h6>
+                    }
+                    @if (Model.EstadoTarefa.Equals("Concluído dentro do prazo"))
+                    {
+                        <h6 class="text-success">
+                            @Html.DisplayFor(model => model.EstadoTarefa)
+                        </h6>
+                    }
+                    @if (Model.EstadoTarefa.Equals("Concluído fora do prazo"))
+                    {
+                        <h6 class="text-info">
+                            @Html.DisplayFor(model => model.EstadoTarefa)
+                        </h6>
+                    }
+                    @if (Model.EstadoTarefa.Equals(""))
+                    {
+                        <h6 class="text-primary">
+                            @Html.DisplayFor(model => model.EstadoTarefa)
+                        </h6>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><h6>Colaborador</h6></th>
+                <td> @Html.DisplayFor(model => model.Colaborador.Name)</td>
+            </tr>
+            @if (Model.ProjetoSprintDesignID != null)
+            {
+
                 <tr>
-                    <th scope="row"><h6>Colaborador</h6></th>
-                    <td> @Html.DisplayFor(model => model.Colaborador.Name)</td>
+                    <th scope="row"><h6>Projeto Sprint Design</h6></th>
+                    <td> @Html.DisplayFor(model => model.ProjetoSprintDesign.NomeProjeto)</td>
                 </tr>
-                @if (Model.ProjetoSprintDesignID != null)
-                {
+            }
+            @if (Model.SistemaProdutividadeId != null)
+            {
 
-                    <tr>
-                        <th scope="row"><h6>Projeto Sprint Design</h6></th>
-                        <td> @Html.DisplayFor(model => model.ProjetoSprintDesign.NomeProjeto)</td>
-                    </tr>
-                }
-                @if (Model.SistemaProdutividadeId != null)
-                {
+                <tr>
+                    <th scope="row"><h6>Projeto Sprint Design</h6></th>
+                    <td> @Html.DisplayFor(model => model.SistemaProdutividade.NomeProjeto)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
-                    <tr>
-                        <th scope="row"><h6>Projeto Sprint Design</h6></th>
-                        <td> @Html.DisplayFor(model => model.SistemaProdutividade.NomeProjeto)</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
+@if (User.IsInRole("gestor"))
+{
 
     <div>
         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a> |
         <a asp-action="Index" class="btn btn-secondary">Voltar à lista</a>
     </div>
-</div>
+}
+@if (User.IsInRole("colaborador"))
+{
+
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a> |
+        <a asp-action="Index" class="btn btn-secondary">Voltar à lista</a>
+    </div>
+}

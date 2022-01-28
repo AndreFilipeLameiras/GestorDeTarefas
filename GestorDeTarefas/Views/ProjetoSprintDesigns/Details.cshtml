@@ -102,16 +102,25 @@
 
 
     <div>
-        <a asp-action="Chat"  class="btn btn-outline-success">Bate Papo</a> |
-        <a asp-action="Edit" asp-route-id="@Model.ProjetoSprintDesignID" class="btn btn-warning">Editar</a> |
+
+
         @if (User.IsInRole("cliente"))
         {
             <a asp-controller="PedidoClientes" asp-action="EnviarPedido" asp-route-id="@Model.ProjetoSprintDesignID" class="btn btn-primary">Pedir Alteração</a>
+            <a asp-action="ListaMensagem" asp-route-id="@Model.ProjetoSprintDesignID" asp-controller="PedidoClientes" class="btn btn-info">Mensagem Recebidas</a>
         }
         @if (User.IsInRole("gestor"))
         {
             <a asp-action="ListaMensagem" asp-route-id="@Model.ProjetoSprintDesignID" asp-controller="PedidoClientes" class="btn btn-info">Mensagem Recebidas</a>
+            <a asp-action="Chat" class="btn btn-outline-success">Bate Papo</a>
+            <a asp-action="Edit" asp-route-id="@Model.ProjetoSprintDesignID" class="btn btn-warning">Editar</a>
+           
+        }
+        @if (User.IsInRole("colaborador"))
+        {
+
+            <a asp-action="Chat" class="btn btn-outline-success">Bate Papo</a>
+
         }
         <a asp-action="Index" class="btn btn-secondary">Voltar à lista</a>
     </div>
-</div>

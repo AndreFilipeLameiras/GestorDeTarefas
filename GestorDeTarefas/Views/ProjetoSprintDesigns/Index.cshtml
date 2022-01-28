@@ -69,7 +69,7 @@
                     </div>
                 }
 
-                @if (User.IsInRole("gestor, admin"))
+                @if (User.IsInRole("gestor"))
                 {
                     <a asp-action="Details" asp-route-id="@projeto.ProjetoSprintDesignID" class="btn btn-info">Detalhes</a>
 
@@ -82,7 +82,14 @@
                     <a asp-action="RemoverColaboradores" asp-route-id="@projeto.ProjetoSprintDesignID" class="btn btn-outline-danger">Remover Colaboradores</a>
                     <a asp-action="VerTarefas" asp-route-id="@projeto.ProjetoSprintDesignID" class="btn btn-outline-dark">Ver Tarefas</a>
                 }
-
+                @if (User.IsInRole("cliente"))
+                {
+                    <a asp-action="Details" asp-route-id="@projeto.ProjetoSprintDesignID" class="btn btn-info">Detalhes</a>
+                }
+                @if (User.IsInRole("gestor"))
+                {
+                    <a asp-action="Details" asp-route-id="@projeto.ProjetoSprintDesignID" class="btn btn-info">Detalhes</a>
+                }
             </div>
         </div>
     }

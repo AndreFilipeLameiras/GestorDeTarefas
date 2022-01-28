@@ -29,9 +29,13 @@
                 @Html.DisplayFor(modelItem => item.Resposta)
             </td>
             <td>
-                <a asp-action="ResponderPedido" asp-route-id="@item.ID">Responder</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                 @if (User.IsInRole("gestor") || User.IsInRole("admin"))
+                 {
+                <a asp-action="ResponderPedido" asp-route-id="@item.ID">Responder</a> 
+
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> 
                 <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                 }
             </td>
         </tr>
 }

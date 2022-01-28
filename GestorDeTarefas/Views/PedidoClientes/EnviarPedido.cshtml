@@ -48,11 +48,13 @@
 
 
             <div class="form-group">
+                @if (User.IsInRole("cliente"))
+                {
+                    <input type="submit" value="Enviar" class="btn btn-info" />
+                }
+                    <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Cancelar</a>
 
-                <input type="submit" value="Enviar" class="btn btn-info" />
-                <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Cancelar</a>
-
-            </div>
+                </div>
         </form>
     </div>
 </div>

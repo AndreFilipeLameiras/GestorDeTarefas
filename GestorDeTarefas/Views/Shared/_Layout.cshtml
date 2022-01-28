@@ -29,16 +29,49 @@
                 <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Index">Gestor de Projetos</a></li>
                 <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="About">About</a></li>
                 <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Blog">Blog</a></li>
-                <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Projetos">Modelos de Projetos</a></li>
                 @if (User.IsInRole("gestor"))
                 {
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Index">Gestor de Projetos</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="About">About</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Blog">Blog</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Projetos">Modelos de Projetos</a></li>
                     <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Cargos" asp-action="Index">Cargos</a></li>
                     <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Tarefas" asp-action="Index">Tarefas</a></li>
                     <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Idiomas" asp-action="Index">Idiomas</a></li>
                     <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Colaboradores" asp-action="Index">Colaboradores</a></li>
                     <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Clientes" asp-action="Index">Clientes</a></li>
-                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Cidades" asp-action="Index">Cidades</a></li>}
-                </ul>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Cidades" asp-action="Index">Cidades</a></li>
+                }
+                @if (User.IsInRole("admin"))
+                {
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Index">Gestor de Projetos</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="About">About</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Blog">Blog</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Projetos">Modelos de Projetos</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Cargos" asp-action="Index">Cargos</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Tarefas" asp-action="Index">Tarefas</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Idiomas" asp-action="Index">Idiomas</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Colaboradores" asp-action="Index">Colaboradores</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Clientes" asp-action="Index">Clientes</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Cidades" asp-action="Index">Cidades</a></li>
+                }
+                @if (User.IsInRole("cliente"))
+                {
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Index">Gestor de Projetos</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="About">About</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Blog">Blog</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Projetos">Modelos de Projetos</a></li>
+
+                }
+                @if (User.IsInRole("colaborador"))
+                {
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Index">Gestor de Projetos</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="About">About</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Blog">Blog</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Projetos">Modelos de Projetos</a></li>
+                    <li class="sidebar-nav-item"><a class="nav-link active" asp-controller="Tarefas" asp-action="Index">Tarefas</a></li>
+                }
+            </ul>
         </div>
     </nav>
     <!-- Header--> 
@@ -117,13 +150,27 @@
                     <h5 class="text-uppercase mb-4">Support</h5>
                     <p class="lead mb-0">
                         <div class="container">
-                            <p>
-                                <a class="text-white" asp-area="" asp-controller="Contactoes" asp-action="ClienteEnvia">Contacto do Suporte</a>
-                            </p>
-
+                            @if (User.IsInRole("cliente"))
+                            {
+                                <p>
+                                    <a class="text-white" asp-area="" asp-controller="Contactoes" asp-action="ClienteEnvia">Contacto do Suporte</a>
+                                </p>
+                            }
+                            @if (User.IsInRole("admin"))
+                            {
+                                <p>
+                                    <a class="text-white" asp-area="" asp-controller="Contactoes" asp-action="ClienteEnvia">Contacto do Suporte</a>
+                                </p>
+                            }
+                            @if (User.IsInRole("gestor"))
+                            {
+                                <p>
+                                    <a class="text-white" asp-area="" asp-controller="Contactoes" asp-action="ClienteEnvia">Contacto do Suporte</a>
+                                </p>
+                            }
                             <p>
                                 <a class="text-white" asp-area="" asp-controller="Home" asp-action="Centro_Ajuda">Centro de Ajuda</a>
-                            </p>                            
+                            </p>
                         </div>
                     </p>
                 </div>

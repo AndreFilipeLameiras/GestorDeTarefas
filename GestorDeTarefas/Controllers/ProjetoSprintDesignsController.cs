@@ -10,6 +10,7 @@ using GestorDeTarefas.Models;
 using GestorDeTarefas.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestorDeTarefas.Controllers
 {
@@ -25,6 +26,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: ProjetoSprintDesigns
+        [Authorize(Roles = "gestor,colaborador,admin,cliente")]
         public async Task<IActionResult> Index(string nome, int page = 1)
         {
             var projetoSearch = _context.ProjetoSprintDesign
@@ -64,8 +66,9 @@ namespace GestorDeTarefas.Controllers
                 }
             );
         }
-        
+
         // GET: ProjetoSprintDesigns/Details/5
+        [Authorize(Roles = "gestor,colaborador,admin,cliente")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -99,7 +102,7 @@ namespace GestorDeTarefas.Controllers
             return View();
         }
 
-       
+        [Authorize(Roles = "gestor,admin")]
         public async Task<IActionResult> DetailsColaboradorProjeto(string nome, int? id, int page = 1)
         {
             if (id == null)
@@ -202,6 +205,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: ProjetoSprintDesigns/Create
+        [Authorize(Roles = "gestor")]
         public IActionResult Create()
         {
             ViewData["ClienteId"] = new SelectList(_context.Cliente.OrderBy(b => b.Nome), "ClienteId", "Nome");
@@ -214,6 +218,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Create([Bind("ProjetoSprintDesignID,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim,EstadoProjeto,ImagemProjeto,ClienteId,ColaboradorId")] ProjetoSprintDesign projetoSprintDesign)
         {
             if (projetoSprintDesign.DataPrevistaFim < projetoSprintDesign.DataDefinitivaInicio || projetoSprintDesign.DataPrevistaFim < projetoSprintDesign.DataPrevistaInicio)
@@ -254,6 +259,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: ProjetoSprintDesigns/Edit/5
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -276,6 +282,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Edit(int id, [Bind("ProjetoSprintDesignID,NomeProjeto,DataPrevistaInicio,DataDefinitivaInicio,DataPrevistaFim,DataDefinitivaFim,EstadoProjeto,ImagemProjeto,ClienteId,ColaboradorId")] ProjetoSprintDesign projetoSprintDesign)
         {
             var tarefaConcluidoDentroPrazo= _context.Tarefas
@@ -373,7 +380,7 @@ namespace GestorDeTarefas.Controllers
         }
 
 
-
+        [Authorize(Roles = "gestor,admin")]
         public async Task<IActionResult> VerTarefas(string nome, int? id, int page = 1)
         {
             var tarefaSearch = _context.Tarefas
@@ -418,7 +425,7 @@ namespace GestorDeTarefas.Controllers
 
 
 
-
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> RemoverColaboradores(string nome, int? id, int page = 1)
         {
             if (id == null)
@@ -528,6 +535,7 @@ namespace GestorDeTarefas.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> RemoverColaboradores(ProjetoSprintListViewModel projetoSprint)
         {
             
@@ -559,7 +567,7 @@ namespace GestorDeTarefas.Controllers
             
             //  return View(projetoSprint);
         }
-
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> AdicionarColaboradores(string nome, int? id, int page = 1)
         {
             
@@ -673,6 +681,7 @@ namespace GestorDeTarefas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> AdicionarColaboradores(ProjetoSprintListViewModel projetoSprint)
         {
             var MyProjet = _context.ProjetoSprintDesign.Find(projetoSprint.ProjetoSprintDesignID);
@@ -725,6 +734,7 @@ namespace GestorDeTarefas.Controllers
         }
 
         // GET: ProjetoSprintDesigns/Delete/5
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -760,6 +770,7 @@ namespace GestorDeTarefas.Controllers
         // POST: ProjetoSprintDesigns/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             

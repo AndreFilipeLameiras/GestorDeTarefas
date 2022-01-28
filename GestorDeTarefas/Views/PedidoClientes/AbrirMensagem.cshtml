@@ -50,6 +50,9 @@
     </dl>
 </div>
 <div>
-    <a asp-action="ResponderPedido" class="btn btn-info" asp-route-id="@Model.ID">Responder</a> |
-    <a class="btn btn-secondary" asp-controller="ProjetoSprintDesigns" asp-action="Index">Voltar</a>
+    @if (User.IsInRole("gestor") || User.IsInRole("admin"))
+    {
+        <a asp-action="ResponderPedido" class="btn btn-info" asp-route-id="@Model.ID">Responder</a> 
+                                                                                                    }
+<a class="btn btn-secondary" asp-controller="ProjetoSprintDesigns" asp-action="Index">Voltar</a>
 </div>

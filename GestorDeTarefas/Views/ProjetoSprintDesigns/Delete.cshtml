@@ -105,7 +105,10 @@
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="ProjetoSprintDesignID" />
-        <input type="submit" value="Apagar" class="btn btn-danger" />
-        <a asp-action="Index" class="btn btn-secondary">Cancelar</a> 
-    </form>
+        @if (User.IsInRole("gestor"))
+        {
+            <input type="submit" value="Apagar" class="btn btn-danger" />
+        }
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </form>
 </div>

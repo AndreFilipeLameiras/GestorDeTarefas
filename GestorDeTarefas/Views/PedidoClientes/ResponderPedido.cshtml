@@ -55,7 +55,11 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Enviar" class="btn btn-primary" />
+                @if (User.IsInRole("gestor") || User.IsInRole("admin"))
+                {
+                    <input type="submit" value="Enviar" class="btn btn-primary" />
+                }
+
                 <a asp-controller="ProjetoSprintDesigns" class="btn btn-secondary" asp-action="Index">Cancelar</a>
             </div>
         </form>

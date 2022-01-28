@@ -66,11 +66,20 @@
                     </td>
                     <td>
                         @foreach (var item in Model.Contacto)
+                        {@if (User.IsInRole("gestor"))
+                            {
+                                <dd>
+                                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.ContactoId">Detalhes</a>
+                                </dd>
+                            }
+                        @if (User.IsInRole("admin"))
                         {
                             <dd>
                                 <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.ContactoId">Detalhes</a>
                             </dd>
                         }
+
+                    }
                     </td>
 
 

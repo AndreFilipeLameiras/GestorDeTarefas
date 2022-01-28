@@ -51,7 +51,15 @@
                     <span asp-validation-for="Resposta" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Responder" class="btn btn-info" />
+                    @if (User.IsInRole("gestor"))
+                    {
+                        <input type="submit" value="Responder" class="btn btn-info" />
+                    }
+                    @if (User.IsInRole("admin"))
+                    {
+                        <input type="submit" value="Responder" class="btn btn-info" />
+                    }
+
 
                     <a class="btn btn-secondary" asp-action="Index">Voltar</a>
                 </div>
