@@ -86,6 +86,10 @@
                 {
                     <a asp-action="Details" asp-route-id="@projeto.ProjetoSprintDesignID" class="btn btn-info">Detalhes</a>
                 }
+                @if (User.IsInRole("colaborador"))
+                {
+                    <a asp-action="Details" asp-route-id="@projeto.ProjetoSprintDesignID" class="btn btn-info">Detalhes</a>
+                }
                 @if (User.IsInRole("gestor"))
                 {
                     <a asp-action="Details" asp-route-id="@projeto.ProjetoSprintDesignID" class="btn btn-info">Detalhes</a>
